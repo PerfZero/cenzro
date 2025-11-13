@@ -18,6 +18,21 @@ docker-compose up -d
 
 Автоматический деплой настроен через GitHub Actions. При пуше в ветку `main` тема автоматически деплоится на сервер.
 
+### Настройка GitHub Secrets
+
+Для работы CI/CD нужно добавить секреты в настройках репозитория GitHub:
+
+1. Перейдите в Settings → Secrets and variables → Actions
+2. Добавьте секрет `BEGET_PASSWORD` со значением пароля от SSH (8MOUfOWK1oG*)
+
+### Первый пуш
+
+```bash
+git push -u origin main
+```
+
+После этого все последующие пуши в `main` будут автоматически деплоить тему на сервер `devdenis.ru-94`.
+
 ## Технологии
 
 - WordPress

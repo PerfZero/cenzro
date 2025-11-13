@@ -56,6 +56,7 @@ function cenzor_scripts() {
 	wp_enqueue_script( 'swiper', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js', array(), '11.0.0', true );
 	wp_enqueue_script( 'cenzor-navigation', get_template_directory_uri() . '/js/navigation.js', array(), _S_VERSION, true );
 	wp_enqueue_script( 'cenzor-professions', get_template_directory_uri() . '/js/professions.js', array( 'swiper' ), _S_VERSION, true );
+	wp_enqueue_script( 'cenzor-professions-tabs', get_template_directory_uri() . '/js/professions-tabs.js', array(), _S_VERSION, true );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
@@ -100,7 +101,8 @@ function cenzor_register_profession_post_type() {
 	$args = array(
 		'label'                 => 'Профессии',
 		'labels'                => $labels,
-		'supports'              => array( 'title', 'thumbnail', 'editor' ),
+		'supports'              => array( 'title', 'thumbnail', 'editor', 'page-attributes' ),
+		'hierarchical'          => true,
 		'public'                => true,
 		'show_ui'               => true,
 		'show_in_menu'          => true,

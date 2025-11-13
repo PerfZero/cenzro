@@ -3,11 +3,7 @@
 		const swiper = new Swiper('.professions-swiper', {
 			slidesPerView: 1,
 			spaceBetween: 20,
-			loop: true,
-			autoplay: {
-				delay: 3000,
-				disableOnInteraction: false,
-			},
+            
 			pagination: {
 				el: '.swiper-pagination',
 				clickable: true,
@@ -30,7 +26,7 @@
 					spaceBetween: 30,
 				},
 				1280: {
-					slidesPerView: 7,
+					slidesPerView: 6,
 					spaceBetween: 30,
 				},
 			},
