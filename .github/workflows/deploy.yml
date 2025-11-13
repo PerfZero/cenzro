@@ -20,14 +20,17 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H zordenl3.beget.tech >> ~/.ssh/known_hosts
       
-      - name: Deploy theme
-        run: |
-          rsync -avz --delete \
-            --exclude='.git' \
-            --exclude='.github' \
-            --exclude='node_modules' \
-            --exclude='.env' \
-            --exclude='*.log' \
-            wp-content/themes/cenzor/ \
-            zordenl3_root@zordenl3.beget.tech:/home/z/zordenl3/zordenl3.beget.tech/public_html/wp-content/themes/cenzor/
+      - name: Deploy theme via SFTP
+        uses: SamKirkland/FTP-Deploy-Action@4.3.0
+        with:
+          server: zordenl3.beget.tech
+          username: zordenl3_root
+          password: ${{ secrets.BEGET_PASSWORD }}
+          local-dir: ./wp-content/themes/cenzor/
+          server-dir: /devdenis.ru-94/public_html/wp-content/themes/cenzor/
+          exclude: |
+            **/.git*
+            **/.DS_Store
+            **/node_modules
+            **/*.log
 
