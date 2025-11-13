@@ -1,0 +1,33 @@
+name: Deploy Theme to Beget
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.BEGET_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H zordenl3.beget.tech >> ~/.ssh/known_hosts
+      
+      - name: Deploy theme
+        run: |
+          rsync -avz --delete \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='node_modules' \
+            --exclude='.env' \
+            --exclude='*.log' \
+            wp-content/themes/cenzor/ \
+            zordenl3_root@zordenl3.beget.tech:/home/z/zordenl3/zordenl3.beget.tech/public_html/wp-content/themes/cenzor/
+
