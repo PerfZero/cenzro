@@ -284,3 +284,124 @@ function cenzor_widgets_init() {
 }
 add_action( 'widgets_init', 'cenzor_widgets_init' );
 
+function cenzor_generate_professions() {
+	$professions = array(
+		'Транспортная безопасность',
+		'Экологическая безопасность',
+		'Работник охраны образовательных организаций',
+		'Гражданская оборона',
+		'ГО и ЧС',
+		'ДОПОГ',
+		'Обучение на спецсигналы для водителей',
+		'Охрана труда для руководителей',
+		'Курсы для работников ТБ',
+		'Диспетчер Контролер Специалист БДД',
+		'Обучение БДД дистанционно',
+		'Обучение контролера ТС',
+		'Курсы для специалистов по охране труда',
+		'Ответственный за транспортную безопасность',
+		'ГБА',
+		'Обучения охранников 4 разряда',
+		'Охрана труда',
+		'Пожарная безопасность',
+		'Промышленная безопасность',
+		'Мобилизационная подготовка',
+		'Электробезопасность',
+		'Новая пожарная безопасность',
+		'Стропальщик',
+		'Оператор котельной',
+		'Обучение работников промбезопасности',
+		'Безопасность работы с опасными отходами',
+	);
+
+	$created = 0;
+	$skipped = 0;
+	$errors = array();
+
+	foreach ( $professions as $profession_name ) {
+		$profession_name = trim( $profession_name );
+		
+		if ( empty( $profession_name ) ) {
+			continue;
+		}
+		
+		$existing = get_posts( array(
+			'post_type'      => 'profession',
+			'title'          => $profession_name,
+			'post_status'    => 'any',
+			'posts_per_page' => 1,
+		) );
+		
+		if ( ! empty( $existing ) ) {
+			$skipped++;
+			continue;
+		}
+		
+		$post_data = array(
+			'post_title'   => $profession_name,
+			'post_type'    => 'profession',
+			'post_status'  => 'publish',
+			'post_parent'  => 0,
+		);
+		
+		$post_id = wp_insert_post( $post_data );
+		
+		if ( is_wp_error( $post_id ) ) {
+			$errors[] = $profession_name . ' - ' . $post_id->get_error_message();
+		} else {
+			$created++;
+		}
+	}
+
+	return array(
+		'created' => $created,
+		'skipped' => $skipped,
+		'errors'  => $errors,
+	);
+}
+
+function cenzor_add_professions_admin_page() {
+	add_submenu_page(
+		'edit.php?post_type=profession',
+		'Генерация профессий',
+		'Генерация профессий',
+		'manage_options',
+		'generate-professions',
+		'cenzor_professions_admin_page_callback'
+	);
+}
+add_action( 'admin_menu', 'cenzor_add_professions_admin_page' );
+
+function cenzor_professions_admin_page_callback() {
+	if ( isset( $_POST['generate_professions'] ) && check_admin_referer( 'generate_professions_action' ) ) {
+		$result = cenzor_generate_professions();
+		?>
+		<div class="notice notice-success is-dismissible">
+			<p><strong>Генерация завершена!</strong></p>
+			<p>Создано: <?php echo esc_html( $result['created'] ); ?></p>
+			<p>Пропущено (уже существуют): <?php echo esc_html( $result['skipped'] ); ?></p>
+			<?php if ( ! empty( $result['errors'] ) ) : ?>
+				<p><strong>Ошибки:</strong></p>
+				<ul>
+					<?php foreach ( $result['errors'] as $error ) : ?>
+						<li><?php echo esc_html( $error ); ?></li>
+					<?php endforeach; ?>
+				</ul>
+			<?php endif; ?>
+		</div>
+		<?php
+	}
+	?>
+	<div class="wrap">
+		<h1>Генерация профессий</h1>
+		<p>Эта функция создаст все профессии из предустановленного списка.</p>
+		<form method="post" action="">
+			<?php wp_nonce_field( 'generate_professions_action' ); ?>
+			<p>
+				<input type="submit" name="generate_professions" class="button button-primary" value="Сгенерировать профессии" onclick="return confirm('Вы уверены, что хотите создать все профессии? Существующие профессии будут пропущены.');">
+			</p>
+		</form>
+	</div>
+	<?php
+}
+
