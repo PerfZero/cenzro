@@ -405,3 +405,190 @@ function cenzor_professions_admin_page_callback() {
 	<?php
 }
 
+function cenzor_register_osnovnye_svedeniya_post_type() {
+	$labels = array(
+		'name'                  => 'Основные сведения',
+		'singular_name'         => 'Основное сведение',
+		'menu_name'             => 'Основные сведения',
+		'add_new'               => 'Добавить новое',
+		'add_new_item'          => 'Добавить новое сведение',
+		'edit_item'             => 'Редактировать сведение',
+		'new_item'              => 'Новое сведение',
+		'view_item'             => 'Просмотреть сведение',
+		'search_items'          => 'Искать сведения',
+		'not_found'             => 'Сведения не найдены',
+		'not_found_in_trash'    => 'В корзине сведений не найдено',
+	);
+
+	$args = array(
+		'label'                 => 'Основные сведения',
+		'labels'                => $labels,
+		'supports'              => array( 'title', 'thumbnail', 'editor', 'page-attributes' ),
+		'hierarchical'          => true,
+		'public'                => true,
+		'show_ui'               => true,
+		'show_in_menu'          => true,
+		'menu_position'         => 24,
+		'menu_icon'             => 'dashicons-info',
+		'show_in_admin_bar'     => true,
+		'show_in_nav_menus'     => true,
+		'can_export'            => true,
+		'has_archive'           => true,
+		'exclude_from_search'   => false,
+		'publicly_queryable'    => true,
+		'capability_type'       => 'post',
+		'show_in_rest'          => true,
+	);
+
+	register_post_type( 'osnovnye_svedeniya', $args );
+}
+add_action( 'init', 'cenzor_register_osnovnye_svedeniya_post_type', 0 );
+
+function cenzor_generate_osnovnye_svedeniya() {
+	$pages = array(
+		'Общие сведения' => array(
+			'Основные сведения',
+			'Структура и органы управления',
+			'Руководство. Педагогический состав',
+		),
+		'Документы' => array(
+			'Документы',
+			'Самообследование автошколы',
+			'Образовательные стандарты и требования',
+		),
+		'Инфраструктура и условия обучения' => array(
+			'Материально‑техническое обеспечение и оснащенность образовательного процесса',
+			'Учебные кабинеты',
+			'Библиотека',
+			'Объекты для проведения практических занятий',
+			'Об объектах спорта',
+			'Условия питания',
+			'Условия охраны здоровья обучающихся',
+		),
+		'Вопрос‑Ответ / Прочее' => array(
+			'Стипендии и иные виды материальной поддержки',
+			'Международное сотрудничество',
+			'Доступная среда',
+			'Платные образовательные услуги',
+			'Вакантные места для приёма (перевода) обучающихся',
+			'Финансово‑хозяйственная деятельность',
+		),
+	);
+
+	$created = 0;
+	$skipped = 0;
+	$errors = array();
+	$parent_ids = array();
+
+	foreach ( $pages as $parent_title => $children ) {
+		$existing_parent = get_posts( array(
+			'post_type'      => 'osnovnye_svedeniya',
+			'title'          => $parent_title,
+			'post_status'    => 'any',
+			'posts_per_page' => 1,
+		) );
+
+		if ( ! empty( $existing_parent ) ) {
+			$parent_id = $existing_parent[0]->ID;
+		} else {
+			$parent_data = array(
+				'post_title'   => $parent_title,
+				'post_type'    => 'osnovnye_svedeniya',
+				'post_status'  => 'publish',
+				'post_parent'  => 0,
+			);
+			
+			$parent_id = wp_insert_post( $parent_data );
+			
+			if ( is_wp_error( $parent_id ) ) {
+				$errors[] = $parent_title . ' - ' . $parent_id->get_error_message();
+				continue;
+			} else {
+				$created++;
+			}
+		}
+
+		$parent_ids[ $parent_title ] = $parent_id;
+
+		foreach ( $children as $child_title ) {
+			$existing_child = get_posts( array(
+				'post_type'      => 'osnovnye_svedeniya',
+				'title'          => $child_title,
+				'post_status'    => 'any',
+				'posts_per_page' => 1,
+			) );
+
+			if ( ! empty( $existing_child ) ) {
+				$skipped++;
+				continue;
+			}
+
+			$child_data = array(
+				'post_title'   => $child_title,
+				'post_type'    => 'osnovnye_svedeniya',
+				'post_status'  => 'publish',
+				'post_parent'  => $parent_id,
+			);
+			
+			$child_id = wp_insert_post( $child_data );
+			
+			if ( is_wp_error( $child_id ) ) {
+				$errors[] = $child_title . ' - ' . $child_id->get_error_message();
+			} else {
+				$created++;
+			}
+		}
+	}
+
+	return array(
+		'created' => $created,
+		'skipped' => $skipped,
+		'errors'  => $errors,
+	);
+}
+
+function cenzor_add_osnovnye_svedeniya_admin_page() {
+	add_submenu_page(
+		'edit.php?post_type=osnovnye_svedeniya',
+		'Генерация страниц',
+		'Генерация страниц',
+		'manage_options',
+		'generate-osnovnye-svedeniya',
+		'cenzor_osnovnye_svedeniya_admin_page_callback'
+	);
+}
+add_action( 'admin_menu', 'cenzor_add_osnovnye_svedeniya_admin_page' );
+
+function cenzor_osnovnye_svedeniya_admin_page_callback() {
+	if ( isset( $_POST['generate_pages'] ) && check_admin_referer( 'generate_osnovnye_svedeniya_action' ) ) {
+		$result = cenzor_generate_osnovnye_svedeniya();
+		?>
+		<div class="notice notice-success is-dismissible">
+			<p><strong>Генерация завершена!</strong></p>
+			<p>Создано: <?php echo esc_html( $result['created'] ); ?></p>
+			<p>Пропущено (уже существуют): <?php echo esc_html( $result['skipped'] ); ?></p>
+			<?php if ( ! empty( $result['errors'] ) ) : ?>
+				<p><strong>Ошибки:</strong></p>
+				<ul>
+					<?php foreach ( $result['errors'] as $error ) : ?>
+						<li><?php echo esc_html( $error ); ?></li>
+					<?php endforeach; ?>
+				</ul>
+			<?php endif; ?>
+		</div>
+		<?php
+	}
+	?>
+	<div class="wrap">
+		<h1>Генерация страниц</h1>
+		<p>Эта функция создаст все страницы из предустановленного списка с иерархической структурой.</p>
+		<form method="post" action="">
+			<?php wp_nonce_field( 'generate_osnovnye_svedeniya_action' ); ?>
+			<p>
+				<input type="submit" name="generate_pages" class="button button-primary" value="Сгенерировать страницы" onclick="return confirm('Вы уверены, что хотите создать все страницы? Существующие страницы будут пропущены.');">
+			</p>
+		</form>
+	</div>
+	<?php
+}
+
