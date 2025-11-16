@@ -59,6 +59,10 @@ function cenzor_scripts() {
 	wp_enqueue_script( 'cenzor-professions-tabs', get_template_directory_uri() . '/js/professions-tabs.js', array(), _S_VERSION, true );
 	wp_enqueue_script( 'cenzor-modal', get_template_directory_uri() . '/js/modal.js', array(), _S_VERSION, true );
 
+	if ( is_singular( 'profession' ) ) {
+		wp_enqueue_script( 'cenzor-profession-single-tabs', get_template_directory_uri() . '/js/profession-single-tabs.js', array(), _S_VERSION, true );
+	}
+
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
 	}
@@ -122,6 +126,33 @@ function cenzor_register_profession_post_type() {
 	register_post_type( 'profession', $args );
 }
 add_action( 'init', 'cenzor_register_profession_post_type', 0 );
+
+function cenzor_register_profession_badges_taxonomy() {
+	$labels = array(
+		'name'              => 'Метки',
+		'singular_name'     => 'Метка',
+		'search_items'      => 'Искать метки',
+		'all_items'         => 'Все метки',
+		'edit_item'         => 'Редактировать метку',
+		'update_item'       => 'Обновить метку',
+		'add_new_item'      => 'Добавить новую метку',
+		'new_item_name'     => 'Новое имя метки',
+		'menu_name'         => 'Метки',
+	);
+
+	$args = array(
+		'hierarchical'      => false,
+		'labels'            => $labels,
+		'show_ui'           => true,
+		'show_admin_column' => true,
+		'query_var'         => true,
+		'rewrite'           => array( 'slug' => 'profession-badge' ),
+		'show_in_rest'      => true,
+	);
+
+	register_taxonomy( 'profession_badge', array( 'profession' ), $args );
+}
+add_action( 'init', 'cenzor_register_profession_badges_taxonomy', 0 );
 
 function cenzor_register_certificate_post_type() {
 	$labels = array(

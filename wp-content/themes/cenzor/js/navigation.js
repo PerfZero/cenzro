@@ -69,6 +69,38 @@
 		link.addEventListener( 'touchstart', toggleFocus, false );
 	}
 
+	const menuItemsWithChildren = menu.querySelectorAll( '.menu-item-has-children, .page_item_has_children' );
+	let hideTimeout = {};
+
+	for ( const menuItem of menuItemsWithChildren ) {
+		const submenu = menuItem.querySelector( 'ul' );
+		if ( ! submenu ) continue;
+
+		menuItem.addEventListener( 'mouseenter', function() {
+			clearTimeout( hideTimeout[ this ] );
+			this.classList.add( 'hover' );
+		} );
+
+		menuItem.addEventListener( 'mouseleave', function() {
+			const self = this;
+			hideTimeout[ self ] = setTimeout( function() {
+				self.classList.remove( 'hover' );
+			}, 300 );
+		} );
+
+		submenu.addEventListener( 'mouseenter', function() {
+			clearTimeout( hideTimeout[ menuItem ] );
+			menuItem.classList.add( 'hover' );
+		} );
+
+		submenu.addEventListener( 'mouseleave', function() {
+			const parentMenuItem = menuItem;
+			hideTimeout[ parentMenuItem ] = setTimeout( function() {
+				parentMenuItem.classList.remove( 'hover' );
+			}, 300 );
+		} );
+	}
+
 	/**
 	 * Sets or removes .focus class on an element.
 	 */
