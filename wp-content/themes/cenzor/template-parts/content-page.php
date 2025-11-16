@@ -9,25 +9,31 @@
 
 ?>
 
-<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-	<header class="entry-header">
-		<?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>
-	</header><!-- .entry-header -->
+<article id="post-<?php the_ID(); ?>" <?php post_class( 'page-article' ); ?>>
+	<?php if ( has_post_thumbnail() ) : ?>
+		<div class="page-featured-image">
+			<?php the_post_thumbnail( 'large' ); ?>
+		</div>
+	<?php endif; ?>
 
-	<?php cenzor_post_thumbnail(); ?>
+	<header class="page-header">
+		<?php the_title( '<h1 class="page-title">', '</h1>' ); ?>
+	</header><!-- .page-header -->
 
-	<div class="entry-content">
-		<?php
-		the_content();
+	<div class="page-content-wrapper">
+		<div class="entry-content">
+			<?php
+			the_content();
 
-		wp_link_pages(
-			array(
-				'before' => '<div class="page-links">' . esc_html__( 'Pages:', 'cenzor' ),
-				'after'  => '</div>',
-			)
-		);
-		?>
-	</div><!-- .entry-content -->
+			wp_link_pages(
+				array(
+					'before' => '<div class="page-links">' . esc_html__( 'Pages:', 'cenzor' ),
+					'after'  => '</div>',
+				)
+			);
+			?>
+		</div><!-- .entry-content -->
+	</div><!-- .page-content-wrapper -->
 
 	<?php if ( get_edit_post_link() ) : ?>
 		<footer class="entry-footer">

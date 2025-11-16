@@ -15,6 +15,12 @@
 get_header();
 ?>
 
+<div class="promo-banner">
+		<div class="container promo-container">
+			<p class="promo-text">Дистанционные курсы повышения квалификации ДПО и профессиональной переподготовки</p>
+		</div>
+	</div>	
+
 <section class="hero-section">
 	<div class="container">
 	<?php
@@ -465,6 +471,8 @@ get_header();
 </section>
 
 <?php get_template_part( 'template-parts/reviews-section' ); ?>
+
+<?php get_template_part( 'template-parts/map-section' ); ?>
 
 <div id="modal" class="modal-overlay">
 	<div class="modal-content">

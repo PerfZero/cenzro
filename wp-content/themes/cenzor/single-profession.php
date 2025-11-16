@@ -46,6 +46,7 @@ get_header();
 		<section class="profession-hero"<?php if ( $image_url ) : ?> style="background-image: url('<?php echo esc_url( $image_url ); ?>');"<?php endif; ?>>
 			<div class="profession-hero-overlay"></div>
 			<div class="container">
+				<?php get_template_part( 'template-parts/breadcrumbs' ); ?>
 				<div class="profession-hero-content">
 					<?php if ( $badges && ! is_wp_error( $badges ) ) : ?>
 						<div class="profession-badges">

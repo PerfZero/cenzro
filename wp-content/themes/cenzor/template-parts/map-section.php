@@ -39,16 +39,21 @@ if ( empty( $map_points ) ) {
 }
 ?>
 
+<?php
+$map_id = 'yandex-map-' . uniqid();
+?>
+
 <section class="map-section">
 	<div class="container">
-		<h2 class="map-section-title">Наши офисы на карте</h2>
-		<div id="yandex-map" class="yandex-map"></div>
+		<h2 class="map-section-title">Субъекты РФ в которых пользуются услугами нашей компании</h2>
+		<div id="<?php echo esc_attr( $map_id ); ?>" class="yandex-map"></div>
 	</div>
 </section>
 
 <script>
 	(function() {
 		const mapPoints = <?php echo json_encode( $map_points ); ?>;
+		const mapId = '<?php echo esc_js( $map_id ); ?>';
 		
 		if ( typeof ymaps === 'undefined' ) {
 			const script = document.createElement('script');
@@ -66,7 +71,7 @@ if ( empty( $map_points ) ) {
 				return;
 			}
 			
-			const map = new ymaps.Map('yandex-map', {
+			const map = new ymaps.Map(mapId, {
 				center: [55.751574, 37.573856],
 				zoom: 5,
 				controls: ['zoomControl', 'fullscreenControl']

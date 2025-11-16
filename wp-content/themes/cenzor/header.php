@@ -52,6 +52,10 @@
 						array(
 							'theme_location' => 'menu-1',
 							'menu_id'        => 'primary-menu',
+							'menu_class'     => 'menu',
+							'container'      => false,
+							'depth'          => 3,
+							'fallback_cb'    => false,
 						)
 					);
 					?>
@@ -74,8 +78,3 @@
 		</div>
 	</header>
 
-	<div class="promo-banner">
-		<div class="container promo-container">
-			<p class="promo-text">Дистанционные курсы повышения квалификации ДПО и профессиональной переподготовки</p>
-		</div>
-	</div>	
