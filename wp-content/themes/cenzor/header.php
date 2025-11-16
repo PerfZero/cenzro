@@ -67,7 +67,7 @@
 					</div>
 
 					<div class="header-city">
-						<?php echo do_shortcode( '[belingogeo_selector]' ); ?>
+					<?php echo do_shortcode('[belingogeo_selector]')?>
 					</div>
 
 					<div class="header-login">
