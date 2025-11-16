@@ -57,6 +57,7 @@ function cenzor_scripts() {
 	wp_enqueue_script( 'cenzor-navigation', get_template_directory_uri() . '/js/navigation.js', array(), _S_VERSION, true );
 	wp_enqueue_script( 'cenzor-professions', get_template_directory_uri() . '/js/professions.js', array( 'swiper' ), _S_VERSION, true );
 	wp_enqueue_script( 'cenzor-professions-tabs', get_template_directory_uri() . '/js/professions-tabs.js', array(), _S_VERSION, true );
+	wp_enqueue_script( 'cenzor-modal', get_template_directory_uri() . '/js/modal.js', array(), _S_VERSION, true );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
@@ -121,4 +122,134 @@ function cenzor_register_profession_post_type() {
 	register_post_type( 'profession', $args );
 }
 add_action( 'init', 'cenzor_register_profession_post_type', 0 );
+
+function cenzor_register_certificate_post_type() {
+	$labels = array(
+		'name'                  => 'Сертификаты',
+		'singular_name'         => 'Сертификат',
+		'menu_name'             => 'Сертификаты',
+		'add_new'               => 'Добавить новый',
+		'add_new_item'          => 'Добавить новый сертификат',
+		'edit_item'             => 'Редактировать сертификат',
+		'new_item'              => 'Новый сертификат',
+		'view_item'             => 'Просмотреть сертификат',
+		'search_items'          => 'Искать сертификаты',
+		'not_found'             => 'Сертификаты не найдены',
+		'not_found_in_trash'    => 'В корзине сертификатов не найдено',
+	);
+
+	$args = array(
+		'label'                 => 'Сертификаты',
+		'labels'                => $labels,
+		'supports'              => array( 'title', 'thumbnail' ),
+		'hierarchical'          => false,
+		'public'                => true,
+		'show_ui'               => true,
+		'show_in_menu'          => true,
+		'menu_position'         => 21,
+		'menu_icon'             => 'dashicons-awards',
+		'show_in_admin_bar'     => true,
+		'show_in_nav_menus'     => false,
+		'can_export'            => true,
+		'has_archive'            => false,
+		'exclude_from_search'   => true,
+		'publicly_queryable'    => false,
+		'capability_type'       => 'post',
+		'show_in_rest'          => true,
+	);
+
+	register_post_type( 'certificate', $args );
+}
+add_action( 'init', 'cenzor_register_certificate_post_type', 0 );
+
+function cenzor_register_partner_post_type() {
+	$labels = array(
+		'name'                  => 'Партнеры',
+		'singular_name'         => 'Партнер',
+		'menu_name'             => 'Партнеры',
+		'add_new'               => 'Добавить нового',
+		'add_new_item'          => 'Добавить нового партнера',
+		'edit_item'             => 'Редактировать партнера',
+		'new_item'              => 'Новый партнер',
+		'view_item'             => 'Просмотреть партнера',
+		'search_items'          => 'Искать партнеров',
+		'not_found'             => 'Партнеры не найдены',
+		'not_found_in_trash'    => 'В корзине партнеров не найдено',
+	);
+
+	$args = array(
+		'label'                 => 'Партнеры',
+		'labels'                => $labels,
+		'supports'              => array( 'title', 'thumbnail', 'page-attributes' ),
+		'hierarchical'          => false,
+		'public'                => true,
+		'show_ui'               => true,
+		'show_in_menu'          => true,
+		'menu_position'         => 22,
+		'menu_icon'             => 'dashicons-groups',
+		'show_in_admin_bar'     => true,
+		'show_in_nav_menus'     => false,
+		'can_export'            => true,
+		'has_archive'            => false,
+		'exclude_from_search'   => true,
+		'publicly_queryable'    => false,
+		'capability_type'       => 'post',
+		'show_in_rest'          => true,
+	);
+
+	register_post_type( 'partner', $args );
+}
+add_action( 'init', 'cenzor_register_partner_post_type', 0 );
+
+function cenzor_register_teacher_post_type() {
+	$labels = array(
+		'name'                  => 'Преподаватели',
+		'singular_name'         => 'Преподаватель',
+		'menu_name'             => 'Преподаватели',
+		'add_new'               => 'Добавить нового',
+		'add_new_item'          => 'Добавить нового преподавателя',
+		'edit_item'             => 'Редактировать преподавателя',
+		'new_item'              => 'Новый преподаватель',
+		'view_item'             => 'Просмотреть преподавателя',
+		'search_items'          => 'Искать преподавателей',
+		'not_found'             => 'Преподаватели не найдены',
+		'not_found_in_trash'    => 'В корзине преподавателей не найдено',
+	);
+
+	$args = array(
+		'label'                 => 'Преподаватели',
+		'labels'                => $labels,
+		'supports'              => array( 'title', 'thumbnail', 'editor', 'page-attributes' ),
+		'hierarchical'          => false,
+		'public'                => true,
+		'show_ui'               => true,
+		'show_in_menu'          => true,
+		'menu_position'         => 23,
+		'menu_icon'             => 'dashicons-businessperson',
+		'show_in_admin_bar'     => true,
+		'show_in_nav_menus'     => false,
+		'can_export'            => true,
+		'has_archive'            => false,
+		'exclude_from_search'   => true,
+		'publicly_queryable'    => false,
+		'capability_type'       => 'post',
+		'show_in_rest'          => true,
+	);
+
+	register_post_type( 'teacher', $args );
+}
+add_action( 'init', 'cenzor_register_teacher_post_type', 0 );
+
+function cenzor_widgets_init() {
+	register_sidebar( array(
+		'name'          => 'Яндекс отзывы',
+		'id'            => 'yandex-reviews',
+		'description'   => 'Область для виджета Яндекс отзывы',
+		'before_widget' => '<div class="yandex-reviews-widget">',
+		'after_widget'  => '</div>',
+		'before_title'  => '',
+		'after_title'   => '',
+	) );
+}
+add_action( 'widgets_init', 'cenzor_widgets_init' );
 

@@ -32,5 +32,67 @@
 			},
 		});
 	}
+
+	if (document.querySelector('.certificates-swiper')) {
+		const certificatesSwiper = new Swiper('.certificates-swiper', {
+			slidesPerView: 1,
+			spaceBetween: 20,
+			pagination: {
+				el: '.certificates-swiper .swiper-pagination',
+				clickable: true,
+			},
+			navigation: {
+				nextEl: '.certificates-swiper .swiper-button-next',
+				prevEl: '.certificates-swiper .swiper-button-prev',
+			},
+			breakpoints: {
+				640: {
+					slidesPerView: 2,
+					spaceBetween: 20,
+				},
+				768: {
+					slidesPerView: 3,
+					spaceBetween: 30,
+				},
+				1024: {
+					slidesPerView: 4,
+					spaceBetween: 30,
+				},
+				1280: {
+					slidesPerView: 5,
+					spaceBetween: 30,
+				},
+			},
+		});
+	}
+
+	if (document.querySelector('.teachers-swiper')) {
+		const teachersSwiper = new Swiper('.teachers-swiper', {
+			slidesPerView: 1,
+			spaceBetween: 20,
+			pagination: {
+				el: '.teachers-swiper .swiper-pagination',
+				clickable: true,
+			},
+			navigation: {
+				nextEl: '.teachers-swiper .swiper-button-next',
+				prevEl: '.teachers-swiper .swiper-button-prev',
+			},
+			breakpoints: {
+				640: {
+					slidesPerView: 2,
+					spaceBetween: 20,
+				},
+				768: {
+					slidesPerView: 3,
+					spaceBetween: 30,
+				},
+				1024: {
+					slidesPerView: 4,
+					spaceBetween: 30,
+				},
+			},
+		});
+	}
 })();
 

@@ -10,7 +10,9 @@
 		professionCards.forEach(card => {
 			const cardParent = card.getAttribute('data-parent');
 			
-			if (cardParent === parentId) {
+			if (cardParent === 'all') {
+				card.classList.remove('hidden');
+			} else if (cardParent === parentId) {
 				card.classList.remove('hidden');
 			} else {
 				card.classList.add('hidden');
