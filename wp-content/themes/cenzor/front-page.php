@@ -22,58 +22,100 @@ get_header();
 	</div>	
 
 <section class="hero-section">
-	<div class="container">
-	<?php
-	$hero_image = get_field( 'hero_background_image' );
-	$hero_image_url = '';
-	if ( $hero_image ) {
-		if ( is_array( $hero_image ) && isset( $hero_image['url'] ) ) {
-			$hero_image_url = $hero_image['url'];
-		} elseif ( is_numeric( $hero_image ) ) {
-			$hero_image_url = wp_get_attachment_image_url( $hero_image, 'full' );
-		} elseif ( is_string( $hero_image ) ) {
-			$hero_image_url = $hero_image;
-		}
-	}
-	?>
-	<div class="hero-background"<?php echo $hero_image_url ? ' style="background-image: url(' . esc_url( $hero_image_url ) . ');"' : ''; ?>></div>
-		<div class="hero-content">
-			<h1 class="hero-title"><span>ЦЕНЗОР</span> - Дистанционное обучение по всей России</h1>
-			<p class="hero-description">Дополнительное обучение<br>Повышение квалификации<br>Профессиональная переподготовка<br>После обучения бесплатно доставим документы в любую точку России<br>стань профессионалом в новой профессии</p>
-			<a href="#modal" class="hero-button modal-open">Консультация</a>
-		</div>
-	
-
-	<div class="hero_bottom">		
-	<div class="hero-navigation">
-		<button class="nav-arrow nav-prev">
-			<i class="fas fa-chevron-left"></i>
-		</button>
-		<button class="nav-arrow nav-next">
-			<i class="fas fa-chevron-right"></i>
-		</button>
-		<div class="progress-bar">
-			<div class="progress-fill"></div>
-		</div>
-	</div>
-	
-	<div class="hero-stats">
-			<div class="stats-grid">
-				<div class="stat-item">
-					<div class="stat-number">31127</div>
-					<div class="stat-label">Выпускников</div>
+	<div class="hero-slider">
+		<div class="hero-slides-wrapper">
+			<div class="hero-slide active">
+				<div class="container">
+					<?php
+					$hero_image = get_field( 'hero_background_image' );
+					$hero_image_url = '';
+					if ( $hero_image ) {
+						if ( is_array( $hero_image ) && isset( $hero_image['url'] ) ) {
+							$hero_image_url = $hero_image['url'];
+						} elseif ( is_numeric( $hero_image ) ) {
+							$hero_image_url = wp_get_attachment_image_url( $hero_image, 'full' );
+						} elseif ( is_string( $hero_image ) ) {
+							$hero_image_url = $hero_image;
+						}
+					}
+					?>
+					<div class="hero-background"<?php echo $hero_image_url ? ' style="background-image: url(' . esc_url( $hero_image_url ) . ');"' : ''; ?>></div>
+					<div class="hero-content">
+						<h1 class="hero-title"><span>ЦЕНЗОР</span> - Дистанционное обучение по всей России</h1>
+						<p class="hero-description">Дополнительное обучение<br>Повышение квалификации<br>Профессиональная переподготовка<br>После обучения бесплатно доставим документы в любую точку России<br>стань профессионалом в новой профессии</p>
+						<a href="#modal" class="hero-button modal-open">Консультация</a>
+					</div>
+					<div class="hero_bottom">
+						<div class="hero-navigation">
+							<button class="nav-arrow nav-prev hero-prev">
+								<i class="fas fa-chevron-left"></i>
+							</button>
+							<button class="nav-arrow nav-next hero-next">
+								<i class="fas fa-chevron-right"></i>
+							</button>
+							<div class="progress-bar">
+								<div class="progress-fill"></div>
+							</div>
+						</div>
+						<div class="hero-stats">
+							<div class="stats-grid">
+								<div class="stat-item">
+									<div class="stat-number">31127</div>
+									<div class="stat-label">Выпускников</div>
+								</div>
+								<div class="stat-item">
+									<div class="stat-number">11 Лет</div>
+									<div class="stat-label">На рынке</div>
+								</div>
+								<div class="stat-item">
+									<div class="stat-number">67 Человек</div>
+									<div class="stat-label">Обучаются сегодня</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
-				<div class="stat-item">
-					<div class="stat-number">11 Лет</div>
-					<div class="stat-label">На рынке</div>
+			</div>
+			<div class="hero-slide">
+				<div class="container">
+					<div class="hero-background" style="background-image: url('https://devdenis.ru/wp-content/uploads/2025/11/1929923622_0_148_3072_1876_1920x0_80_0_0_92b5040e418d4119351b508bc985bf26.jpg');"></div>
+					<div class="hero-content">
+						<h1 class="hero-title"><span>ЦЕНЗОР</span> - Профессиональное образование</h1>
+						<p class="hero-description">Официальные документы<br>Государственная лицензия<br>Более 11 лет на рынке<br>Бесплатная доставка документов по всей России<br>Начни новую карьеру сегодня</p>
+						<a href="#modal" class="hero-button modal-open">Консультация</a>
+					</div>
+					<div class="hero_bottom">
+						<div class="hero-navigation">
+							<button class="nav-arrow nav-prev hero-prev">
+								<i class="fas fa-chevron-left"></i>
+							</button>
+							<button class="nav-arrow nav-next hero-next">
+								<i class="fas fa-chevron-right"></i>
+							</button>
+							<div class="progress-bar">
+								<div class="progress-fill"></div>
+							</div>
+						</div>
+						<div class="hero-stats">
+							<div class="stats-grid">
+								<div class="stat-item">
+									<div class="stat-number">31127</div>
+									<div class="stat-label">Выпускников</div>
+								</div>
+								<div class="stat-item">
+									<div class="stat-number">11 Лет</div>
+									<div class="stat-label">На рынке</div>
+								</div>
+								<div class="stat-item">
+									<div class="stat-number">67 Человек</div>
+									<div class="stat-label">Обучаются сегодня</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
-				<div class="stat-item">
-					<div class="stat-number">67 Человек</div>
-					<div class="stat-label">Обучаются сегодня</div>
-				</div>
+			</div>
 		</div>
-	</div>
-	</div>
 	</div>
 </section>
 
@@ -113,7 +155,7 @@ get_header();
 							<a href="<?php echo esc_url( get_permalink() ); ?>" class="profession-card">
 								<?php if ( $image_url ) : ?>
 									<div class="profession-image">
-										<img src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>">
+										<img src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>" loading="lazy">
 									</div>
 								<?php endif; ?>
 								<div class="profession-name"><?php echo esc_html( get_the_title() ); ?></div>
