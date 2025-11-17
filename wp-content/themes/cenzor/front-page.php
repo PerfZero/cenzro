@@ -110,14 +110,14 @@ get_header();
 						}
 						?>
 						<div class="swiper-slide">
-							<div class="profession-card">
+							<a href="<?php echo esc_url( get_permalink() ); ?>" class="profession-card">
 								<?php if ( $image_url ) : ?>
 									<div class="profession-image">
 										<img src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>">
 									</div>
 								<?php endif; ?>
 								<div class="profession-name"><?php echo esc_html( get_the_title() ); ?></div>
-							</div>
+							</a>
 						</div>
 						<?php
 					endwhile;

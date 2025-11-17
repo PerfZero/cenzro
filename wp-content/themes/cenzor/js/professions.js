@@ -2,6 +2,7 @@
 	if (document.querySelector('.professions-swiper')) {
 		const swiper = new Swiper('.professions-swiper', {
 			slidesPerView: 1,
+			slidesPerGroup: 1,
 			spaceBetween: 20,
             
 			pagination: {
@@ -15,18 +16,22 @@
 			breakpoints: {
 				640: {
 					slidesPerView: 2,
+					slidesPerGroup: 2,
 					spaceBetween: 20,
 				},
 				768: {
-					slidesPerView: 3,
-					spaceBetween: 30,
+					slidesPerView: 2,
+					slidesPerGroup: 2,
+					spaceBetween: 24,
 				},
 				1024: {
-					slidesPerView: 5,
+					slidesPerView: 3,
+					slidesPerGroup: 3,
 					spaceBetween: 30,
 				},
 				1280: {
-					slidesPerView: 6,
+					slidesPerView: 4,
+					slidesPerGroup: 4,
 					spaceBetween: 30,
 				},
 			},
