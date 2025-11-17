@@ -258,6 +258,8 @@ get_header();
 					$first = true;
 					while ( $parent_professions->have_posts() ) : $parent_professions->the_post();
 						$parent_id = get_the_ID();
+						$parent_title = get_the_title();
+						
 						$child_query = new WP_Query( array(
 							'post_type'      => 'profession',
 							'post_parent'    => $parent_id,
@@ -271,7 +273,7 @@ get_header();
 						$courses_text = $child_count . ' ' . ( $child_count == 1 ? 'курс' : ( $child_count < 5 ? 'курса' : 'курсов' ) );
 						?>
 						<button class="professions-tab-btn <?php echo $first ? 'active' : ''; ?>" data-parent="<?php echo $parent_id; ?>">
-							<?php echo esc_html( get_the_title() ); ?>
+							<?php echo esc_html( $parent_title ); ?>
 							<span class="professions-tab-courses"><?php echo $courses_text; ?></span>
 						</button>
 						<?php
