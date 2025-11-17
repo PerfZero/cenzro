@@ -138,14 +138,14 @@ get_header();
 		<div class="advantages-grid">
 			<div class="advantage-item">
 				<div class="advantage-icon">
-					<img src="<?php echo get_template_directory_uri(); ?>/images/guarantee-quality.svg" alt="Гарантия качества">
+					<i class="fas fa-shield-alt"></i>
 				</div>
 				<h3 class="advantage-title">Гарантия качества</h3>
 				<p class="advantage-description">Мы — учебный центр, работающий по всей России с высочайшим уровнем обучения, сервиса и организации учебного процесса.</p>
 			</div>
 			<div class="advantage-item">
 				<div class="advantage-icon">
-					<img src="<?php echo get_template_directory_uri(); ?>/images/guarantee-deadlines.svg" alt="Гарантия соблюдения сроков">
+					<i class="fas fa-clock"></i>
 				</div>
 				<h3 class="advantage-title">Гарантия соблюдения сроков</h3>
 				<p class="advantage-description">Сроки указаны в договоре. За каждый день просрочки возвращаем 0,1% от стоимости услуги.</p>
@@ -153,14 +153,14 @@ get_header();
 			<div class="advantage-item advantage-empty"></div>
 			<div class="advantage-item">
 				<div class="advantage-icon">
-					<img src="<?php echo get_template_directory_uri(); ?>/images/guarantee-price.svg" alt="Гарантия точной стоимости">
+					<i class="fas fa-tag"></i>
 				</div>
 				<h3 class="advantage-title">Гарантия точной стоимости</h3>
 				<p class="advantage-description">Мы сразу называем конечную цену. Дополнительных расходов у Вас не будет на протяжении всего обучения!</p>
 			</div>
 			<div class="advantage-item">
 				<div class="advantage-icon">
-					<img src="<?php echo get_template_directory_uri(); ?>/images/guarantee-reliability.svg" alt="Гарантия надежности">
+					<i class="fas fa-check-circle"></i>
 				</div>
 				<h3 class="advantage-title">Гарантия надежности</h3>
 				<p class="advantage-description">Своевременное внесение документов в ФИС ФРДО и Минтруд.</p>
@@ -168,32 +168,32 @@ get_header();
 			<div class="advantage-item advantage-empty"></div>
 			<div class="advantage-item">
 				<div class="advantage-icon">
-					<img src="<?php echo get_template_directory_uri(); ?>/images/result-oriented.svg" alt="Нацеленность на результат">
+					<i class="fas fa-bullseye"></i>
 				</div>
 				<h3 class="advantage-title">Нацеленность на результат</h3>
-				<p class="advantage-description"></p>
+				<p class="advantage-description">Мы помогаем нашим студентам достигать поставленных целей и получать практические навыки, необходимые для успешной работы.</p>
 			</div>
 			<div class="advantage-item">
 				<div class="advantage-icon">
-					<img src="<?php echo get_template_directory_uri(); ?>/images/new-technologies.svg" alt="Новейшие технологии">
+					<i class="fas fa-laptop-code"></i>
 				</div>
 				<h3 class="advantage-title">Новейшие технологии</h3>
-				<p class="advantage-description"></p>
+				<p class="advantage-description">Используем современные образовательные платформы и методики для эффективного дистанционного обучения.</p>
 			</div>
 			<div class="advantage-item advantage-empty"></div>
 			<div class="advantage-item">
 				<div class="advantage-icon">
-					<img src="<?php echo get_template_directory_uri(); ?>/images/official-license.svg" alt="Официальная лицензия">
+					<i class="fas fa-certificate"></i>
 				</div>
 				<h3 class="advantage-title">Официальная лицензия</h3>
-				<p class="advantage-description"></p>
+				<p class="advantage-description">Государственная лицензия на образовательную деятельность. Все документы соответствуют требованиям законодательства РФ.</p>
 			</div>
 			<div class="advantage-item">
 				<div class="advantage-icon">
-					<img src="<?php echo get_template_directory_uri(); ?>/images/personal-curator.svg" alt="Персональный куратор">
+					<i class="fas fa-user-tie"></i>
 				</div>
 				<h3 class="advantage-title">Персональный куратор</h3>
-				<p class="advantage-description"></p>
+				<p class="advantage-description">Каждому студенту назначается персональный куратор, который помогает на всех этапах обучения и отвечает на вопросы.</p>
 			</div>
 			<div class="advantage-item advantage-empty"></div>
 		</div>

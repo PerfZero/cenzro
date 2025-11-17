@@ -66,6 +66,15 @@
 		});
 	}
 
+	if (typeof GLightbox !== 'undefined') {
+		const lightbox = GLightbox({
+			selector: '.glightbox',
+			touchNavigation: true,
+			loop: true,
+			autoplayVideos: true
+		});
+	}
+
 	if (document.querySelector('.teachers-swiper')) {
 		const teachersSwiper = new Swiper('.teachers-swiper', {
 			slidesPerView: 1,
