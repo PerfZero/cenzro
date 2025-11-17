@@ -257,10 +257,22 @@ get_header();
 				if ( $parent_professions->have_posts() ) :
 					$first = true;
 					while ( $parent_professions->have_posts() ) : $parent_professions->the_post();
+						$parent_id = get_the_ID();
+						$child_query = new WP_Query( array(
+							'post_type'      => 'profession',
+							'post_parent'    => $parent_id,
+							'post_status'    => 'publish',
+							'posts_per_page' => -1,
+							'fields'         => 'ids'
+						) );
+						$child_count = $child_query->found_posts;
+						wp_reset_postdata();
+						
+						$courses_text = $child_count . ' ' . ( $child_count == 1 ? 'курс' : ( $child_count < 5 ? 'курса' : 'курсов' ) );
 						?>
-						<button class="professions-tab-btn <?php echo $first ? 'active' : ''; ?>" data-parent="<?php echo get_the_ID(); ?>">
+						<button class="professions-tab-btn <?php echo $first ? 'active' : ''; ?>" data-parent="<?php echo $parent_id; ?>">
 							<?php echo esc_html( get_the_title() ); ?>
-							<span class="professions-tab-courses">28 курсов</span>
+							<span class="professions-tab-courses"><?php echo $courses_text; ?></span>
 						</button>
 						<?php
 						$first = false;
