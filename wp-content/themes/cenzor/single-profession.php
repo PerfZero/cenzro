@@ -145,33 +145,50 @@ get_header();
 			</section>
 		<?php endif; ?>
 
-		<?php 
-		$steps = get_field( 'profession_tab_steps' );
-		if ( $steps && is_array( $steps ) ) : ?>
-			<section id="profession-steps" class="profession-content-section">
-				<div class="container">
-					<h2 class="profession-section-title">4 ШАГА ДЛЯ ОБУЧЕНИЯ ПО ТРАНСПОРТНОЙ БЕЗОПАСНОСТИ</h2>
-					<div class="profession-steps-horizontal">
-						<?php foreach ( $steps as $index => $step ) : ?>
-							<div class="profession-step-horizontal">
-								<div class="profession-step-circle">
-									<div class="profession-step-circle-number"><?php echo esc_html( $index + 1 ); ?></div>
-								</div>
-								<h3 class="profession-step-horizontal-title"><?php echo esc_html( $step['step_title'] ); ?></h3>
-								<?php if ( $step['step_description'] ) : ?>
-									<div class="profession-step-horizontal-description">
-										<?php echo wp_kses_post( nl2br( $step['step_description'] ) ); ?>
-									</div>
-								<?php endif; ?>
-								<?php if ( $index === 0 ) : ?>
-									<a href="#consultation" class="profession-step-button">Оставить заявку</a>
-								<?php endif; ?>
-							</div>
-						<?php endforeach; ?>
+		<section id="profession-steps" class="profession-content-section">
+			<div class="container">
+				<h2 class="profession-section-title">4 ШАГА ДЛЯ ОБУЧЕНИЯ ПО ТРАНСПОРТНОЙ БЕЗОПАСНОСТИ</h2>
+				<div class="profession-steps-horizontal">
+					<div class="profession-step-horizontal">
+						<div class="profession-step-circle">
+							<div class="profession-step-circle-number">1</div>
+						</div>
+						<h3 class="profession-step-horizontal-title">Заявка</h3>
+						<div class="profession-step-horizontal-description">
+							Оставьте заявку на сайте, позвоните по телефону: 8 (800) 302-62-56, или напишите письмо по адресу: cenzor61@mail.ru
+						</div>
+						<a href="#consultation" class="profession-step-button">Оставить заявку</a>
+					</div>
+					<div class="profession-step-horizontal">
+						<div class="profession-step-circle">
+							<div class="profession-step-circle-number">2</div>
+						</div>
+						<h3 class="profession-step-horizontal-title">Заключение договора</h3>
+						<div class="profession-step-horizontal-description">
+							Согласование условий договора и оплата любым удобным для вас способом
+						</div>
+					</div>
+					<div class="profession-step-horizontal">
+						<div class="profession-step-circle">
+							<div class="profession-step-circle-number">3</div>
+						</div>
+						<h3 class="profession-step-horizontal-title">Обучение</h3>
+						<div class="profession-step-horizontal-description">
+							Интенсивный учебный процесс, согласно выбранных курсов и формы обучения
+						</div>
+					</div>
+					<div class="profession-step-horizontal">
+						<div class="profession-step-circle">
+							<div class="profession-step-circle-number">4</div>
+						</div>
+						<h3 class="profession-step-horizontal-title">Получение документов</h3>
+						<div class="profession-step-horizontal-description">
+							Вручаем лично или отправляем по почте заказным письмом бесплатно, копию свидетельства высылаем по e-mail
+						</div>
 					</div>
 				</div>
-			</section>
-		<?php endif; ?>
+			</div>
+		</section>
 
 		<section class="profession-related-section">
 			<div class="container">
