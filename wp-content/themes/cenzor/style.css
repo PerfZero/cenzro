@@ -1606,7 +1606,7 @@ border-radius: 10px;
 }
 
 .single-osnovnye_svedeniya .site-main{
-		padding-top: 56px;
+		padding-top: 126px;
 	
 }
 
@@ -1726,6 +1726,10 @@ border-radius: 10px;
 @media screen and (max-width: 768px) {
 	.teachers-section {
 		padding: 60px 0;
+	}
+
+	.single-osnovnye_svedeniya .site-main{
+		padding-top: 86px;
 	}
 
 	.single-profession .site-main {
