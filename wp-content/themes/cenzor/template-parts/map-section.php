@@ -46,9 +46,15 @@ $map_id = 'yandex-map-' . uniqid();
 <section class="map-section">
 	<div class="container">
 		<h2 class="map-section-title">Субъекты РФ в которых пользуются услугами нашей компании</h2>
-		<div id="<?php echo esc_attr( $map_id ); ?>" class="yandex-map"></div>
-	</div>
+		<script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A16e5eca8e777abbc819c1b3f1a1e8beadfe44c5847095fc012dd784b0ddbd3c5&amp;width=500&amp;height=400&amp;lang=ru_RU&amp;scroll=true"></script>	</div>
 </section>
+
+<style>
+.map-section iframe{
+	width: 100%;
+}
+
+</style>
 
 <script>
 	(function() {

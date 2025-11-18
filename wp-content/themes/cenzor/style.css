@@ -1513,6 +1513,15 @@ border-radius: 10px;
 	overflow: hidden;
 }
 
+.single-profession .site-main{
+		padding-top: 70px;
+	
+}
+
+.profession-hero-description p:last-child{
+	font-size: 12px;
+}
+
 .teachers-title {
 	font-size: 42px;
 	font-weight: 700;
