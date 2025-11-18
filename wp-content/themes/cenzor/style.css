@@ -47,11 +47,68 @@ body {
 	width: 100%;
 }
 
+.header-top-bar {
+	background: #f8f9fa;
+	border-bottom: 1px solid #e9ecef;
+	padding: 0.5rem 0;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	width: 100%;
+	z-index: 1001;
+}
+
+.header-top-bar-content {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+}
+
+.header-top-bar-left {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+}
+
+.header-top-bar-right {
+	display: flex;
+	align-items: center;
+	gap: 1.5rem;
+}
+
+.header-top-email,
+.header-top-login {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	color: #666;
+	text-decoration: none;
+	font-size: 0.875rem;
+	font-weight: 500;
+	white-space: nowrap;
+	padding: 0.3rem 0.6rem;
+	border-radius: 4px;
+	transition: all 0.2s;
+}
+
+.header-top-email:hover,
+.header-top-login:hover {
+	background: rgba(19, 103, 221, 0.1);
+	color: var(--accent-color);
+}
+
+.header-top-email i,
+.header-top-login i {
+	font-size: 0.8rem;
+}
+
 .site-header {
 	background: #fff;
 	padding: 1rem 0;
 	position: fixed;
-	top: 0;
+	top: 40px;
 	left: 0;
 	right: 0;
 	width: 100%;
@@ -150,7 +207,7 @@ body {
 
 .promo-banner{
 	padding: 0 10px;
-	margin-top: 120px;
+	margin-top: 160px;
 }
 
 
@@ -321,6 +378,36 @@ body {
 .login-button:hover {
 	background: var(--accent-color-hover);
 	color: #fff;
+}
+
+.bvi-open {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.4rem 0.8rem;
+	background: transparent;
+	color: #666;
+	text-decoration: none;
+	border-radius: 4px;
+	font-size: 0.875rem;
+	font-weight: 500;
+	transition: all 0.2s;
+	border: none;
+	position: relative;
+	white-space: nowrap;
+}
+
+.bvi-open:hover {
+	background: rgba(19, 103, 221, 0.1);
+	color: var(--accent-color);
+}
+
+.bvi-open::before {
+	content: '\f06e';
+	font-family: 'Font Awesome 6 Free';
+	font-weight: 900;
+	font-size: 0.9rem;
+	line-height: 1;
 }
 
 
@@ -3209,7 +3296,7 @@ border-radius: 10px;
 }
 
 .site-main {
-	padding-top: 120px;
+	padding-top: 160px;
 }
 
 /* Breadcrumbs for regular pages (not in hero) */
@@ -3642,6 +3729,7 @@ border-radius: 10px;
 	.site-header {
 		padding: 0.5rem 0;
 		max-height: none;
+		z-index: 9999999;
 	}
 
 	.header-top {
@@ -3819,6 +3907,54 @@ border-radius: 10px;
 	}
 
 
+	.header-top-bar {
+		padding: 0.4rem 0;
+	}
+
+	.header-top-bar-content {
+		gap: 0.5rem;
+	}
+
+	.header-top-bar-left {
+		width: 100%;
+		justify-content: center;
+	}
+
+	.bvi-open {
+		font-size: 0.8rem;
+		padding: 0.3rem 0.6rem;
+	}
+
+	.bvi-open::before {
+		font-size: 0.85rem;
+	}
+
+	.header-top-bar-right {
+		width: 100%;
+		justify-content: flex-end;
+		gap: 1rem;
+	}
+
+	.header-top-email span,
+	.header-top-login span {
+		display: none;
+	}
+
+	.header-top-email,
+	.header-top-login {
+		padding: 0.3rem 0.5rem;
+		font-size: 0.8rem;
+	}
+
+	.header-top-email i,
+	.header-top-login i {
+		font-size: 0.9rem;
+	}
+
+	.site-header {
+		top: 40px;
+	}
+
 	.header-login {
 		display: none;
 	}
@@ -3829,7 +3965,7 @@ border-radius: 10px;
 	}
 
 	.promo-banner {
-		margin-top: 60px;
+		margin-top: 130px;
 		overflow: hidden;
 	}
 

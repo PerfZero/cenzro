@@ -191,16 +191,6 @@
 					target: '.bvi-open',
 					lang: 'ru-RU'
 				});
-				
-				setTimeout(function() {
-					var clickEvents = getEventListeners ? getEventListeners(bviElement) : null;
-					console.log('BVI element click listeners:', clickEvents);
-					
-					bviElement.addEventListener('click', function(e) {
-						console.log('Manual click handler - event:', e);
-						console.log('Cookie panelActive:', document.cookie.match(/panelActive=([^;]+)/));
-					}, true);
-				}, 500);
 			}
 		}
 	})();

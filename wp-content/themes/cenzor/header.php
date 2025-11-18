@@ -25,6 +25,26 @@
 <div id="page" class="site">
 	<a class="skip-link screen-reader-text" href="#primary"><?php esc_html_e( 'Skip to content', 'cenzor' ); ?></a>
 
+	<div class="header-top-bar">
+		<div class="container">
+			<div class="header-top-bar-content">
+				<div class="header-top-bar-left">
+					<a href="#" class="bvi-open">Версия для слабовидящих</a>
+				</div>
+				<div class="header-top-bar-right">
+					<a href="mailto:cenzor61@mail.ru" class="header-top-email">
+						<i class="fas fa-envelope"></i>
+						<span>cenzor61@mail.ru</span>
+					</a>
+					<a href="<?php echo esc_url( wp_login_url() ); ?>" class="header-top-login">
+						<i class="fas fa-user"></i>
+						<span>Личный кабинет</span>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<header id="masthead" class="site-header">
 		<div class="container header-container">
 			<div class="header-top">
@@ -60,8 +80,6 @@
 					);
 					?>
 				</nav>
-
-				<a href="#" class="bvi-open">Версия для слабовидящих</a>
 
 				<div class="header-right">
 					<div class="header-phone">
