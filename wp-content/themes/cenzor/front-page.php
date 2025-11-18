@@ -150,16 +150,45 @@ get_header();
 						if ( ! $image_url && has_post_thumbnail() ) {
 							$image_url = get_the_post_thumbnail_url( get_the_ID(), 'full' );
 						}
+
+						$min_price = get_field( 'profession_min_price' );
+						if ( ! $min_price ) {
+							$pricing = get_field( 'profession_tab_pricing' );
+							if ( $pricing && is_array( $pricing ) && ! empty( $pricing ) ) {
+								$prices = array();
+								foreach ( $pricing as $item ) {
+									if ( isset( $item['price'] ) ) {
+										$price_clean = preg_replace( '/[^0-9]/', '', $item['price'] );
+										if ( $price_clean ) {
+											$prices[] = intval( $price_clean );
+										}
+									}
+								}
+								if ( ! empty( $prices ) ) {
+									$min_price = min( $prices );
+									$min_price = number_format( $min_price, 0, ',', ' ' );
+								}
+							}
+						}
 						?>
 						<div class="swiper-slide">
-							<a href="<?php echo esc_url( get_permalink() ); ?>" class="profession-card">
+							<div class="profession-card">
 								<?php if ( $image_url ) : ?>
 									<div class="profession-image">
 										<img src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>" loading="lazy">
 									</div>
 								<?php endif; ?>
-								<div class="profession-name"><?php echo esc_html( get_the_title() ); ?></div>
-							</a>
+								<div class="profession-card-content">
+									<div class="profession-name"><?php echo esc_html( get_the_title() ); ?></div>
+									<?php if ( $min_price ) : ?>
+										<div class="profession-price">
+											<span class="profession-price-label">Стоимость</span>
+											<span class="profession-price-value">от <?php echo esc_html( $min_price ); ?> руб.</span>
+										</div>
+									<?php endif; ?>
+									<a href="<?php echo esc_url( get_permalink() ); ?>" class="profession-button">Подробнее</a>
+								</div>
+							</div>
 						</div>
 						<?php
 					endwhile;
