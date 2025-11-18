@@ -23,6 +23,12 @@
 				<label for="callback-phone">Номер телефона</label>
 				<input type="tel" id="callback-phone" name="phone" required placeholder="+7 (___) ___-__-__">
 			</div>
+			<div class="form-group">
+				<label class="checkbox-label">
+					<input type="checkbox" name="consent" required>
+					<span>Я согласен на <a href="/soglasie-na-obrabotku-personalnyh-dannyh/" target="_blank">обработку персональных данных</a> в соответствии с <a href="/politika-operatora-v-otnoshenii-obrabotki-personalnyh-dannyh/" target="_blank">Политикой конфиденциальности</a></span>
+				</label>
+			</div>
 			<button type="submit" class="callback-submit-button">Обратный звонок</button>
 		</form>
 	</div>

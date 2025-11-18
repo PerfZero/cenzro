@@ -106,7 +106,7 @@
 				<a href="#">Министерство просвещения РФ</a>
 			</div>
 			<div class="footer-legal-text">
-				Цены на сайте носят информационный характер и ни при каких условиях не являются публичной офертой. Отправляя свои данные, Вы даете согласие в соответствии с ФЗ «О персональных данных». Ознакомиться с политикой конфиденциальности можно <a href="#">здесь</a>
+				Цены на сайте носят информационный характер и ни при каких условиях не являются публичной офертой. Отправляя свои данные, Вы даете согласие в соответствии с ФЗ «О персональных данных». Ознакомиться с политикой конфиденциальности можно <a href="/politika-operatora-v-otnoshenii-obrabotki-personalnyh-dannyh/">здесь</a>
 			</div>
 			<div class="footer-policies">
 				<a href="/politika-operatora-v-otnoshenii-obrabotki-personalnyh-dannyh/">Политика оператора в отношении обработки персональных данных</a>
@@ -172,7 +172,7 @@
 			<div class="form-group">
 				<label class="checkbox-label">
 					<input type="checkbox" name="consent" required>
-					<span>Я согласен на обработку персональных данных</span>
+					<span>Я согласен на <a href="/soglasie-na-obrabotku-personalnyh-dannyh/" target="_blank">обработку персональных данных</a> в соответствии с <a href="/politika-operatora-v-otnoshenii-obrabotki-personalnyh-dannyh/" target="_blank">Политикой конфиденциальности</a></span>
 				</label>
 			</div>
 			<button type="submit" class="modal-submit">Отправить</button>
@@ -183,7 +183,7 @@
 <div id="cookie-consent" class="cookie-consent">
 	<div class="cookie-consent-content">
 		<div class="cookie-consent-text">
-			<p>Мы используем файлы cookie для улучшения работы сайта и персонализации контента. Продолжая использовать сайт, вы соглашаетесь с использованием cookie в соответствии с <a href="#" target="_blank">Политикой в отношении файлов cookie</a> и <a href="#" target="_blank">Политикой конфиденциальности</a>.</p>
+			<p>Мы используем файлы cookie для улучшения работы сайта и персонализации контента. Продолжая использовать сайт, вы соглашаетесь с использованием cookie в соответствии с <a href="/politika-v-otnoshenii-fajlov-cookie/" target="_blank">Политикой в отношении файлов cookie</a> и <a href="/politika-operatora-v-otnoshenii-obrabotki-personalnyh-dannyh/" target="_blank">Политикой конфиденциальности</a>.</p>
 		</div>
 		<div class="cookie-consent-buttons">
 			<button id="cookie-accept" class="cookie-btn cookie-btn-accept">Принять</button>

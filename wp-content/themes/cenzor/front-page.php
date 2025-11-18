@@ -583,7 +583,7 @@ get_header();
 			<div class="form-group">
 				<label class="checkbox-label">
 					<input type="checkbox" name="consent" required>
-					<span>Я согласен на обработку персональных данных</span>
+					<span>Я согласен на <a href="/soglasie-na-obrabotku-personalnyh-dannyh/" target="_blank">обработку персональных данных</a> в соответствии с <a href="/politika-operatora-v-otnoshenii-obrabotki-personalnyh-dannyh/" target="_blank">Политикой конфиденциальности</a></span>
 				</label>
 			</div>
 			<button type="submit" class="modal-submit">Отправить</button>
