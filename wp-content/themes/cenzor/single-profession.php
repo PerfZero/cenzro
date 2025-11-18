@@ -32,10 +32,9 @@ get_header();
 		}
 
 		$custom_title = get_field( 'profession_custom_title' );
-		$city_name = do_shortcode('[belingogeo_city_field field="city_name"]');
 		
-		if ( $custom_title && $city_name ) {
-			$title = str_replace( '{city}', $city_name, $custom_title );
+		if ( $custom_title ) {
+			$title = do_shortcode( $custom_title );
 		} else {
 			$title = get_the_title();
 		}
