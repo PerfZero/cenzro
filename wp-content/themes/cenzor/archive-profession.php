@@ -1,10 +1,16 @@
 <?php
 get_header();
+
+$professions = new WP_Query( array(
+	'post_type'      => 'profession',
+	'posts_per_page' => -1,
+	'post_status'    => 'publish',
+) );
 ?>
 
 <main id="primary" class="site-main">
 
-	<?php if ( have_posts() ) : ?>
+	<?php if ( $professions->have_posts() ) : ?>
 
 		<section class="profession-archive-section">
 			<div class="container">
@@ -17,8 +23,8 @@ get_header();
 
 				<div class="profession-related-grid">
 					<?php
-					while ( have_posts() ) :
-						the_post();
+					while ( $professions->have_posts() ) :
+						$professions->the_post();
 
 						$profession_image = get_field( 'profession_image' );
 						$image_url = '';
@@ -74,10 +80,11 @@ get_header();
 								<a href="<?php the_permalink(); ?>" class="profession-related-button">Подробнее</a>
 							</div>
 						</div>
-					<?php endwhile; ?>
+					<?php 
+					endwhile;
+					wp_reset_postdata();
+					?>
 				</div>
-
-				<?php the_posts_pagination(); ?>
 
 			</div>
 		</section>
