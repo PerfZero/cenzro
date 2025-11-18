@@ -182,5 +182,29 @@
 
 <?php wp_footer(); ?>
 
+<script>
+	(function() {
+		if (typeof isvek !== 'undefined' && typeof isvek.Bvi !== 'undefined' && !window.bviInstance) {
+			var bviElement = document.querySelector('.bvi-open');
+			if (bviElement) {
+				window.bviInstance = new isvek.Bvi({
+					target: '.bvi-open',
+					lang: 'ru-RU'
+				});
+				
+				setTimeout(function() {
+					var clickEvents = getEventListeners ? getEventListeners(bviElement) : null;
+					console.log('BVI element click listeners:', clickEvents);
+					
+					bviElement.addEventListener('click', function(e) {
+						console.log('Manual click handler - event:', e);
+						console.log('Cookie panelActive:', document.cookie.match(/panelActive=([^;]+)/));
+					}, true);
+				}, 500);
+			}
+		}
+	})();
+</script>
+
 </body>
 </html>

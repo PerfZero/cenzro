@@ -61,6 +61,8 @@
 					?>
 				</nav>
 
+				<a href="#" class="bvi-open">Версия для слабовидящих</a>
+
 				<div class="header-right">
 					<div class="header-phone">
 						<?php echo do_shortcode( '[belingogeo_city_field field="city_phone"]' ); ?>
