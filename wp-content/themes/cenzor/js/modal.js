@@ -13,9 +13,10 @@
 		modal.classList.remove('active');
 	};
 
-	const openButtons = document.querySelectorAll('a[href="#modal"], .benefits-btn, .hero-button, .modal-open');
+	const openButtons = document.querySelectorAll('a[href="#modal"], a[href="#consultation"], .benefits-btn, .hero-button, .modal-open, .profession-consultation-button, .profession-pricing-button, .profession-step-button, .mobil-trips-application');
 	openButtons.forEach(button => {
-		if (button.getAttribute('href') === '#modal' || button.classList.contains('modal-open') || button.classList.contains('hero-button')) {
+		const href = button.getAttribute('href');
+		if (href === '#modal' || href === '#consultation' || button.classList.contains('modal-open') || button.classList.contains('hero-button') || button.classList.contains('profession-consultation-button') || button.classList.contains('profession-pricing-button') || button.classList.contains('profession-step-button') || button.classList.contains('mobil-trips-application')) {
 			button.addEventListener('click', openModal);
 		}
 	});

@@ -125,6 +125,61 @@
 		</div>
 	</div>
 </footer>
+
+<div class="mobil_trips">
+	<div class="trips_1 trip">
+		<a href="#consultation" class="mobil-trips-application">ЗАЯВКА</a>
+	</div>
+	<div class="trips_block">
+		<div class="trips_2">
+			<?php 
+			$phone = do_shortcode( '[belingogeo_city_field field="city_phone"]' );
+			$phone_clean = $phone ? preg_replace( '/[^0-9]/', '', $phone ) : '88003026256';
+			?>
+			<a href="tel:<?php echo esc_attr( $phone_clean ); ?>">
+				<i class="fas fa-phone"></i>
+			</a>
+		</div>
+		<div class="trips_3">
+			<a href="https://wa.me/79185080155?text=Я%20заинтересован%20в%20заказе%20ваших%20услуг" target="_blank">
+				<i class="fab fa-whatsapp"></i>
+			</a>
+		</div>
+	</div>
+</div>
+
+<div id="modal" class="modal-overlay">
+	<div class="modal-content">
+		<button class="modal-close" aria-label="Закрыть">&times;</button>
+		<h2 class="modal-title">Заказать консультацию</h2>
+		<form class="modal-form" method="post" action="">
+			<div class="form-group">
+				<label for="modal-name">Ваше имя *</label>
+				<input type="text" id="modal-name" name="name" required>
+			</div>
+			<div class="form-group">
+				<label for="modal-phone">Телефон *</label>
+				<input type="tel" id="modal-phone" name="phone" required>
+			</div>
+			<div class="form-group">
+				<label for="modal-email">Email</label>
+				<input type="email" id="modal-email" name="email">
+			</div>
+			<div class="form-group">
+				<label for="modal-message">Сообщение</label>
+				<textarea id="modal-message" name="message" rows="4"></textarea>
+			</div>
+			<div class="form-group">
+				<label class="checkbox-label">
+					<input type="checkbox" name="consent" required>
+					<span>Я согласен на обработку персональных данных</span>
+				</label>
+			</div>
+			<button type="submit" class="modal-submit">Отправить</button>
+		</form>
+	</div>
+</div>
+
 <?php wp_footer(); ?>
 
 </body>

@@ -50,7 +50,11 @@ body {
 .site-header {
 	background: #fff;
 	padding: 1rem 0;
-	position: relative;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	width: 100%;
 	z-index: 1000;
 	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 	max-height: 120px;
@@ -146,6 +150,7 @@ body {
 
 .promo-banner{
 	padding: 0 10px;
+	margin-top: 120px;
 }
 
 .main-navigation a {
@@ -3234,6 +3239,10 @@ border-radius: 10px;
 	margin: 0 8px;
 }
 
+.site-main {
+	padding-top: 120px;
+}
+
 /* Breadcrumbs for regular pages (not in hero) */
 .site-main > .breadcrumbs {
 	padding: 20px 0;
@@ -3571,6 +3580,118 @@ border-radius: 10px;
 
 	.callback-form-widget {
 		position: static;
+	}
+}
+
+.mobil_trips {
+	position: fixed;
+	right: 20px;
+	bottom: 20px;
+	z-index: 9999;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	gap: 10px;
+}
+
+.trips_1 {
+	background: var(--accent-color);
+	color: #fff;
+	padding: 12px 20px;
+	border-radius: 8px;
+	font-weight: 600;
+	font-size: 14px;
+	cursor: pointer;
+	transition: background 0.3s;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.trips_1:hover {
+	background: var(--accent-color-hover);
+}
+
+.mobil-trips-application {
+	color: #fff;
+	text-decoration: none;
+	display: block;
+}
+
+.trips_block {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.trips_2,
+.trips_3 {
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+	transition: transform 0.3s;
+}
+
+.trips_2:hover,
+.trips_3:hover {
+	transform: scale(1.1);
+}
+
+.trips_2 {
+	background: #fff;
+}
+
+.trips_2 a {
+	color: var(--accent-color);
+	font-size: 24px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+	text-decoration: none;
+}
+
+.trips_3 {
+	background: #25D366;
+}
+
+.trips_3 a {
+	color: #fff;
+	font-size: 28px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+	text-decoration: none;
+}
+
+@media screen and (max-width: 768px) {
+	.mobil_trips {
+		right: 15px;
+		bottom: 15px;
+	}
+
+	.trips_1 {
+		padding: 10px 16px;
+		font-size: 12px;
+	}
+
+	.trips_2,
+	.trips_3 {
+		width: 45px;
+		height: 45px;
+	}
+
+	.trips_2 a {
+		font-size: 20px;
+	}
+
+	.trips_3 a {
+		font-size: 24px;
 	}
 }
 
