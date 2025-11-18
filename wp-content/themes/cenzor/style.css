@@ -2670,14 +2670,14 @@ border-radius: 10px;
 .profession-pricing-table table {
 	width: 100%;
 	border-collapse: collapse;
-	background: #fff;
+	background: #1367DD10;
 	border-radius: 8px;
 	overflow: hidden;
 	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .profession-pricing-table thead {
-	background: #DC8800;
+	background: #1367DD;
 	color: #fff;
 }
 
@@ -2698,6 +2698,10 @@ border-radius: 10px;
 	font-size: 15px;
 }
 
+.profession-pricing-table tbody tr:nth-child(even) {
+	background: #1367DD10;
+}
+
 .profession-pricing-table td:nth-child(3) {
 	white-space: nowrap;
 	min-width: 120px;
@@ -2714,7 +2718,7 @@ border-radius: 10px;
 .profession-pricing-button {
 	display: inline-block;
 	padding: 10px 24px;
-	background: #DC8800;
+	background: #1367DD;
 	color: #fff;
 	text-decoration: none;
 	border-radius: 4px;
@@ -2725,7 +2729,7 @@ border-radius: 10px;
 }
 
 .profession-pricing-button:hover {
-	background: #c57900;
+	background: #0f5bc4;
 	color: #fff;
 }
 

@@ -90,25 +90,49 @@ get_header();
 			</section>
 		<?php endif; ?>
 
-		<?php 
-		$results = get_field( 'profession_tab_results' );
-		if ( $results && is_array( $results ) ) : ?>
-			<section id="profession-results" class="profession-content-section">
-				<div class="container">
-					<h2 class="profession-section-title">Результаты обучения</h2>
-					<div class="profession-results-grid">
-						<?php foreach ( $results as $result ) : ?>
-							<div class="profession-result-item">
-								<div class="profession-result-icon">
-									<i class="fas fa-check"></i>
-								</div>
-								<div class="profession-result-text"><?php echo esc_html( $result['result_text'] ); ?></div>
-							</div>
-						<?php endforeach; ?>
+		<section id="profession-results" class="profession-content-section">
+			<div class="container">
+				<h2 class="profession-section-title">Результаты обучения</h2>
+				<div class="profession-results-grid">
+					<div class="profession-result-item">
+						<div class="profession-result-icon">
+							<i class="fas fa-check"></i>
+						</div>
+						<div class="profession-result-text">Получение удостоверения установленного образца</div>
+					</div>
+					<div class="profession-result-item">
+						<div class="profession-result-icon">
+							<i class="fas fa-check"></i>
+						</div>
+						<div class="profession-result-text">Знание требований законодательства в сфере транспортной безопасности</div>
+					</div>
+					<div class="profession-result-item">
+						<div class="profession-result-icon">
+							<i class="fas fa-check"></i>
+						</div>
+						<div class="profession-result-text">Умение применять меры по обеспечению транспортной безопасности</div>
+					</div>
+					<div class="profession-result-item">
+						<div class="profession-result-icon">
+							<i class="fas fa-check"></i>
+						</div>
+						<div class="profession-result-text">Навыки работы с техническими средствами обеспечения безопасности</div>
+					</div>
+					<div class="profession-result-item">
+						<div class="profession-result-icon">
+							<i class="fas fa-check"></i>
+						</div>
+						<div class="profession-result-text">Понимание процедур досмотра и контроля</div>
+					</div>
+					<div class="profession-result-item">
+						<div class="profession-result-icon">
+							<i class="fas fa-check"></i>
+						</div>
+						<div class="profession-result-text">Готовность к действиям в чрезвычайных ситуациях</div>
 					</div>
 				</div>
-			</section>
-		<?php endif; ?>
+			</div>
+		</section>
 
 
 		<?php 
