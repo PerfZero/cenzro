@@ -109,10 +109,10 @@
 				Цены на сайте носят информационный характер и ни при каких условиях не являются публичной офертой. Отправляя свои данные, Вы даете согласие в соответствии с ФЗ «О персональных данных». Ознакомиться с политикой конфиденциальности можно <a href="#">здесь</a>
 			</div>
 			<div class="footer-policies">
-				<a href="#">Политика оператора в отношении обработки персональных данных</a>
-				<a href="#">Пользовательское соглашение (публичная оферта)</a>
-				<a href="#">Согласие на обработку персональных данных</a>
-				<a href="#">Политика в отношении файлов cookie</a>
+				<a href="/politika-operatora-v-otnoshenii-obrabotki-personalnyh-dannyh/">Политика оператора в отношении обработки персональных данных</a>
+				<a href="/polzovatelskoe-soglashenie-publichnaya-oferta/">Пользовательское соглашение (публичная оферта)</a>
+				<a href="/soglasie-na-obrabotku-personalnyh-dannyh/">Согласие на обработку персональных данных</a>
+				<a href="/politika-v-otnoshenii-fajlov-cookie/">Политика в отношении файлов cookie</a>
 			</div>
 			<div class="footer-copyright">
 				<div class="footer-copyright-text">
@@ -180,6 +180,18 @@
 	</div>
 </div>
 
+<div id="cookie-consent" class="cookie-consent">
+	<div class="cookie-consent-content">
+		<div class="cookie-consent-text">
+			<p>Мы используем файлы cookie для улучшения работы сайта и персонализации контента. Продолжая использовать сайт, вы соглашаетесь с использованием cookie в соответствии с <a href="#" target="_blank">Политикой в отношении файлов cookie</a> и <a href="#" target="_blank">Политикой конфиденциальности</a>.</p>
+		</div>
+		<div class="cookie-consent-buttons">
+			<button id="cookie-accept" class="cookie-btn cookie-btn-accept">Принять</button>
+			<button id="cookie-decline" class="cookie-btn cookie-btn-decline">Отклонить</button>
+		</div>
+	</div>
+</div>
+
 <?php wp_footer(); ?>
 
 <script>
@@ -193,6 +205,47 @@
 				});
 			}
 		}
+	})();
+</script>
+
+<script>
+	(function() {
+		var cookieConsent = document.getElementById('cookie-consent');
+		var cookieAccept = document.getElementById('cookie-accept');
+		var cookieDecline = document.getElementById('cookie-decline');
+		
+		function getCookie(name) {
+			var matches = document.cookie.match(new RegExp(
+				"(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+			));
+			return matches ? decodeURIComponent(matches[1]) : undefined;
+		}
+		
+		function setCookie(name, value, days) {
+			var expires = "";
+			if (days) {
+				var date = new Date();
+				date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+				expires = "; expires=" + date.toUTCString();
+			}
+			document.cookie = name + "=" + (value || "") + expires + "; path=/; SameSite=Lax";
+		}
+		
+		if (!getCookie('cookie_consent')) {
+			setTimeout(function() {
+				cookieConsent.classList.add('show');
+			}, 1000);
+		}
+		
+		cookieAccept.addEventListener('click', function() {
+			setCookie('cookie_consent', 'accepted', 365);
+			cookieConsent.classList.remove('show');
+		});
+		
+		cookieDecline.addEventListener('click', function() {
+			setCookie('cookie_consent', 'declined', 365);
+			cookieConsent.classList.remove('show');
+		});
 	})();
 </script>
 
