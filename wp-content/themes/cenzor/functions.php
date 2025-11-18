@@ -1,7 +1,7 @@
 <?php
 
 if ( ! defined( '_S_VERSION' ) ) {
-	define( '_S_VERSION', '1.1.0' );
+	define( '_S_VERSION', '1.2.0' );
 }
 
 

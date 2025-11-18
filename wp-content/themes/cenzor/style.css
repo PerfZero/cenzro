@@ -352,6 +352,16 @@ body {
 	font-weight: 500;
 	text-align: center;
 	margin: 0;
+	white-space: nowrap;
+}
+
+@keyframes marquee {
+	0% {
+		transform: translateX(0);
+	}
+	100% {
+		transform: translateX(-100%);
+	}
 }
 
 .hero-section {
@@ -587,7 +597,7 @@ gap: 70px;
 	}
 
 	.hero_bottom {
-		flex-direction: column;
+		flex-direction: column-reverse;
 		gap: 20px;
 		padding: 15px 0;
 	}
@@ -596,7 +606,6 @@ gap: 70px;
 		max-width: 100%;
 		margin-top: 0;
 		gap: 15px;
-		justify-content: center;
 	}
 
 	.nav-arrow {
@@ -615,10 +624,13 @@ gap: 70px;
 		width: 100%;
 	}
 
+	.hero-background::after{
+		background: rgba(0, 0, 0, 0.5);
+	}
+
 	.stats-grid {
 		flex-direction: column;
 		gap: 20px;
-		text-align: center;
 	}
 
 	.stat-item {
@@ -812,11 +824,15 @@ gap: 70px;
 
 	.professions-title {
 		font-size: 28px;
-		margin-bottom: 30px;
+		margin-bottom: 20px;
 	}
 
 	.profession-image {
-		height: 150px;
+		height: 250px;
+	}
+
+	.advantage-item.advantage-empty{
+		display: none;
 	}
 
 	.profession-name {
@@ -1155,8 +1171,8 @@ border-radius: 10px;
 	}
 
 	.professions-tabs-wrapper {
-		grid-template-columns: 1fr;
-		gap: 30px;
+	display: flex;
+	flex-direction: column;
 	}
 
 	.professions-tabs-nav {
@@ -1168,7 +1184,6 @@ border-radius: 10px;
 
 	.professions-tab-btn {
 		white-space: nowrap;
-		min-width: 140px;
 	}
 
 	.professions-grid-tabs {
@@ -1619,7 +1634,7 @@ border-radius: 10px;
 	}
 
 	.teacher-image {
-		height: 250px;
+		height: 450px;
 	}
 
 	.teacher-info {
@@ -3801,6 +3816,27 @@ border-radius: 10px;
 
 	.promo-banner {
 		margin-top: 60px;
+		overflow: hidden;
+	}
+
+	.promo-banner .container {
+		overflow: hidden;
+		padding: 0.5rem 0;
+	}
+
+	.promo-text{
+		font-size: 16px;	
+	}
+
+	.promo-text {
+		display: inline-block;
+		animation: marquee 30s linear infinite;
+	}
+
+	.promo-text::after {
+		content: ' • Дистанционные курсы повышения квалификации ДПО и профессиональной переподготовки';
+		display: inline-block;
+		padding-left: 2rem;
 	}
 
 	.mobil_trips {
