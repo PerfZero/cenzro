@@ -1601,7 +1601,7 @@ border-radius: 10px;
 }
 
 .single-profession .site-main{
-		padding-top: 70px;
+		padding-top: 140px;
 	
 }
 
@@ -1726,6 +1726,10 @@ border-radius: 10px;
 @media screen and (max-width: 768px) {
 	.teachers-section {
 		padding: 60px 0;
+	}
+
+	.single-profession .site-main {
+		padding-top: 110px;
 	}
 
 	.teachers-title {
