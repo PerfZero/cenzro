@@ -31,7 +31,21 @@
 				<div class="header-top-bar-left">
 					<a href="#" class="bvi-open">Версия для слабовидящих</a>
 				</div>
+				<div class="header-top-bar-center">
+					<div class="header-top-search">
+						<form role="search" method="get" class="search-form" action="<?php echo esc_url( home_url( '/' ) ); ?>">
+							<input type="search" class="search-field" placeholder="Поиск профессий..." value="<?php echo get_search_query(); ?>" name="s" />
+							<input type="hidden" name="post_type" value="profession" />
+							<button type="submit" class="search-submit">
+								<i class="fas fa-search"></i>
+							</button>
+						</form>
+					</div>
+				</div>
 				<div class="header-top-bar-right">
+					<button class="mobile-search-toggle" aria-label="Поиск">
+						<i class="fas fa-search"></i>
+					</button>
 					<a href="mailto:cenzor61@mail.ru" class="header-top-email">
 						<i class="fas fa-envelope"></i>
 						<span>cenzor61@mail.ru</span>
@@ -97,4 +111,22 @@
 			</div>
 		</div>
 	</header>
+
+	<div id="search-popup" class="search-popup">
+		<div class="search-popup-overlay"></div>
+		<div class="search-popup-content">
+			<button class="search-popup-close" aria-label="Закрыть">
+				<i class="fas fa-times"></i>
+			</button>
+			<h2 class="search-popup-title">Поиск профессий</h2>
+			<form role="search" method="get" class="search-popup-form" action="<?php echo esc_url( home_url( '/' ) ); ?>">
+				<input type="search" class="search-popup-field" placeholder="Введите название профессии..." value="<?php echo get_search_query(); ?>" name="s" autofocus />
+				<input type="hidden" name="post_type" value="profession" />
+				<button type="submit" class="search-popup-submit">
+					<i class="fas fa-search"></i>
+					<span>Найти</span>
+				</button>
+			</form>
+		</div>
+	</div>
 

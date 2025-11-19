@@ -31,8 +31,8 @@
 							<div class="certificate-card">
 								<?php if ( $certificate_image ) : ?>
 									<div class="certificate-image">
-										<a href="<?php echo esc_url( $certificate_image ); ?>" class="glightbox" data-gallery="certificates" data-title="<?php echo esc_attr( get_the_title() ); ?>">
-											<img src="<?php echo esc_url( $certificate_image ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>">
+										<a href="<?php echo esc_url( $certificate_image ); ?>" class="glightbox" data-gallery="certificates" data-title="">
+											<img src="<?php echo esc_url( $certificate_image ); ?>" alt="">
 										</a>
 									</div>
 								<?php endif; ?>

@@ -62,6 +62,7 @@ function cenzor_scripts() {
 	wp_enqueue_script( 'cenzor-professions', get_template_directory_uri() . '/js/professions.js', array( 'swiper', 'glightbox' ), _S_VERSION, true );
 	wp_enqueue_script( 'cenzor-professions-tabs', get_template_directory_uri() . '/js/professions-tabs.js', array(), _S_VERSION, true );
 	wp_enqueue_script( 'cenzor-modal', get_template_directory_uri() . '/js/modal.js', array(), _S_VERSION, true );
+	wp_enqueue_script( 'cenzor-search-popup', get_template_directory_uri() . '/js/search-popup.js', array(), _S_VERSION, true );
 
 	if ( is_singular( 'profession' ) ) {
 		wp_enqueue_script( 'cenzor-profession-single-tabs', get_template_directory_uri() . '/js/profession-single-tabs.js', array(), _S_VERSION, true );
@@ -595,4 +596,53 @@ function cenzor_osnovnye_svedeniya_admin_page_callback() {
 	</div>
 	<?php
 }
+
+function cenzor_search_only_professions( $query ) {
+	if ( ! is_admin() && $query->is_main_query() ) {
+		if ( $query->is_search() ) {
+			$query->set( 'post_type', 'profession' );
+		}
+	}
+}
+add_action( 'pre_get_posts', 'cenzor_search_only_professions' );
+
+function cenzor_redirect_single_search_result() {
+	if ( ! is_admin() && is_search() ) {
+		$search_query = trim( get_search_query() );
+		
+		if ( ! empty( $search_query ) ) {
+			global $wpdb;
+			
+			$exact_match = $wpdb->get_var( $wpdb->prepare(
+				"SELECT ID FROM {$wpdb->posts} 
+				WHERE post_type = 'profession' 
+				AND post_status = 'publish' 
+				AND post_title = %s 
+				LIMIT 1",
+				$search_query
+			) );
+			
+			if ( $exact_match ) {
+				wp_safe_redirect( get_permalink( $exact_match ), 302 );
+				exit;
+			}
+			
+			$search_results = new WP_Query( array(
+				'post_type'      => 'profession',
+				's'              => $search_query,
+				'posts_per_page' => 2,
+				'post_status'    => 'publish',
+			) );
+			
+			if ( $search_results->found_posts === 1 ) {
+				$search_results->the_post();
+				wp_safe_redirect( get_permalink(), 302 );
+				exit;
+			}
+			
+			wp_reset_postdata();
+		}
+	}
+}
+add_action( 'template_redirect', 'cenzor_redirect_single_search_result' );
 
