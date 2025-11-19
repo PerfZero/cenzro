@@ -40,23 +40,7 @@ get_header();
 								<a href="mailto:cenzor61@mail.ru" class="contact-value">cenzor61@mail.ru</a>
 							</div>
 
-							<div class="contact-item">
-								<div class="contact-label">Приходите в гости:</div>
-								<div class="contact-value">
-									<?php 
-									$region = do_shortcode('[belingogeo_region_field field="bg_regions_name"]');
-									$city = do_shortcode('[belingogeo_city_field field="city_name"]');
-									$address_parts = array();
-									if ( !empty($region) ) {
-										$address_parts[] = $region;
-									}
-									if ( !empty($city) ) {
-										$address_parts[] = $city;
-									}
-									echo !empty($address_parts) ? esc_html( implode(', ', $address_parts) ) : 'Ростовская область, Шахты';
-									?>
-								</div>
-							</div>
+			
 
 							<div class="contact-item">
 								<div class="contact-label">График работы:</div>

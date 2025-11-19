@@ -8,7 +8,7 @@
 
 <section class="certificates-section">
 	<div class="container">
-		<h2 class="certificates-title">Сертификаты</h2>
+		<h2 class="certificates-title">Сертификаты и благодарственные письма </h2>
 		<div class="swiper certificates-swiper">
 			<div class="swiper-wrapper">
 				<?php

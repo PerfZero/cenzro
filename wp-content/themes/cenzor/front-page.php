@@ -385,7 +385,7 @@ get_header();
 
 <section class="teachers-section">
 	<div class="container">
-		<h2 class="teachers-title">В Цензор61 преподают топ-преподаватели</h2>
+		<h2 class="teachers-title">Наши специалисты</h2>
 		<div class="swiper teachers-swiper">
 			<div class="swiper-wrapper">
 				<?php
@@ -441,7 +441,13 @@ get_header();
 					<p class="benefits-subtitle">ООО "ЦЕНЗОР"</p>
 				</div>
 				<p class="benefits-text">
-					Цены на наши услуги дешевле конкурентов от 10 до 15%. Пришлите нам коммерческие предложения других учебных центров и мы сделаем для Вас скидку - обучение будет дешевле чем в других центрах! Проверьте это сами! У нас действуют большие скидки для обучения групп! В программу обучения включены только те знания и навыки, которые реально пригодятся на практике!
+				Наш прайс на 10-15% выгоднее, и это никак не влияет на качество обучения.
+Мы сохраняем высокий уровень подготовки, оставаясь более привлекательными по условиям,
+чем другие учебные центры.
+				</p>
+				<p class="benefits-text">
+				Для корпоративных клиентов и больших групп действует расширенная система выгодных условий,
+				которая позволяет значительно оптимизировать бюджет без потери эффективности обучения.
 				</p>
 				<a href="#modal" class="benefits-btn modal-open">Заказать консультацию</a>
 			</div>
@@ -459,7 +465,7 @@ get_header();
 						<i class="fas fa-video"></i>
 					</div>
 					<div class="benefit-caption">
-						<div class="benefit-title">очно и дистанционно</div>
+						<div class="benefit-title">Очно и дистанционно</div>
 					</div>
 				</div>
 				<div class="benefit-item">
@@ -467,7 +473,7 @@ get_header();
 						<i class="fas fa-cogs"></i>
 					</div>
 					<div class="benefit-caption">
-						<div class="benefit-title">поддержка на всех этапах</div>
+						<div class="benefit-title">Поддержка на всех этапах</div>
 					</div>
 				</div>
 				<div class="benefit-item">
