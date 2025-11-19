@@ -532,19 +532,19 @@ get_header();
 			<h2 class="courses-subtitle">Дипломы и удостоверения.</h2>
 			<div class="courses-images-grid">
 				<figure class="courses-figure">
-					<img src="http://localhost:8080/wp-content/uploads/2025/11/ud0.jpg" alt="Удостоверение о повышении квалификации">
+					<img src="https://devdenis.ru/wp-content/uploads/2025/11/ud0.jpg" alt="Удостоверение о повышении квалификации">
 					<figcaption>Удостоверение о повышении квалификации государственного образца</figcaption>
 				</figure>
 				<figure class="courses-figure">
-					<img src="http://localhost:8080/wp-content/uploads/2025/11/ud1.jpg" alt="Свидетельство о профессиональном обучении">
+					<img src="https://devdenis.ru/wp-content/uploads/2025/11/ud1.jpg" alt="Свидетельство о профессиональном обучении">
 					<figcaption>Свидетельство о профессиональном обучении учебного центра "ЦЕНЗОР"</figcaption>
 				</figure>
 				<figure class="courses-figure">
-					<img src="http://localhost:8080/wp-content/uploads/2025/11/ud3.jpg" alt="Диплом о профессиональной переподготовке">
+					<img src="https://devdenis.ru/wp-content/uploads/2025/11/ud3.jpg" alt="Диплом о профессиональной переподготовке">
 					<figcaption>Диплом о профессиональной переподготовке</figcaption>
 				</figure>
 				<figure class="courses-figure">
-					<img src="http://localhost:8080/wp-content/uploads/2025/11/ud2.jpg" alt="Образец свидетельства о получении профессии">
+					<img src="https://devdenis.ru/wp-content/uploads/2025/11/ud2.jpg" alt="Образец свидетельства о получении профессии">
 					<figcaption>Образец свидетельства о получении профессии</figcaption>
 				</figure>
 			</div>
