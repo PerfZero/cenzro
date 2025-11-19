@@ -9,9 +9,39 @@
 <section class="reviews-section">
 	<div class="container">
 		<h2 class="reviews-title">Отзывы наших клиентов</h2>
-		<div class="reviews-widget">
-		<div style="width:560px;height:800px;overflow:hidden;position:relative;"><iframe style="width:100%;height:100%;border:1px solid #e6e6e6;border-radius:8px;box-sizing:border-box" src="https://yandex.ru/maps-reviews-widget/143820595866?comments"></iframe><a href="https://yandex.ru/maps/org/tsenzor/143820595866/" target="_blank" style="box-sizing:border-box;text-decoration:none;color:#b3b3b3;font-size:10px;font-family:YS Text,sans-serif;padding:0 20px;position:absolute;bottom:8px;width:100%;text-align:center;left:0;overflow:hidden;text-overflow:ellipsis;display:block;max-height:14px;white-space:nowrap;padding:0 16px;box-sizing:border-box">Цензор на карте Шахт — Яндекс Карты</a></div>
-		</div>
+		
+      
+<div style="display: flex; justify-content: center;margin-top: 20px;border-radius: 20px;">
+    <iframe title="Виджет с отзывами «Карусель» от MyReviews" style="width: 100%; height: 100%; max-width: 1170px; border: none; outline: none; padding: 0; margin: 0" id="myReviews__block-widget">
+    </iframe>
+</div>
+
+
+      
+<script src="https://myreviews.dev/widget/dist/index.js" defer></script>
+<script>
+    (function (){
+      var myReviewsInit = function () {
+        new window.myReviews.BlockWidget({
+        uuid: "bc917803-2892-4a2e-ad59-4779c2fb4788",
+        name: "g9167214",
+        additionalFrame:"none",
+        lang:"ru",
+        widgetId: "1"
+        }).init();
+
+      };
+    if (document.readyState === "loading") {
+      document.addEventListener('DOMContentLoaded', function () {
+          myReviewsInit()
+      })
+    } else {
+      myReviewsInit()
+    }
+    })()
+</script>
+  
+    
 	</div>
 </section>
 

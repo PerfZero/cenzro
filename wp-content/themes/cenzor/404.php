@@ -12,6 +12,8 @@ get_header();
 
 	<main id="primary" class="site-main">
 
+		<?php get_template_part( 'template-parts/breadcrumbs' ); ?>
+
 		<section class="error-404 not-found">
 			<header class="page-header">
 				<h1 class="page-title"><?php esc_html_e( 'Oops! That page can&rsquo;t be found.', 'cenzor' ); ?></h1>

@@ -10,6 +10,8 @@ $professions = new WP_Query( array(
 
 <main id="primary" class="site-main">
 
+	<?php get_template_part( 'template-parts/breadcrumbs' ); ?>
+
 	<?php if ( $professions->have_posts() ) : ?>
 
 		<section class="profession-archive-section">
