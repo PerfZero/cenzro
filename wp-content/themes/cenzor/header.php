@@ -97,7 +97,7 @@
 
 				<div class="header-right">
 					<div class="header-phone">
-						<?php echo do_shortcode( '[belingogeo_city_field field="city_phone"]' ); ?>
+						<a class="header-phone " href="tel:78003026256">8 (800) 302-62-56</a>
 					</div>
 
 					<div class="header-city">

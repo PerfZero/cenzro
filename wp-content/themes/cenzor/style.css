@@ -529,6 +529,7 @@ body {
 	color: #404040;
 	font-weight: 500;
 	white-space: nowrap;
+	text-decoration: none;
 	font-size: 0.95rem;
 }
 
