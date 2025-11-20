@@ -14,20 +14,9 @@ get_header();
 	while ( have_posts() ) :
 		the_post();
 
-		$profession_image = get_field( 'profession_image' );
 		$image_url = '';
 		
-		if ( $profession_image ) {
-			if ( is_array( $profession_image ) && isset( $profession_image['url'] ) ) {
-				$image_url = $profession_image['url'];
-			} elseif ( is_numeric( $profession_image ) ) {
-				$image_url = wp_get_attachment_image_url( $profession_image, 'full' );
-			} elseif ( is_string( $profession_image ) ) {
-				$image_url = $profession_image;
-			}
-		}
-		
-		if ( ! $image_url && has_post_thumbnail() ) {
+		if ( has_post_thumbnail() ) {
 			$image_url = get_the_post_thumbnail_url( get_the_ID(), 'full' );
 		}
 
