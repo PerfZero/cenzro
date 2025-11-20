@@ -129,25 +129,14 @@ get_header();
 					'post_type'      => 'profession',
 					'posts_per_page' => -1,
 					'post_status'    => 'publish',
-					'post_parent'    => 0,
+			
 				) );
 
 				if ( $professions->have_posts() ) :
 					while ( $professions->have_posts() ) : $professions->the_post();
-						$profession_image = get_field( 'profession_image' );
 						$image_url = '';
 						
-						if ( $profession_image ) {
-							if ( is_array( $profession_image ) && isset( $profession_image['url'] ) ) {
-								$image_url = $profession_image['url'];
-							} elseif ( is_numeric( $profession_image ) ) {
-								$image_url = wp_get_attachment_image_url( $profession_image, 'full' );
-							} elseif ( is_string( $profession_image ) ) {
-								$image_url = $profession_image;
-							}
-						}
-						
-						if ( ! $image_url && has_post_thumbnail() ) {
+						if ( has_post_thumbnail() ) {
 							$image_url = get_the_post_thumbnail_url( get_the_ID(), 'full' );
 						}
 
@@ -334,20 +323,9 @@ get_header();
 
 							if ( $child_professions->have_posts() ) :
 								while ( $child_professions->have_posts() ) : $child_professions->the_post();
-									$profession_image = get_field( 'profession_image' );
 									$image_url = '';
 									
-									if ( $profession_image ) {
-										if ( is_array( $profession_image ) && isset( $profession_image['url'] ) ) {
-											$image_url = $profession_image['url'];
-										} elseif ( is_numeric( $profession_image ) ) {
-											$image_url = wp_get_attachment_image_url( $profession_image, 'full' );
-										} elseif ( is_string( $profession_image ) ) {
-											$image_url = $profession_image;
-										}
-									}
-									
-									if ( ! $image_url && has_post_thumbnail() ) {
+									if ( has_post_thumbnail() ) {
 										$image_url = get_the_post_thumbnail_url( get_the_ID(), 'full' );
 									}
 									?>
