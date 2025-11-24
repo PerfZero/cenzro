@@ -207,7 +207,7 @@ get_header();
 					?>
 					<div class="profession-tab-card profession-tab-card-promo" data-parent="all">
 						<div class="profession-tab-promo-content">
-							<div class="profession-tab-promo-text">Так же попробуй другой курс по цене ниже этой 50%</div>
+							<div class="profession-tab-promo-text">Также попробуй другой курс по цене ниже этой 50%</div>
 						</div>
 					</div>
 				</div>
