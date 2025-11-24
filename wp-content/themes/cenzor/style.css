@@ -715,6 +715,7 @@ body {
 	position: relative;
 	z-index: 999;
 	display: flex;
+	max-width: 1440px;
 	flex-direction: column;
 }
 
