@@ -119,147 +119,6 @@ get_header();
 	</div>
 </section>
 
-<section class="professions-section">
-	<div class="container">
-		<h2 class="professions-title">Какую профессию хотите выбрать?</h2>
-		<div class="swiper professions-swiper">
-			<div class="swiper-wrapper">
-				<?php
-				$professions = new WP_Query( array(
-					'post_type'      => 'profession',
-					'posts_per_page' => -1,
-					'post_status'    => 'publish',
-			
-				) );
-
-				if ( $professions->have_posts() ) :
-					while ( $professions->have_posts() ) : $professions->the_post();
-						$image_url = '';
-						
-						if ( has_post_thumbnail() ) {
-							$image_url = get_the_post_thumbnail_url( get_the_ID(), 'full' );
-						}
-
-						$min_price = get_field( 'profession_min_price' );
-						if ( ! $min_price ) {
-							$pricing = get_field( 'profession_tab_pricing' );
-							if ( $pricing && is_array( $pricing ) && ! empty( $pricing ) ) {
-								$prices = array();
-								foreach ( $pricing as $item ) {
-									if ( isset( $item['price'] ) ) {
-										$price_clean = preg_replace( '/[^0-9]/', '', $item['price'] );
-										if ( $price_clean ) {
-											$prices[] = intval( $price_clean );
-										}
-									}
-								}
-								if ( ! empty( $prices ) ) {
-									$min_price = min( $prices );
-									$min_price = number_format( $min_price, 0, ',', ' ' );
-								}
-							}
-						}
-						?>
-						<div class="swiper-slide">
-							<div class="profession-card">
-								<?php if ( $image_url ) : ?>
-									<div class="profession-image">
-										<img src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>" loading="lazy">
-									</div>
-								<?php endif; ?>
-								<div class="profession-card-content">
-									<div class="profession-name"><?php echo esc_html( get_the_title() ); ?></div>
-									<?php if ( $min_price ) : ?>
-										<div class="profession-price">
-											<span class="profession-price-label">Стоимость</span>
-											<span class="profession-price-value">от <?php echo esc_html( $min_price ); ?> руб.</span>
-										</div>
-									<?php endif; ?>
-									<a href="<?php echo esc_url( get_permalink() ); ?>" class="profession-button">Подробнее</a>
-								</div>
-							</div>
-						</div>
-						<?php
-					endwhile;
-					wp_reset_postdata();
-				endif;
-				?>
-			</div>
-			<div class="swiper-button-next"></div>
-			<div class="swiper-button-prev"></div>
-			<div class="swiper-pagination"></div>
-		</div>
-	</div>
-</section>
-
-<section class="advantages-section">
-	<div class="container">
-		<h2 class="advantages-title">Почему более 31 000 выпускников выбрали «<span class="advantages-title-accent">ЦЕНЗОР</span>»?</h2>
-		<div class="advantages-grid">
-			<div class="advantage-item">
-				<div class="advantage-icon">
-					<i class="fas fa-shield-alt"></i>
-				</div>
-				<h3 class="advantage-title">Гарантия качества</h3>
-				<p class="advantage-description">Мы — учебный центр, работающий по всей России с высочайшим уровнем обучения, сервиса и организации учебного процесса.</p>
-			</div>
-			<div class="advantage-item">
-				<div class="advantage-icon">
-					<i class="fas fa-clock"></i>
-				</div>
-				<h3 class="advantage-title">Гарантия соблюдения сроков</h3>
-				<p class="advantage-description">Сроки указаны в договоре. За каждый день просрочки возвращаем 0,1% от стоимости услуги.</p>
-			</div>
-			<div class="advantage-item advantage-empty"></div>
-			<div class="advantage-item">
-				<div class="advantage-icon">
-					<i class="fas fa-tag"></i>
-				</div>
-				<h3 class="advantage-title">Гарантия точной стоимости</h3>
-				<p class="advantage-description">Мы сразу называем конечную цену. Дополнительных расходов у Вас не будет на протяжении всего обучения!</p>
-			</div>
-			<div class="advantage-item">
-				<div class="advantage-icon">
-					<i class="fas fa-check-circle"></i>
-				</div>
-				<h3 class="advantage-title">Гарантия надежности</h3>
-				<p class="advantage-description">Своевременное внесение документов в ФИС ФРДО и Минтруд.</p>
-			</div>
-			<div class="advantage-item advantage-empty"></div>
-			<div class="advantage-item">
-				<div class="advantage-icon">
-					<i class="fas fa-bullseye"></i>
-				</div>
-				<h3 class="advantage-title">Нацеленность на результат</h3>
-				<p class="advantage-description">Мы помогаем нашим студентам достигать поставленных целей и получать практические навыки, необходимые для успешной работы.</p>
-			</div>
-			<div class="advantage-item">
-				<div class="advantage-icon">
-					<i class="fas fa-laptop-code"></i>
-				</div>
-				<h3 class="advantage-title">Новейшие технологии</h3>
-				<p class="advantage-description">Используем современные образовательные платформы и методики для эффективного дистанционного обучения.</p>
-			</div>
-			<div class="advantage-item advantage-empty"></div>
-			<div class="advantage-item">
-				<div class="advantage-icon">
-					<i class="fas fa-certificate"></i>
-				</div>
-				<h3 class="advantage-title">Официальная лицензия</h3>
-				<p class="advantage-description">Государственная лицензия на образовательную деятельность. Все документы соответствуют требованиям законодательства РФ.</p>
-			</div>
-			<div class="advantage-item">
-				<div class="advantage-icon">
-					<i class="fas fa-user-tie"></i>
-				</div>
-				<h3 class="advantage-title">Персональный куратор</h3>
-				<p class="advantage-description">Каждому студенту назначается персональный куратор, который помогает на всех этапах обучения и отвечает на вопросы.</p>
-			</div>
-			<div class="advantage-item advantage-empty"></div>
-		</div>
-	</div>
-</section>
-
 <section class="professions-tabs-section">
 	<div class="container">
 		<div class="professions-tabs-wrapper">
@@ -356,6 +215,150 @@ get_header();
 		</div>
 	</div>
 </section>
+
+<section class="advantages-section">
+	<div class="container">
+		<h2 class="advantages-title">Почему более 31 000 выпускников выбрали «<span class="advantages-title-accent">ЦЕНЗОР</span>»?</h2>
+		<div class="advantages-grid">
+			<div class="advantage-item">
+				<div class="advantage-icon">
+					<i class="fas fa-shield-alt"></i>
+				</div>
+				<h3 class="advantage-title">Гарантия качества</h3>
+				<p class="advantage-description">Мы — учебный центр, работающий по всей России с высочайшим уровнем обучения, сервиса и организации учебного процесса.</p>
+			</div>
+			<div class="advantage-item">
+				<div class="advantage-icon">
+					<i class="fas fa-clock"></i>
+				</div>
+				<h3 class="advantage-title">Гарантия соблюдения сроков</h3>
+				<p class="advantage-description">Сроки указаны в договоре. За каждый день просрочки возвращаем 0,1% от стоимости услуги.</p>
+			</div>
+			<div class="advantage-item advantage-empty"></div>
+			<div class="advantage-item">
+				<div class="advantage-icon">
+					<i class="fas fa-tag"></i>
+				</div>
+				<h3 class="advantage-title">Гарантия точной стоимости</h3>
+				<p class="advantage-description">Мы сразу называем конечную цену. Дополнительных расходов у Вас не будет на протяжении всего обучения!</p>
+			</div>
+			<div class="advantage-item">
+				<div class="advantage-icon">
+					<i class="fas fa-check-circle"></i>
+				</div>
+				<h3 class="advantage-title">Гарантия надежности</h3>
+				<p class="advantage-description">Своевременное внесение документов в ФИС ФРДО и Минтруд.</p>
+			</div>
+			<div class="advantage-item advantage-empty"></div>
+			<div class="advantage-item">
+				<div class="advantage-icon">
+					<i class="fas fa-bullseye"></i>
+				</div>
+				<h3 class="advantage-title">Нацеленность на результат</h3>
+				<p class="advantage-description">Мы помогаем нашим студентам достигать поставленных целей и получать практические навыки, необходимые для успешной работы.</p>
+			</div>
+			<div class="advantage-item">
+				<div class="advantage-icon">
+					<i class="fas fa-laptop-code"></i>
+				</div>
+				<h3 class="advantage-title">Новейшие технологии</h3>
+				<p class="advantage-description">Используем современные образовательные платформы и методики для эффективного дистанционного обучения.</p>
+			</div>
+			<div class="advantage-item advantage-empty"></div>
+			<div class="advantage-item">
+				<div class="advantage-icon">
+					<i class="fas fa-certificate"></i>
+				</div>
+				<h3 class="advantage-title">Официальная лицензия</h3>
+				<p class="advantage-description">Государственная лицензия на образовательную деятельность. Все документы соответствуют требованиям законодательства РФ.</p>
+			</div>
+			<div class="advantage-item">
+				<div class="advantage-icon">
+					<i class="fas fa-user-tie"></i>
+				</div>
+				<h3 class="advantage-title">Персональный куратор</h3>
+				<p class="advantage-description">Каждому студенту назначается персональный куратор, который помогает на всех этапах обучения и отвечает на вопросы.</p>
+			</div>
+			<div class="advantage-item advantage-empty"></div>
+		</div>
+	</div>
+</section>
+
+
+
+<section class="professions-section">
+	<div class="container">
+		<h2 class="professions-title">Какую профессию хотите выбрать?</h2>
+		<div class="swiper professions-swiper">
+			<div class="swiper-wrapper">
+				<?php
+				$professions = new WP_Query( array(
+					'post_type'      => 'profession',
+					'posts_per_page' => -1,
+					'post_status'    => 'publish',
+			
+				) );
+
+				if ( $professions->have_posts() ) :
+					while ( $professions->have_posts() ) : $professions->the_post();
+						$image_url = '';
+						
+						if ( has_post_thumbnail() ) {
+							$image_url = get_the_post_thumbnail_url( get_the_ID(), 'full' );
+						}
+
+						$min_price = get_field( 'profession_min_price' );
+						if ( ! $min_price ) {
+							$pricing = get_field( 'profession_tab_pricing' );
+							if ( $pricing && is_array( $pricing ) && ! empty( $pricing ) ) {
+								$prices = array();
+								foreach ( $pricing as $item ) {
+									if ( isset( $item['price'] ) ) {
+										$price_clean = preg_replace( '/[^0-9]/', '', $item['price'] );
+										if ( $price_clean ) {
+											$prices[] = intval( $price_clean );
+										}
+									}
+								}
+								if ( ! empty( $prices ) ) {
+									$min_price = min( $prices );
+									$min_price = number_format( $min_price, 0, ',', ' ' );
+								}
+							}
+						}
+						?>
+						<div class="swiper-slide">
+							<div class="profession-card">
+								<?php if ( $image_url ) : ?>
+									<div class="profession-image">
+										<img src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>" loading="lazy">
+									</div>
+								<?php endif; ?>
+								<div class="profession-card-content">
+									<div class="profession-name"><?php echo esc_html( get_the_title() ); ?></div>
+									<?php if ( $min_price ) : ?>
+										<div class="profession-price">
+											<span class="profession-price-label">Стоимость</span>
+											<span class="profession-price-value">от <?php echo esc_html( $min_price ); ?> руб.</span>
+										</div>
+									<?php endif; ?>
+									<a href="<?php echo esc_url( get_permalink() ); ?>" class="profession-button">Подробнее</a>
+								</div>
+							</div>
+						</div>
+						<?php
+					endwhile;
+					wp_reset_postdata();
+				endif;
+				?>
+			</div>
+			<div class="swiper-button-next"></div>
+			<div class="swiper-button-prev"></div>
+			<div class="swiper-pagination"></div>
+		</div>
+	</div>
+</section>
+
 
 <?php get_template_part( 'template-parts/certificates-section' ); ?>
 
