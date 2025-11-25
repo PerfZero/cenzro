@@ -162,6 +162,8 @@ body {
 	font-size: 0.9rem;
 }
 
+
+
 .header-top-search .search-submit:hover {
 	color: var(--accent-color);
 }
@@ -898,6 +900,10 @@ gap: 70px;
 	.hero-section {
 		margin-top: 20px;
 		padding: 0 10px;
+	}
+
+	.header-top-search .search-submit i{
+		color: var(--accent-color);
 	}
 
 	.hero-section .container {
