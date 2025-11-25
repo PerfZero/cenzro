@@ -115,7 +115,7 @@ body {
 
 .header-top-search .search-field {
 	padding: 0.4em 2.5em 0.4em 1em;
-	border: 2px solid #0073aa;
+	border: 2px solid var(--accent-color);
 	border-radius: 4px;
 	font-size: 0.85rem;
 	width: 100%;
@@ -124,22 +124,22 @@ body {
 }
 
 .header-top-search .search-field::placeholder {
-	color: #0073aa;
+	color: var(--accent-color);
 	font-weight: bold;
 	opacity: 1;
 }
 
 .header-top-search .search-field::-webkit-input-placeholder {
-	color: #0073aa;
+	color: var(--accent-color);
 
 }
 
 .header-top-search .search-field::-moz-placeholder {
-	color: #0073aa;
+	color: var(--accent-color);
 }
 
 .header-top-search .search-field:-ms-input-placeholder {
-	color: #0073aa;
+	color: var(--accent-color);
 }
 
 .header-top-search .search-field:focus {
@@ -152,7 +152,7 @@ body {
 	right: 0.4em;
 	background: none;
 	border: none;
-	color: #0073aa;
+	color: var(--accent-color);
 	cursor: pointer;
 	padding: 0.3em;
 	display: flex;
