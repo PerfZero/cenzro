@@ -542,6 +542,8 @@ get_header();
 	</div>
 </section>
 
+<?php get_template_part( 'template-parts/quiz-section' ); ?>
+
 <?php get_template_part( 'template-parts/reviews-section' ); ?>
 
 <?php get_template_part( 'template-parts/map-section' ); ?>

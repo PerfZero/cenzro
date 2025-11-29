@@ -64,13 +64,19 @@ function cenzor_scripts() {
 	wp_enqueue_script( 'cenzor-modal', get_template_directory_uri() . '/js/modal.js', array(), _S_VERSION, true );
 	wp_enqueue_script( 'cenzor-course-pdf-download', get_template_directory_uri() . '/js/course-pdf-download.js', array(), _S_VERSION, true );
 	wp_enqueue_script( 'cenzor-reviews', get_template_directory_uri() . '/js/reviews.js', array(), _S_VERSION, true );
+	wp_enqueue_script( 'cenzor-quiz', get_template_directory_uri() . '/js/quiz.js', array(), _S_VERSION, true );
 	wp_enqueue_script( 'cenzor-search-popup', get_template_directory_uri() . '/js/search-popup.js', array(), _S_VERSION, true );
 	
 	wp_localize_script( 'cenzor-course-pdf-download', 'cenzorAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
 	wp_localize_script( 'cenzor-reviews', 'cenzorAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
+	wp_localize_script( 'cenzor-quiz', 'cenzorAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
 
 	if ( is_singular( 'profession' ) ) {
 		wp_enqueue_script( 'cenzor-profession-single-tabs', get_template_directory_uri() . '/js/profession-single-tabs.js', array(), _S_VERSION, true );
+	}
+
+	if ( is_singular( 'quiz' ) ) {
+		wp_enqueue_script( 'cenzor-quiz', get_template_directory_uri() . '/js/quiz.js', array(), _S_VERSION, true );
 	}
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
@@ -931,4 +937,437 @@ function cenzor_review_column_content( $column, $post_id ) {
 	}
 }
 add_action( 'manage_review_posts_custom_column', 'cenzor_review_column_content', 10, 2 );
+
+function cenzor_submit_quiz() {
+	$quiz_id = intval( $_POST['quiz_id'] ?? 0 );
+	$total_points = intval( $_POST['total_points'] ?? 0 );
+	$answers = $_POST['answers'] ?? array();
+	$name = sanitize_text_field( $_POST['name'] ?? '' );
+	$phone = sanitize_text_field( $_POST['phone'] ?? '' );
+	$email = sanitize_email( $_POST['email'] ?? '' );
+
+	if ( ! $quiz_id ) {
+		wp_send_json_error( array( 'message' => 'Квиз не найден' ) );
+	}
+
+	if ( empty( $name ) ) {
+		wp_send_json_error( array( 'message' => 'Укажите ваше имя' ) );
+	}
+
+	if ( empty( $phone ) && empty( $email ) ) {
+		wp_send_json_error( array( 'message' => 'Укажите телефон или email' ) );
+	}
+
+	$results = get_field( 'quiz_results', $quiz_id );
+	$result_html = '<div class="quiz-result-default"><h2>Спасибо за прохождение квиза!</h2><p>Вы набрали ' . $total_points . ' баллов.</p></div>';
+
+	if ( $results ) {
+		foreach ( $results as $result ) {
+			$min_points = intval( $result['result_min_points'] ?? 0 );
+			$max_points = intval( $result['result_max_points'] ?? 0 );
+			
+			if ( $total_points >= $min_points && $total_points <= $max_points ) {
+				$result_title = $result['result_title'] ?? '';
+				$result_description = $result['result_description'] ?? '';
+				
+				$result_html = '<div class="quiz-result-item">';
+				$result_html .= '<h2 class="quiz-result-title">' . esc_html( $result_title ) . '</h2>';
+				if ( $result_description ) {
+					$result_html .= '<div class="quiz-result-description">' . wp_kses_post( nl2br( $result_description ) ) . '</div>';
+				}
+				$result_html .= '<div class="quiz-result-points">Вы набрали: ' . $total_points . ' баллов</div>';
+				$result_html .= '</div>';
+				break;
+			}
+		}
+	}
+
+	$post_id = wp_insert_post( array(
+		'post_title'   => 'Результат квиза #' . $quiz_id . ' - ' . $name . ' - ' . $total_points . ' баллов',
+		'post_content' => 'Имя: ' . $name . "\n" . 'Телефон: ' . $phone . "\n" . 'Email: ' . $email . "\n" . 'Баллы: ' . $total_points . "\n" . 'Ответы: ' . json_encode( $answers ),
+		'post_status'  => 'publish',
+		'post_type'    => 'quiz_result',
+	) );
+
+	if ( $post_id && ! is_wp_error( $post_id ) ) {
+		add_post_meta( $post_id, '_quiz_id', $quiz_id );
+		add_post_meta( $post_id, '_quiz_points', $total_points );
+		add_post_meta( $post_id, '_quiz_answers', $answers );
+		add_post_meta( $post_id, '_quiz_name', $name );
+		add_post_meta( $post_id, '_quiz_phone', $phone );
+		add_post_meta( $post_id, '_quiz_email', $email );
+	}
+
+	$admin_email = get_option( 'admin_email' );
+	$subject = 'Новый результат квиза: ' . $name;
+	$message = "Новый результат квиза\n\n";
+	$message .= "Имя: " . $name . "\n";
+	$message .= "Телефон: " . ( $phone ? $phone : 'не указан' ) . "\n";
+	$message .= "Email: " . ( $email ? $email : 'не указан' ) . "\n";
+	$message .= "Квиз ID: " . $quiz_id . "\n";
+	$message .= "Баллы: " . $total_points . "\n";
+
+	wp_mail( $admin_email, $subject, $message );
+
+	wp_send_json_success( array( 'html' => $result_html ) );
+}
+add_action( 'wp_ajax_submit_quiz', 'cenzor_submit_quiz' );
+add_action( 'wp_ajax_nopriv_submit_quiz', 'cenzor_submit_quiz' );
+
+function cenzor_register_quiz_result_post_type() {
+	$labels = array(
+		'name'                  => 'Результаты квизов',
+		'singular_name'         => 'Результат квиза',
+		'menu_name'             => 'Результаты квизов',
+		'add_new'               => 'Добавить новый',
+		'add_new_item'          => 'Добавить новый результат',
+		'edit_item'             => 'Редактировать результат',
+		'new_item'              => 'Новый результат',
+		'view_item'             => 'Просмотреть результат',
+		'search_items'          => 'Искать результаты',
+		'not_found'             => 'Результаты не найдены',
+		'not_found_in_trash'    => 'В корзине результатов не найдено',
+	);
+
+	$args = array(
+		'label'                 => 'Результаты квизов',
+		'labels'                => $labels,
+		'supports'              => array( 'title', 'editor' ),
+		'hierarchical'          => false,
+		'public'                => false,
+		'show_ui'               => true,
+		'show_in_menu'          => true,
+		'menu_position'         => 28,
+		'menu_icon'             => 'dashicons-chart-bar',
+		'show_in_admin_bar'     => true,
+		'show_in_nav_menus'     => false,
+		'can_export'            => true,
+		'has_archive'           => false,
+		'exclude_from_search'   => true,
+		'publicly_queryable'    => false,
+		'capability_type'       => 'post',
+		'show_in_rest'          => false,
+	);
+
+	register_post_type( 'quiz_result', $args );
+}
+add_action( 'init', 'cenzor_register_quiz_result_post_type', 0 );
+
+function cenzor_quiz_result_columns( $columns ) {
+	$new_columns = array();
+	$new_columns['cb'] = $columns['cb'];
+	$new_columns['title'] = 'Результат';
+	$new_columns['quiz_result_name'] = 'Имя';
+	$new_columns['quiz_result_phone'] = 'Телефон';
+	$new_columns['quiz_result_email'] = 'Email';
+	$new_columns['quiz_result_points'] = 'Баллы';
+	$new_columns['date'] = 'Дата';
+	return $new_columns;
+}
+add_filter( 'manage_quiz_result_posts_columns', 'cenzor_quiz_result_columns' );
+
+function cenzor_quiz_result_column_content( $column, $post_id ) {
+	switch ( $column ) {
+		case 'quiz_result_name':
+			echo esc_html( get_post_meta( $post_id, '_quiz_name', true ) );
+			break;
+		case 'quiz_result_phone':
+			$phone = get_post_meta( $post_id, '_quiz_phone', true );
+			if ( $phone ) {
+				echo '<a href="tel:' . esc_attr( $phone ) . '">' . esc_html( $phone ) . '</a>';
+			} else {
+				echo '<span style="color: #999;">—</span>';
+			}
+			break;
+		case 'quiz_result_email':
+			$email = get_post_meta( $post_id, '_quiz_email', true );
+			if ( $email ) {
+				echo '<a href="mailto:' . esc_attr( $email ) . '">' . esc_html( $email ) . '</a>';
+			} else {
+				echo '<span style="color: #999;">—</span>';
+			}
+			break;
+		case 'quiz_result_points':
+			$points = get_post_meta( $post_id, '_quiz_points', true );
+			echo esc_html( $points ? $points : '0' ) . ' баллов';
+			break;
+	}
+}
+add_action( 'manage_quiz_result_posts_custom_column', 'cenzor_quiz_result_column_content', 10, 2 );
+
+function cenzor_register_quiz_post_type() {
+	$labels = array(
+		'name'                  => 'Квизы',
+		'singular_name'         => 'Квиз',
+		'menu_name'             => 'Квизы',
+		'add_new'               => 'Добавить новый',
+		'add_new_item'          => 'Добавить новый квиз',
+		'edit_item'             => 'Редактировать квиз',
+		'new_item'              => 'Новый квиз',
+		'view_item'             => 'Просмотреть квиз',
+		'search_items'          => 'Искать квизы',
+		'not_found'             => 'Квизы не найдены',
+		'not_found_in_trash'    => 'В корзине квизов не найдено',
+	);
+
+	$args = array(
+		'label'                 => 'Квизы',
+		'labels'                => $labels,
+		'supports'              => array( 'title', 'editor', 'thumbnail' ),
+		'hierarchical'          => false,
+		'public'                => true,
+		'show_ui'               => true,
+		'show_in_menu'          => true,
+		'menu_position'         => 27,
+		'menu_icon'             => 'dashicons-clipboard',
+		'show_in_admin_bar'     => true,
+		'show_in_nav_menus'     => true,
+		'can_export'            => true,
+		'has_archive'           => true,
+		'exclude_from_search'   => false,
+		'publicly_queryable'    => true,
+		'capability_type'       => 'post',
+		'show_in_rest'          => true,
+	);
+
+	register_post_type( 'quiz', $args );
+}
+add_action( 'init', 'cenzor_register_quiz_post_type', 0 );
+
+function cenzor_create_sample_quiz() {
+	$existing_quiz = get_page_by_title( 'Какую профессию выбрать?', OBJECT, 'quiz' );
+
+	if ( $existing_quiz ) {
+		return;
+	}
+
+	$quiz_id = wp_insert_post( array(
+		'post_title'   => 'Какую профессию выбрать?',
+		'post_content' => 'Пройдите наш квиз, чтобы узнать, какая профессия вам подходит больше всего.',
+		'post_status'  => 'publish',
+		'post_type'    => 'quiz',
+	) );
+
+	if ( is_wp_error( $quiz_id ) || ! $quiz_id ) {
+		return;
+	}
+
+	$questions = array(
+		array(
+			'question_text' => 'Какой формат работы вам больше подходит?',
+			'question_answers' => array(
+				array(
+					'answer_text'   => 'Работа в офисе с коллегами',
+					'answer_points' => 2,
+				),
+				array(
+					'answer_text'   => 'Удаленная работа из дома',
+					'answer_points' => 5,
+				),
+				array(
+					'answer_text'   => 'Смешанный формат (офис + удаленка)',
+					'answer_points' => 4,
+				),
+				array(
+					'answer_text'   => 'Работа на выезде, командировки',
+					'answer_points' => 3,
+				),
+			),
+		),
+		array(
+			'question_text' => 'Что для вас важнее в работе?',
+			'question_answers' => array(
+				array(
+					'answer_text'   => 'Стабильный доход',
+					'answer_points' => 3,
+				),
+				array(
+					'answer_text'   => 'Возможность карьерного роста',
+					'answer_points' => 5,
+				),
+				array(
+					'answer_text'   => 'Интересные задачи и творчество',
+					'answer_points' => 4,
+				),
+				array(
+					'answer_text'   => 'Гибкий график и свободное время',
+					'answer_points' => 2,
+				),
+			),
+		),
+		array(
+			'question_text' => 'Какой уровень ответственности вы готовы взять на себя?',
+			'question_answers' => array(
+				array(
+					'answer_text'   => 'Минимальный, выполнять простые задачи',
+					'answer_points' => 1,
+				),
+				array(
+					'answer_text'   => 'Средний, работать в команде',
+					'answer_points' => 3,
+				),
+				array(
+					'answer_text'   => 'Высокий, управлять проектами',
+					'answer_points' => 5,
+				),
+				array(
+					'answer_text'   => 'Максимальный, принимать важные решения',
+					'answer_points' => 4,
+				),
+			),
+		),
+		array(
+			'question_text' => 'Как вы относитесь к обучению новому?',
+			'question_answers' => array(
+				array(
+					'answer_text'   => 'Очень люблю, постоянно изучаю новое',
+					'answer_points' => 5,
+				),
+				array(
+					'answer_text'   => 'Готов учиться, если это нужно для работы',
+					'answer_points' => 4,
+				),
+				array(
+					'answer_text'   => 'Предпочитаю работать с уже известными инструментами',
+					'answer_points' => 2,
+				),
+				array(
+					'answer_text'   => 'Не люблю перемены, лучше стабильность',
+					'answer_points' => 1,
+				),
+			),
+		),
+		array(
+			'question_text' => 'Какой тип задач вам интереснее?',
+			'question_answers' => array(
+				array(
+					'answer_text'   => 'Работа с людьми, общение, продажи',
+					'answer_points' => 3,
+				),
+				array(
+					'answer_text'   => 'Аналитика, работа с данными',
+					'answer_points' => 5,
+				),
+				array(
+					'answer_text'   => 'Творчество, дизайн, креатив',
+					'answer_points' => 4,
+				),
+				array(
+					'answer_text'   => 'Технические задачи, программирование',
+					'answer_points' => 5,
+				),
+			),
+		),
+	);
+
+	update_field( 'quiz_questions', $questions, $quiz_id );
+
+	$results = array(
+		array(
+			'result_min_points' => 20,
+			'result_max_points' => 25,
+			'result_title'     => 'Вы готовы к карьерному росту!',
+			'result_description' => 'Отлично! Вы показали высокую мотивацию к развитию и готовность брать на себя ответственность. Рекомендуем рассмотреть профессии с высоким потенциалом роста: IT-специалист, менеджер проектов, аналитик данных.',
+		),
+		array(
+			'result_min_points' => 15,
+			'result_max_points' => 19,
+			'result_title'     => 'Вы ищете баланс между стабильностью и развитием',
+			'result_description' => 'Вы цените стабильность, но готовы к развитию. Рассмотрите профессии, которые предлагают хороший баланс: маркетолог, специалист по HR, бухгалтер с перспективой роста.',
+		),
+		array(
+			'result_min_points' => 10,
+			'result_max_points' => 14,
+			'result_title'     => 'Вы предпочитаете стабильную работу',
+			'result_description' => 'Для вас важна стабильность и предсказуемость. Рекомендуем профессии с четкими задачами и стабильным графиком: администратор, оператор call-центра, специалист по документообороту.',
+		),
+		array(
+			'result_min_points' => 5,
+			'result_max_points' => 9,
+			'result_title'     => 'Начните с простых профессий',
+			'result_description' => 'Рекомендуем начать с профессий, которые не требуют высокой ответственности и позволяют постепенно развивать навыки: помощник специалиста, курьер, упаковщик.',
+		),
+	);
+
+	update_field( 'quiz_results', $results, $quiz_id );
+}
+add_action( 'after_setup_theme', 'cenzor_create_sample_quiz' );
+
+function cenzor_quiz_shortcode( $atts ) {
+	$atts = shortcode_atts( array(
+		'id' => 0,
+	), $atts );
+
+	$quiz_id = intval( $atts['id'] );
+	if ( ! $quiz_id ) {
+		return '';
+	}
+
+	$quiz = get_post( $quiz_id );
+	if ( ! $quiz || $quiz->post_type !== 'quiz' || $quiz->post_status !== 'publish' ) {
+		return '';
+	}
+
+	$questions = get_field( 'quiz_questions', $quiz_id );
+	if ( ! $questions ) {
+		return '';
+	}
+
+	ob_start();
+	?>
+	<div class="quiz-embed-container" data-quiz-id="<?php echo esc_attr( $quiz_id ); ?>">
+		<div class="quiz-embed-progress">
+			<div class="quiz-embed-progress-bar">
+				<div class="quiz-embed-progress-fill" id="quiz-embed-progress-fill-<?php echo $quiz_id; ?>"></div>
+			</div>
+			<span class="quiz-embed-progress-text" id="quiz-embed-progress-text-<?php echo $quiz_id; ?>">Вопрос 1 из <?php echo count( $questions ); ?></span>
+		</div>
+
+		<form class="quiz-embed-form" id="quiz-embed-form-<?php echo $quiz_id; ?>">
+			<?php foreach ( $questions as $q_index => $question ) : ?>
+				<?php
+				$question_text = $question['question_text'] ?? '';
+				$answers = $question['question_answers'] ?? array();
+				?>
+				<?php if ( $question_text && ! empty( $answers ) ) : ?>
+					<div class="quiz-embed-question" data-question="<?php echo $q_index; ?>" <?php echo ( $q_index > 0 ) ? 'style="display: none;"' : ''; ?>>
+						<h3 class="quiz-embed-question-title"><?php echo esc_html( $question_text ); ?></h3>
+						<div class="quiz-embed-answers">
+							<?php foreach ( $answers as $a_index => $answer ) : ?>
+								<?php
+								$answer_text = $answer['answer_text'] ?? '';
+								$answer_points = $answer['answer_points'] ?? 1;
+								?>
+								<?php if ( $answer_text ) : ?>
+									<label class="quiz-embed-answer">
+										<input type="radio" name="question_<?php echo $q_index; ?>" value="<?php echo esc_attr( $a_index ); ?>" data-points="<?php echo esc_attr( $answer_points ); ?>" required>
+										<span class="quiz-embed-answer-text"><?php echo esc_html( $answer_text ); ?></span>
+									</label>
+								<?php endif; ?>
+							<?php endforeach; ?>
+						</div>
+						<div class="quiz-embed-navigation">
+							<?php if ( $q_index > 0 ) : ?>
+								<button type="button" class="quiz-embed-btn quiz-embed-btn-prev">Назад</button>
+							<?php endif; ?>
+							<?php if ( $q_index < count( $questions ) - 1 ) : ?>
+								<button type="button" class="quiz-embed-btn quiz-embed-btn-next">Далее</button>
+							<?php else : ?>
+								<button type="submit" class="quiz-embed-btn quiz-embed-btn-submit">Завершить квиз</button>
+							<?php endif; ?>
+						</div>
+					</div>
+				<?php endif; ?>
+			<?php endforeach; ?>
+		</form>
+
+		<div class="quiz-embed-result" id="quiz-embed-result-<?php echo $quiz_id; ?>" style="display: none;">
+			<div class="quiz-embed-result-content" id="quiz-embed-result-content-<?php echo $quiz_id; ?>"></div>
+			<button type="button" class="quiz-embed-btn quiz-embed-btn-restart" data-quiz-id="<?php echo $quiz_id; ?>">Пройти заново</button>
+		</div>
+	</div>
+	<?php
+	return ob_get_clean();
+}
+add_shortcode( 'quiz', 'cenzor_quiz_shortcode' );
 

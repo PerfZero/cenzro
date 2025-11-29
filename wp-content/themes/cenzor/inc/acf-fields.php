@@ -384,6 +384,178 @@ if ( function_exists( 'acf_add_local_field_group' ) ) {
 		)
 	);
 
+	acf_add_local_field_group(
+		array(
+			'key'                   => 'group_quiz',
+			'title'                 => 'Поля квиза',
+			'fields'                => array(
+				array(
+					'key'               => 'field_quiz_questions',
+					'label'             => 'Вопросы',
+					'name'              => 'quiz_questions',
+					'type'              => 'repeater',
+					'instructions'      => 'Добавьте вопросы для квиза',
+					'required'          => 1,
+					'conditional_logic' => 0,
+					'wrapper'           => array(
+						'width' => '',
+						'class' => '',
+						'id'    => '',
+					),
+					'collapsed'         => 'field_question_text',
+					'min'               => 1,
+					'max'               => 0,
+					'layout'            => 'block',
+					'button_label'      => 'Добавить вопрос',
+					'sub_fields'        => array(
+						array(
+							'key'               => 'field_question_text',
+							'label'             => 'Текст вопроса',
+							'name'              => 'question_text',
+							'type'              => 'text',
+							'required'          => 1,
+							'wrapper'           => array(
+								'width' => '',
+							),
+						),
+						array(
+							'key'               => 'field_question_answers',
+							'label'             => 'Варианты ответов',
+							'name'              => 'question_answers',
+							'type'              => 'repeater',
+							'instructions'      => 'Добавьте варианты ответов',
+							'required'          => 1,
+							'conditional_logic' => 0,
+							'wrapper'           => array(
+								'width' => '',
+							),
+							'collapsed'         => '',
+							'min'               => 2,
+							'max'               => 0,
+							'layout'            => 'table',
+							'button_label'      => 'Добавить ответ',
+							'sub_fields'        => array(
+								array(
+									'key'               => 'field_answer_text',
+									'label'             => 'Текст ответа',
+									'name'              => 'answer_text',
+									'type'              => 'text',
+									'required'          => 1,
+									'wrapper'           => array(
+										'width' => '',
+									),
+								),
+								array(
+									'key'               => 'field_answer_correct',
+									'label'             => 'Правильный ответ',
+									'name'              => 'answer_correct',
+									'type'              => 'true_false',
+									'instructions'      => 'Отметьте, если это правильный ответ',
+									'required'          => 0,
+									'default_value'     => 0,
+									'ui'                => 1,
+									'wrapper'           => array(
+										'width' => '',
+									),
+								),
+								array(
+									'key'               => 'field_answer_points',
+									'label'             => 'Баллы',
+									'name'              => 'answer_points',
+									'type'              => 'number',
+									'instructions'      => 'Количество баллов за этот ответ',
+									'required'          => 0,
+									'default_value'     => 1,
+									'min'               => 0,
+									'max'               => 100,
+									'wrapper'           => array(
+										'width' => '',
+									),
+								),
+							),
+						),
+					),
+				),
+				array(
+					'key'               => 'field_quiz_results',
+					'label'             => 'Результаты',
+					'name'              => 'quiz_results',
+					'type'              => 'repeater',
+					'instructions'      => 'Настройте результаты в зависимости от набранных баллов',
+					'required'          => 0,
+					'conditional_logic' => 0,
+					'wrapper'           => array(
+						'width' => '',
+					),
+					'collapsed'         => 'field_result_title',
+					'min'               => 0,
+					'max'               => 0,
+					'layout'            => 'block',
+					'button_label'      => 'Добавить результат',
+					'sub_fields'        => array(
+						array(
+							'key'               => 'field_result_min_points',
+							'label'             => 'Минимальные баллы',
+							'name'              => 'result_min_points',
+							'type'              => 'number',
+							'required'          => 1,
+							'wrapper'           => array(
+								'width' => '50',
+							),
+						),
+						array(
+							'key'               => 'field_result_max_points',
+							'label'             => 'Максимальные баллы',
+							'name'              => 'result_max_points',
+							'type'              => 'number',
+							'required'          => 1,
+							'wrapper'           => array(
+								'width' => '50',
+							),
+						),
+						array(
+							'key'               => 'field_result_title',
+							'label'             => 'Заголовок результата',
+							'name'              => 'result_title',
+							'type'              => 'text',
+							'required'          => 1,
+							'wrapper'           => array(
+								'width' => '',
+							),
+						),
+						array(
+							'key'               => 'field_result_description',
+							'label'             => 'Описание результата',
+							'name'              => 'result_description',
+							'type'              => 'textarea',
+							'required'          => 0,
+							'wrapper'           => array(
+								'width' => '',
+							),
+						),
+					),
+				),
+			),
+			'location'              => array(
+				array(
+					array(
+						'param'    => 'post_type',
+						'operator' => '==',
+						'value'    => 'quiz',
+					),
+				),
+			),
+			'menu_order'            => 0,
+			'position'              => 'normal',
+			'style'                 => 'default',
+			'label_placement'       => 'top',
+			'instruction_placement' => 'label',
+			'hide_on_screen'        => '',
+			'active'                => true,
+			'description'          => '',
+		)
+	);
+
 }
 
 
