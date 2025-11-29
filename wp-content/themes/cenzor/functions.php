@@ -1135,9 +1135,15 @@ function cenzor_register_quiz_post_type() {
 add_action( 'init', 'cenzor_register_quiz_post_type', 0 );
 
 function cenzor_create_sample_quiz() {
-	$existing_quiz = get_page_by_title( 'Какую профессию выбрать?', OBJECT, 'quiz' );
+	global $wpdb;
+	
+	$quiz_title = 'Какую профессию выбрать?';
+	$post_id = $wpdb->get_var( $wpdb->prepare(
+		"SELECT ID FROM {$wpdb->posts} WHERE post_title = %s AND post_type = 'quiz' LIMIT 1",
+		$quiz_title
+	) );
 
-	if ( $existing_quiz ) {
+	if ( $post_id ) {
 		return;
 	}
 
