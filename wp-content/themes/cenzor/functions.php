@@ -62,7 +62,10 @@ function cenzor_scripts() {
 	wp_enqueue_script( 'cenzor-professions', get_template_directory_uri() . '/js/professions.js', array( 'swiper', 'glightbox' ), _S_VERSION, true );
 	wp_enqueue_script( 'cenzor-professions-tabs', get_template_directory_uri() . '/js/professions-tabs.js', array(), _S_VERSION, true );
 	wp_enqueue_script( 'cenzor-modal', get_template_directory_uri() . '/js/modal.js', array(), _S_VERSION, true );
+	wp_enqueue_script( 'cenzor-course-pdf-download', get_template_directory_uri() . '/js/course-pdf-download.js', array(), _S_VERSION, true );
 	wp_enqueue_script( 'cenzor-search-popup', get_template_directory_uri() . '/js/search-popup.js', array(), _S_VERSION, true );
+	
+	wp_localize_script( 'cenzor-course-pdf-download', 'cenzorAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
 
 	if ( is_singular( 'profession' ) ) {
 		wp_enqueue_script( 'cenzor-profession-single-tabs', get_template_directory_uri() . '/js/profession-single-tabs.js', array(), _S_VERSION, true );
@@ -88,6 +91,18 @@ require get_template_directory() . '/inc/customizer.php';
 if ( function_exists( 'acf_add_local_field_group' ) ) {
 	require get_template_directory() . '/inc/acf-fields.php';
 }
+
+function cenzor_add_acf_options_page() {
+	if ( function_exists( 'acf_add_options_page' ) ) {
+		acf_add_options_page( array(
+			'page_title' => 'Настройки курсов',
+			'menu_title' => 'Курсы PDF',
+			'menu_slug'  => 'acf-options',
+			'capability' => 'edit_posts',
+		) );
+	}
+}
+add_action( 'acf/init', 'cenzor_add_acf_options_page' );
 
 if ( defined( 'JETPACK__VERSION' ) ) {
 	require get_template_directory() . '/inc/jetpack.php';
@@ -645,4 +660,138 @@ function cenzor_redirect_single_search_result() {
 	}
 }
 add_action( 'template_redirect', 'cenzor_redirect_single_search_result' );
+
+function cenzor_download_course_pdf() {
+	$name = sanitize_text_field( $_POST['name'] ?? '' );
+	$phone = sanitize_text_field( $_POST['phone'] ?? '' );
+	$course_index = intval( $_POST['course_index'] ?? 0 );
+
+	if ( empty( $name ) || empty( $phone ) || $course_index < 0 ) {
+		wp_send_json_error( array( 'message' => 'Заполните все обязательные поля' ) );
+	}
+
+	$courses = get_field( 'courses_pdf_list', 'option' );
+	
+	if ( ! $courses || ! isset( $courses[ $course_index ] ) ) {
+		wp_send_json_error( array( 'message' => 'Курс не найден' ) );
+	}
+
+	$course = $courses[ $course_index ];
+	$course_name = $course['course_name'] ?? '';
+	$course_file = $course['course_pdf'] ?? null;
+
+	if ( ! $course_file || empty( $course_file['url'] ) ) {
+		wp_send_json_error( array( 'message' => 'Файл не найден для выбранного курса' ) );
+	}
+
+	$file_url = $course_file['url'];
+	$file_filename = $course_file['filename'] ?? 'file';
+
+	$form_data = array(
+		'name' => $name,
+		'phone' => $phone,
+		'course' => $course_name,
+		'date' => current_time( 'mysql' ),
+	);
+
+	$post_id = wp_insert_post( array(
+		'post_title'   => 'Заявка: ' . $name . ' - ' . $course_name,
+		'post_content' => 'Имя: ' . $name . "\n" . 'Телефон: ' . $phone . "\n" . 'Курс: ' . $course_name . "\n" . 'Дата: ' . current_time( 'mysql' ),
+		'post_status'  => 'publish',
+		'post_type'    => 'course_request',
+	) );
+
+	if ( $post_id && ! is_wp_error( $post_id ) ) {
+		add_post_meta( $post_id, '_request_name', $name );
+		add_post_meta( $post_id, '_request_phone', $phone );
+		add_post_meta( $post_id, '_request_course', $course_name );
+		add_post_meta( $post_id, '_request_date', current_time( 'mysql' ) );
+	}
+
+	$admin_email = get_option( 'admin_email' );
+	$subject = 'Новая заявка на курс: ' . $course_name;
+	$message = "Новая заявка на курс\n\n";
+	$message .= "Имя: " . $name . "\n";
+	$message .= "Телефон: " . $phone . "\n";
+	$message .= "Курс: " . $course_name . "\n";
+	$message .= "Дата: " . current_time( 'mysql' ) . "\n";
+
+	wp_mail( $admin_email, $subject, $message );
+
+	do_action( 'cenzor_course_pdf_request', $form_data );
+
+	wp_send_json_success( array(
+		'pdf_url' => $file_url,
+		'filename' => $file_filename,
+	) );
+}
+add_action( 'wp_ajax_download_course_pdf', 'cenzor_download_course_pdf' );
+add_action( 'wp_ajax_nopriv_download_course_pdf', 'cenzor_download_course_pdf' );
+
+function cenzor_register_course_request_post_type() {
+	$labels = array(
+		'name'                  => 'Заявки на курсы',
+		'singular_name'         => 'Заявка на курс',
+		'menu_name'             => 'Заявки на курсы',
+		'add_new'               => 'Добавить новую',
+		'add_new_item'          => 'Добавить новую заявку',
+		'edit_item'              => 'Редактировать заявку',
+		'new_item'               => 'Новая заявка',
+		'view_item'              => 'Просмотреть заявку',
+		'search_items'           => 'Искать заявки',
+		'not_found'              => 'Заявки не найдены',
+		'not_found_in_trash'     => 'В корзине заявок не найдено',
+	);
+
+	$args = array(
+		'label'                 => 'Заявки на курсы',
+		'labels'                => $labels,
+		'supports'              => array( 'title', 'editor' ),
+		'hierarchical'          => false,
+		'public'                => false,
+		'show_ui'               => true,
+		'show_in_menu'          => true,
+		'menu_position'         => 25,
+		'menu_icon'             => 'dashicons-email-alt',
+		'show_in_admin_bar'     => true,
+		'show_in_nav_menus'     => false,
+		'can_export'            => true,
+		'has_archive'           => false,
+		'exclude_from_search'  => true,
+		'publicly_queryable'    => false,
+		'capability_type'       => 'post',
+		'show_in_rest'          => false,
+	);
+
+	register_post_type( 'course_request', $args );
+}
+add_action( 'init', 'cenzor_register_course_request_post_type', 0 );
+
+function cenzor_course_request_columns( $columns ) {
+	$new_columns = array();
+	$new_columns['cb'] = $columns['cb'];
+	$new_columns['title'] = 'Заявка';
+	$new_columns['request_name'] = 'Имя';
+	$new_columns['request_phone'] = 'Телефон';
+	$new_columns['request_course'] = 'Курс';
+	$new_columns['date'] = 'Дата';
+	return $new_columns;
+}
+add_filter( 'manage_course_request_posts_columns', 'cenzor_course_request_columns' );
+
+function cenzor_course_request_column_content( $column, $post_id ) {
+	switch ( $column ) {
+		case 'request_name':
+			echo esc_html( get_post_meta( $post_id, '_request_name', true ) );
+			break;
+		case 'request_phone':
+			$phone = get_post_meta( $post_id, '_request_phone', true );
+			echo '<a href="tel:' . esc_attr( $phone ) . '">' . esc_html( $phone ) . '</a>';
+			break;
+		case 'request_course':
+			echo esc_html( get_post_meta( $post_id, '_request_course', true ) );
+			break;
+	}
+}
+add_action( 'manage_course_request_posts_custom_column', 'cenzor_course_request_column_content', 10, 2 );
 

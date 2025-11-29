@@ -130,6 +130,9 @@
 	<div class="trips_1 trip">
 		<a href="#consultation" class="mobil-trips-application">ЗАЯВКА</a>
 	</div>
+	<div class="trips_1 trips-learn-more trip">
+		<a href="#course-pdf-modal" class="mobil-trips-learn-more">УЗНАТЬ БОЛЬШЕ</a>
+	</div>
 	<div class="trips_block">
 		<div class="trips_2">
 			<?php 
@@ -168,6 +171,48 @@
 			<div class="form-group">
 				<label for="modal-message">Сообщение</label>
 				<textarea id="modal-message" name="message" rows="4"></textarea>
+			</div>
+			<div class="form-group">
+				<label class="checkbox-label">
+					<input type="checkbox" name="consent" required>
+					<span>Я согласен на <a href="/soglasie-na-obrabotku-personalnyh-dannyh/" target="_blank">обработку персональных данных</a> в соответствии с <a href="/politika-operatora-v-otnoshenii-obrabotki-personalnyh-dannyh/" target="_blank">Политикой конфиденциальности</a></span>
+				</label>
+			</div>
+			<button type="submit" class="modal-submit">Отправить</button>
+		</form>
+	</div>
+</div>
+
+<div id="course-pdf-modal" class="modal-overlay">
+	<div class="modal-content">
+		<button class="modal-close" aria-label="Закрыть">&times;</button>
+		<h2 class="modal-title">Узнать больше о курсе</h2>
+		<form id="course-pdf-form" class="modal-form" method="post" action="">
+			<div class="form-group">
+				<label for="course-pdf-name">Ваше имя *</label>
+				<input type="text" id="course-pdf-name" name="name" required>
+			</div>
+			<div class="form-group">
+				<label for="course-pdf-phone">Телефон *</label>
+				<input type="tel" id="course-pdf-phone" name="phone" required>
+			</div>
+			<div class="form-group">
+				<label for="course-pdf-select">Выберите курс *</label>
+				<select id="course-pdf-select" name="course" required>
+					<option value="">-- Выберите курс --</option>
+					<?php
+					$courses = get_field( 'courses_pdf_list', 'option' );
+					if ( $courses ) {
+						foreach ( $courses as $index => $course ) {
+							$course_name = $course['course_name'] ?? '';
+							$course_file = $course['course_pdf'] ?? null;
+							if ( $course_name && $course_file && !empty( $course_file['url'] ) ) {
+								echo '<option value="' . esc_attr( $index ) . '">' . esc_html( $course_name ) . '</option>';
+							}
+						}
+					}
+					?>
+				</select>
 			</div>
 			<div class="form-group">
 				<label class="checkbox-label">

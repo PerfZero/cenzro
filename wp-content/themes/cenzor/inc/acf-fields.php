@@ -213,6 +213,91 @@ if ( function_exists( 'acf_add_local_field_group' ) ) {
 		)
 	);
 
+	acf_add_local_field_group(
+		array(
+			'key'                   => 'group_courses_pdf',
+			'title'                 => 'Настройки курсов для PDF',
+			'fields'                => array(
+				array(
+					'key'               => 'field_courses_pdf_list',
+					'label'             => 'Список курсов',
+					'name'              => 'courses_pdf_list',
+					'type'              => 'repeater',
+					'instructions'      => 'Добавьте курсы с прикрепленными PDF файлами',
+					'required'          => 0,
+					'conditional_logic' => 0,
+					'wrapper'           => array(
+						'width' => '',
+						'class' => '',
+						'id'    => '',
+					),
+					'collapsed'         => '',
+					'min'               => 0,
+					'max'               => 0,
+					'layout'            => 'table',
+					'button_label'      => 'Добавить курс',
+					'sub_fields'        => array(
+						array(
+							'key'               => 'field_course_name',
+							'label'             => 'Название курса',
+							'name'              => 'course_name',
+							'type'              => 'text',
+							'instructions'      => '',
+							'required'          => 1,
+							'conditional_logic' => 0,
+							'wrapper'           => array(
+								'width' => '',
+								'class' => '',
+								'id'    => '',
+							),
+							'default_value'     => '',
+							'placeholder'       => '',
+							'prepend'           => '',
+							'append'            => '',
+							'maxlength'         => '',
+						),
+						array(
+							'key'               => 'field_course_pdf',
+							'label'             => 'Файл',
+							'name'              => 'course_pdf',
+							'type'              => 'file',
+							'instructions'      => '',
+							'required'          => 1,
+							'conditional_logic' => 0,
+							'wrapper'           => array(
+								'width' => '',
+								'class' => '',
+								'id'    => '',
+							),
+							'return_format'     => 'array',
+							'library'           => 'all',
+							'min_size'          => '',
+							'max_size'          => '',
+							'mime_types'        => '',
+						),
+					),
+				),
+			),
+			'location'              => array(
+				array(
+					array(
+						'param'    => 'options_page',
+						'operator' => '==',
+						'value'    => 'acf-options',
+					),
+				),
+			),
+			'menu_order'            => 0,
+			'position'              => 'normal',
+			'style'                 => 'default',
+			'label_placement'       => 'top',
+			'instruction_placement' => 'label',
+			'hide_on_screen'        => '',
+			'active'                => true,
+			'description'          => '',
+		)
+	);
+
 }
 
 
