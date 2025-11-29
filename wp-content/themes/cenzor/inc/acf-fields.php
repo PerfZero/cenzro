@@ -298,6 +298,92 @@ if ( function_exists( 'acf_add_local_field_group' ) ) {
 		)
 	);
 
+	acf_add_local_field_group(
+		array(
+			'key'                   => 'group_review',
+			'title'                 => 'Поля отзыва',
+			'fields'                => array(
+				array(
+					'key'               => 'field_review_name',
+					'label'             => 'Имя',
+					'name'              => 'review_name',
+					'type'              => 'text',
+					'required'          => 1,
+					'wrapper'           => array(
+						'width' => '50',
+					),
+				),
+				array(
+					'key'               => 'field_review_rating',
+					'label'             => 'Рейтинг',
+					'name'              => 'review_rating',
+					'type'              => 'number',
+					'instructions'      => 'Оценка от 1 до 5',
+					'required'          => 1,
+					'min'               => 1,
+					'max'               => 5,
+					'default_value'     => 5,
+					'wrapper'           => array(
+						'width' => '50',
+					),
+				),
+				array(
+					'key'               => 'field_review_course',
+					'label'             => 'Курс',
+					'name'              => 'review_course',
+					'type'              => 'text',
+					'instructions'      => 'Название курса (оставьте пустым для общего отзыва)',
+					'required'          => 0,
+					'wrapper'           => array(
+						'width' => '100',
+					),
+				),
+				array(
+					'key'               => 'field_review_photo',
+					'label'             => 'Фото',
+					'name'              => 'review_photo',
+					'type'              => 'image',
+					'required'          => 0,
+					'return_format'     => 'array',
+					'preview_size'      => 'thumbnail',
+					'library'           => 'all',
+					'wrapper'           => array(
+						'width' => '100',
+					),
+				),
+				array(
+					'key'               => 'field_review_approved',
+					'label'             => 'Одобрен',
+					'name'              => 'review_approved',
+					'type'              => 'true_false',
+					'instructions'      => 'Отображать отзыв на сайте',
+					'default_value'     => 0,
+					'ui'                => 1,
+					'wrapper'           => array(
+						'width' => '100',
+					),
+				),
+			),
+			'location'              => array(
+				array(
+					array(
+						'param'    => 'post_type',
+						'operator' => '==',
+						'value'    => 'review',
+					),
+				),
+			),
+			'menu_order'            => 0,
+			'position'              => 'normal',
+			'style'                 => 'default',
+			'label_placement'       => 'top',
+			'instruction_placement' => 'label',
+			'hide_on_screen'        => '',
+			'active'                => true,
+			'description'          => '',
+		)
+	);
+
 }
 
 

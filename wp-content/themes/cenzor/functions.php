@@ -63,9 +63,11 @@ function cenzor_scripts() {
 	wp_enqueue_script( 'cenzor-professions-tabs', get_template_directory_uri() . '/js/professions-tabs.js', array(), _S_VERSION, true );
 	wp_enqueue_script( 'cenzor-modal', get_template_directory_uri() . '/js/modal.js', array(), _S_VERSION, true );
 	wp_enqueue_script( 'cenzor-course-pdf-download', get_template_directory_uri() . '/js/course-pdf-download.js', array(), _S_VERSION, true );
+	wp_enqueue_script( 'cenzor-reviews', get_template_directory_uri() . '/js/reviews.js', array(), _S_VERSION, true );
 	wp_enqueue_script( 'cenzor-search-popup', get_template_directory_uri() . '/js/search-popup.js', array(), _S_VERSION, true );
 	
 	wp_localize_script( 'cenzor-course-pdf-download', 'cenzorAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
+	wp_localize_script( 'cenzor-reviews', 'cenzorAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
 
 	if ( is_singular( 'profession' ) ) {
 		wp_enqueue_script( 'cenzor-profession-single-tabs', get_template_directory_uri() . '/js/profession-single-tabs.js', array(), _S_VERSION, true );
@@ -794,4 +796,139 @@ function cenzor_course_request_column_content( $column, $post_id ) {
 	}
 }
 add_action( 'manage_course_request_posts_custom_column', 'cenzor_course_request_column_content', 10, 2 );
+
+function cenzor_register_review_post_type() {
+	$labels = array(
+		'name'                  => 'Отзывы',
+		'singular_name'         => 'Отзыв',
+		'menu_name'             => 'Отзывы',
+		'add_new'               => 'Добавить новый',
+		'add_new_item'          => 'Добавить новый отзыв',
+		'edit_item'             => 'Редактировать отзыв',
+		'new_item'              => 'Новый отзыв',
+		'view_item'             => 'Просмотреть отзыв',
+		'search_items'          => 'Искать отзывы',
+		'not_found'             => 'Отзывы не найдены',
+		'not_found_in_trash'    => 'В корзине отзывов не найдено',
+	);
+
+	$args = array(
+		'label'                 => 'Отзывы',
+		'labels'                => $labels,
+		'supports'              => array( 'title', 'editor', 'thumbnail' ),
+		'hierarchical'          => false,
+		'public'                => true,
+		'show_ui'               => true,
+		'show_in_menu'          => true,
+		'menu_position'         => 26,
+		'menu_icon'             => 'dashicons-star-filled',
+		'show_in_admin_bar'     => true,
+		'show_in_nav_menus'     => false,
+		'can_export'            => true,
+		'has_archive'           => false,
+		'exclude_from_search'   => true,
+		'publicly_queryable'    => false,
+		'capability_type'       => 'post',
+		'show_in_rest'          => true,
+	);
+
+	register_post_type( 'review', $args );
+}
+add_action( 'init', 'cenzor_register_review_post_type', 0 );
+
+function cenzor_submit_review() {
+	$name = sanitize_text_field( $_POST['name'] ?? '' );
+	$course = sanitize_text_field( $_POST['course'] ?? '' );
+	$rating = intval( $_POST['rating'] ?? 5 );
+	$text = sanitize_textarea_field( $_POST['text'] ?? '' );
+
+	if ( empty( $name ) || empty( $text ) || $rating < 1 || $rating > 5 ) {
+		wp_send_json_error( array( 'message' => 'Заполните все обязательные поля' ) );
+	}
+
+	$post_id = wp_insert_post( array(
+		'post_title'   => 'Отзыв от ' . $name,
+		'post_content' => $text,
+		'post_status'  => 'pending',
+		'post_type'    => 'review',
+	) );
+
+	if ( $post_id && ! is_wp_error( $post_id ) ) {
+		update_field( 'review_name', $name, $post_id );
+		update_field( 'review_rating', $rating, $post_id );
+		update_field( 'review_course', $course, $post_id );
+		update_field( 'review_approved', 0, $post_id );
+
+		if ( ! empty( $_FILES['photo'] ) && $_FILES['photo']['error'] === UPLOAD_ERR_OK ) {
+			require_once( ABSPATH . 'wp-admin/includes/image.php' );
+			require_once( ABSPATH . 'wp-admin/includes/file.php' );
+			require_once( ABSPATH . 'wp-admin/includes/media.php' );
+
+			$attachment_id = media_handle_upload( 'photo', $post_id );
+			if ( ! is_wp_error( $attachment_id ) ) {
+				update_field( 'review_photo', $attachment_id, $post_id );
+			}
+		}
+
+		$admin_email = get_option( 'admin_email' );
+		$subject = 'Новый отзыв на модерацию';
+		$message = "Новый отзыв требует модерации\n\n";
+		$message .= "Имя: " . $name . "\n";
+		$message .= "Курс: " . ( $course ? $course : 'Общий отзыв' ) . "\n";
+		$message .= "Оценка: " . $rating . "/5\n";
+		$message .= "Текст: " . $text . "\n";
+
+		wp_mail( $admin_email, $subject, $message );
+
+		wp_send_json_success( array( 'message' => 'Спасибо за отзыв! Он будет опубликован после модерации.' ) );
+	} else {
+		wp_send_json_error( array( 'message' => 'Ошибка при сохранении отзыва' ) );
+	}
+}
+add_action( 'wp_ajax_submit_review', 'cenzor_submit_review' );
+add_action( 'wp_ajax_nopriv_submit_review', 'cenzor_submit_review' );
+
+function cenzor_review_columns( $columns ) {
+	$new_columns = array();
+	$new_columns['cb'] = $columns['cb'];
+	$new_columns['title'] = 'Отзыв';
+	$new_columns['review_text'] = 'Текст отзыва';
+	$new_columns['review_name'] = 'Имя';
+	$new_columns['review_rating'] = 'Рейтинг';
+	$new_columns['review_course'] = 'Профессия';
+	$new_columns['review_approved'] = 'Одобрен';
+	$new_columns['date'] = 'Дата';
+	return $new_columns;
+}
+add_filter( 'manage_review_posts_columns', 'cenzor_review_columns' );
+
+function cenzor_review_column_content( $column, $post_id ) {
+	switch ( $column ) {
+		case 'review_text':
+			$content = get_post_field( 'post_content', $post_id );
+			$excerpt = wp_trim_words( $content, 20 );
+			echo esc_html( $excerpt );
+			break;
+		case 'review_name':
+			echo esc_html( get_field( 'review_name', $post_id ) );
+			break;
+		case 'review_rating':
+			$rating = get_field( 'review_rating', $post_id ) ?: 0;
+			echo str_repeat( '★', $rating ) . ' (' . $rating . '/5)';
+			break;
+		case 'review_course':
+			$course = get_field( 'review_course', $post_id );
+			echo $course ? esc_html( $course ) : '<span style="color: #999;">Общий</span>';
+			break;
+		case 'review_approved':
+			$approved = get_field( 'review_approved', $post_id );
+			if ( $approved ) {
+				echo '<span style="color: green;">✓ Да</span>';
+			} else {
+				echo '<span style="color: red;">✗ Нет</span>';
+			}
+			break;
+	}
+}
+add_action( 'manage_review_posts_custom_column', 'cenzor_review_column_content', 10, 2 );
 
