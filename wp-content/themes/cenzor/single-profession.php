@@ -128,7 +128,7 @@ get_header();
 		if ( $pricing && is_array( $pricing ) ) : ?>
 			<section id="profession-pricing" class="profession-content-section">
 				<div class="container">
-					<h2 class="profession-section-title">Стоимость обучения на все программы по Транспортной Безопасности</h2>
+					<h2 class="profession-section-title">Стоимость обучения на все программы по <?php echo esc_html( $title ); ?></h2>
 					<div class="profession-pricing-table">
 						<table>
 							<thead>
@@ -159,7 +159,7 @@ get_header();
 
 		<section id="profession-steps" class="profession-content-section">
 			<div class="container">
-				<h2 class="profession-section-title">4 ШАГА ДЛЯ ОБУЧЕНИЯ ПО ТРАНСПОРТНОЙ БЕЗОПАСНОСТИ</h2>
+				<h2 class="profession-section-title">4 ШАГА ДЛЯ ОБУЧЕНИЯ ПО <?php echo esc_html( mb_strtoupper( $title ) ); ?></h2>
 				<div class="profession-steps-horizontal">
 					<div class="profession-step-horizontal">
 						<div class="profession-step-circle">

@@ -62,7 +62,7 @@ if ( function_exists( 'acf_add_local_field_group' ) ) {
 					'label'             => 'Заголовок с городом',
 					'name'              => 'profession_custom_title',
 					'type'              => 'text',
-					'instructions'      => 'Используйте шорткод [belingogeo_city_field field="city_padej1"] для подстановки названия города. Например: Обучение го и чс дистанционно в [belingogeo_city_field field="city_padej1"]',
+					'instructions'      => 'Используйте шорткод [belingogeo_city_field field="city_padej1"] для подстановки названия города. Например: Обучение го и чс в [belingogeo_city_field field="city_padej1"]',
 					'required'          => 0,
 					'conditional_logic' => 0,
 					'wrapper'           => array(
@@ -71,7 +71,7 @@ if ( function_exists( 'acf_add_local_field_group' ) ) {
 						'id'    => '',
 					),
 					'default_value'     => '',
-					'placeholder'       => 'Обучение го и чс дистанционно в [belingogeo_city_field field="city_padej1"]',
+					'placeholder'       => 'Обучение го и чс в [belingogeo_city_field field="city_padej1"]',
 					'prepend'           => '',
 					'append'            => '',
 					'maxlength'         => '',

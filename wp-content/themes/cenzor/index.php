@@ -19,7 +19,7 @@ get_header();
 	<div class="container">
 	<div class="hero-background"></div>
 		<div class="hero-content">
-			<h1 class="hero-title"><span>ЦЕНЗОР</span> - Дистанционное обучение по всей России</h1>
+			<h1 class="hero-title"><span>ЦЕНЗОР</span> - Обучение по всей России</h1>
 			<p class="hero-description">Дополнительное обучение<br>Повышение квалификации<br>Профессиональная переподготовка<br>После обучения бесплатно доставим документы в любую точку России<br>стань профессионалом в новой профессии</p>
 			<a href="#" class="hero-button">Консультация</a>
 		</div>

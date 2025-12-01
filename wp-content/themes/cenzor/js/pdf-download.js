@@ -48,7 +48,7 @@
 				doc.text('Дата: ' + dateStr, 20, 70);
 				
 				doc.text('ООО "ЦЕНЗОР"', 20, 90);
-				doc.text('Дистанционное обучение по всей России', 20, 100);
+				doc.text('Обучение по всей России', 20, 100);
 				
 				const fileName = 'zayavka_' + name.replace(/\s+/g, '_') + '_' + Date.now() + '.pdf';
 				doc.save(fileName);

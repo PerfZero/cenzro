@@ -1904,7 +1904,6 @@ border-radius: 10px;
 
 .teacher-image {
 	width: 100%;
-	height: 500px;
 	overflow: hidden;
 	background: #f5f5f5;
 }
@@ -4971,7 +4970,7 @@ border-radius: 10px;
 	}
 
 	.promo-text::after {
-		content: ' • Дистанционные курсы повышения квалификации ДПО и профессиональной переподготовки';
+		content: ' • Курсы повышения квалификации ДПО и профессиональной переподготовки';
 		display: inline-block;
 		padding-left: 2rem;
 	}
