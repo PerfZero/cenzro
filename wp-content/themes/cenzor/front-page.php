@@ -205,11 +205,7 @@ get_header();
 						wp_reset_postdata();
 					endif;
 					?>
-					<div class="profession-tab-card profession-tab-card-promo" data-parent="all">
-						<div class="profession-tab-promo-content">
-							<div class="profession-tab-promo-text">Также попробуй другой курс по цене ниже этой 50%</div>
-						</div>
-					</div>
+					
 				</div>
 			</div>
 		</div>
@@ -255,7 +251,7 @@ get_header();
 					<i class="fas fa-bullseye"></i>
 				</div>
 				<h3 class="advantage-title">Нацеленность на результат</h3>
-				<p class="advantage-description">Мы помогаем нашим студентам достигать поставленных целей и получать практические навыки, необходимые для успешной работы.</p>
+				<p class="advantage-description">Мы помогаем нашим обучающимся достигать поставленных целей и получать практические навыки, необходимые для успешной работы.</p>
 			</div>
 			<div class="advantage-item">
 				<div class="advantage-icon">
@@ -277,7 +273,7 @@ get_header();
 					<i class="fas fa-user-tie"></i>
 				</div>
 				<h3 class="advantage-title">Персональный куратор</h3>
-				<p class="advantage-description">Каждому студенту назначается персональный куратор, который помогает на всех этапах обучения и отвечает на вопросы.</p>
+				<p class="advantage-description">Каждому обучающемуся назначается персональный куратор, который помогает на всех этапах обучения и отвечает на вопросы.</p>
 			</div>
 			<div class="advantage-item advantage-empty"></div>
 		</div>
