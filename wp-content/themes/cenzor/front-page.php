@@ -546,19 +546,19 @@ get_header();
 		<form class="modal-form" method="post" action="">
 			<div class="form-group">
 				<label for="modal-name">Ваше имя *</label>
-				<input type="text" id="modal-name" name="name" required>
+				<input type="text" id="modal-name" name="name" autocomplete="name" required>
 			</div>
 			<div class="form-group">
 				<label for="modal-phone">Телефон *</label>
-				<input type="tel" id="modal-phone" name="phone" required>
+				<input type="tel" id="modal-phone" name="phone" autocomplete="tel" required>
 			</div>
 			<div class="form-group">
 				<label for="modal-email">Email</label>
-				<input type="email" id="modal-email" name="email">
+				<input type="email" id="modal-email" name="email" autocomplete="email">
 			</div>
 			<div class="form-group">
 				<label for="modal-message">Сообщение</label>
-				<textarea id="modal-message" name="message" rows="4"></textarea>
+				<textarea id="modal-message" name="message" rows="4" autocomplete="off"></textarea>
 			</div>
 			<div class="form-group">
 				<label class="checkbox-label">

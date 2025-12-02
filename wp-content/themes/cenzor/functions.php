@@ -62,7 +62,9 @@ function cenzor_scripts() {
 	wp_enqueue_script( 'cenzor-professions', get_template_directory_uri() . '/js/professions.js', array( 'swiper', 'glightbox' ), _S_VERSION, true );
 	wp_enqueue_script( 'cenzor-professions-tabs', get_template_directory_uri() . '/js/professions-tabs.js', array(), _S_VERSION, true );
 	wp_enqueue_script( 'cenzor-modal', get_template_directory_uri() . '/js/modal.js', array(), _S_VERSION, true );
-	wp_enqueue_script( 'cenzor-course-pdf-download', get_template_directory_uri() . '/js/course-pdf-download.js', array(), _S_VERSION, true );
+	wp_enqueue_script( 'inputmask', 'https://cdn.jsdelivr.net/npm/inputmask@5.0.8/dist/inputmask.min.js', array(), '5.0.8', true );
+	wp_enqueue_script( 'inputmask-phone', 'https://cdn.jsdelivr.net/npm/inputmask@5.0.8/dist/inputmask/inputmask.phone.min.js', array( 'inputmask' ), '5.0.8', true );
+	wp_enqueue_script( 'cenzor-course-pdf-download', get_template_directory_uri() . '/js/course-pdf-download.js', array( 'inputmask', 'inputmask-phone' ), _S_VERSION, true );
 	wp_enqueue_script( 'cenzor-reviews', get_template_directory_uri() . '/js/reviews.js', array(), _S_VERSION, true );
 	wp_enqueue_script( 'cenzor-quiz', get_template_directory_uri() . '/js/quiz.js', array(), _S_VERSION, true );
 	wp_enqueue_script( 'cenzor-search-popup', get_template_directory_uri() . '/js/search-popup.js', array(), _S_VERSION, true );

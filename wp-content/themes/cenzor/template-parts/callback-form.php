@@ -21,7 +21,7 @@
 		<form class="callback-form" method="post" action="">
 			<div class="form-group">
 				<label for="callback-phone">Номер телефона</label>
-				<input type="tel" id="callback-phone" name="phone" required placeholder="+7 (___) ___-__-__">
+				<input type="tel" id="callback-phone" name="phone" autocomplete="tel" required placeholder="+7 (___) ___-__-__">
 			</div>
 			<div class="form-group">
 				<label class="checkbox-label">

@@ -158,19 +158,19 @@
 		<form class="modal-form" method="post" action="">
 			<div class="form-group">
 				<label for="modal-name">Ваше имя *</label>
-				<input type="text" id="modal-name" name="name" required>
+				<input type="text" id="modal-name" name="name" autocomplete="name" required>
 			</div>
 			<div class="form-group">
 				<label for="modal-phone">Телефон *</label>
-				<input type="tel" id="modal-phone" name="phone" required>
+				<input type="tel" id="modal-phone" name="phone" autocomplete="tel" required>
 			</div>
 			<div class="form-group">
 				<label for="modal-email">Email</label>
-				<input type="email" id="modal-email" name="email">
+				<input type="email" id="modal-email" name="email" autocomplete="email">
 			</div>
 			<div class="form-group">
 				<label for="modal-message">Сообщение</label>
-				<textarea id="modal-message" name="message" rows="4"></textarea>
+				<textarea id="modal-message" name="message" rows="4" autocomplete="off"></textarea>
 			</div>
 			<div class="form-group">
 				<label class="checkbox-label">
@@ -189,15 +189,15 @@
 			<h2 class="modal-title">Получение коммерческого предложения</h2>
 			<form id="course-pdf-form" class="modal-form" method="post" action="">
 				<div class="form-group float-label-group">
-					<input type="text" id="course-pdf-name" name="name" required>
+					<input type="text" id="course-pdf-name" name="name" autocomplete="name" required>
 					<label for="course-pdf-name">Ваше имя *</label>
 				</div>
 				<div class="form-group float-label-group">
-					<input type="tel" id="course-pdf-phone" name="phone" required>
+					<input type="tel" id="course-pdf-phone" name="phone" autocomplete="tel" required>
 					<label for="course-pdf-phone">Телефон *</label>
 				</div>
 				<div class="form-group float-label-group">
-					<input type="email" id="course-pdf-email" name="email" required>
+					<input type="email" id="course-pdf-email" name="email" autocomplete="email" required>
 					<label for="course-pdf-email">Email *</label>
 				</div>
 				<div class="form-group">
@@ -214,11 +214,11 @@
 					</div>
 				</div>
 				<div class="form-group float-label-group" id="legal-fields" style="display: none;">
-					<input type="text" id="course-pdf-company-name" name="company_name">
+					<input type="text" id="course-pdf-company-name" name="company_name" autocomplete="organization">
 					<label for="course-pdf-company-name">Название организации *</label>
 				</div>
 				<div class="form-group float-label-group" id="legal-fields-inn" style="display: none;">
-					<input type="text" id="course-pdf-inn" name="inn">
+					<input type="text" id="course-pdf-inn" name="inn" autocomplete="off">
 					<label for="course-pdf-inn">ИНН *</label>
 				</div>
 				<div class="form-group">
@@ -315,6 +315,32 @@
 		cookieDecline.addEventListener('click', function() {
 			setCookie('cookie_consent', 'declined', 365);
 			cookieConsent.classList.remove('show');
+		});
+	})();
+</script>
+
+<script>
+	(function() {
+		if (typeof Inputmask === 'undefined') return;
+		
+		const phoneInputs = document.querySelectorAll('input[type="tel"]');
+		phoneInputs.forEach(function(input) {
+			Inputmask({ 
+				mask: '+7 (999) 999-99-99',
+				placeholder: '+7 (___) ___-__-__',
+				showMaskOnHover: false,
+				showMaskOnFocus: true
+			}).mask(input);
+		});
+		
+		const innInputs = document.querySelectorAll('input[name="inn"]');
+		innInputs.forEach(function(input) {
+			Inputmask({ 
+				mask: '9{10,12}',
+				placeholder: '',
+				showMaskOnHover: false,
+				showMaskOnFocus: false
+			}).mask(input);
 		});
 	})();
 </script>

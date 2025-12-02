@@ -81,7 +81,7 @@ $reviews_query = new WP_Query( $args );
 		<form id="review-form" class="modal-form" method="post" action="">
 			<div class="form-group">
 				<label for="review-name">Ваше имя *</label>
-				<input type="text" id="review-name" name="name" required>
+				<input type="text" id="review-name" name="name" autocomplete="name" required>
 			</div>
 			<?php
 			$current_profession = '';

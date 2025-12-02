@@ -61,13 +61,13 @@ get_header();
 							
 							<form class="contacts-form" method="post" action="">
 								<div class="form-group">
-									<input type="text" id="contacts-name" name="name" required placeholder="Введите ваше имя">
+									<input type="text" id="contacts-name" name="name" autocomplete="name" required placeholder="Введите ваше имя">
 								</div>
 								<div class="form-group">
-									<input type="email" id="contacts-email" name="email" required placeholder="Введите ваш e-mail">
+									<input type="email" id="contacts-email" name="email" autocomplete="email" required placeholder="Введите ваш e-mail">
 								</div>
 								<div class="form-group">
-									<input type="tel" id="contacts-phone" name="phone" required placeholder="Введите ваш телефон*">
+									<input type="tel" id="contacts-phone" name="phone" autocomplete="tel" required placeholder="Введите ваш телефон*">
 								</div>
 								<button type="submit" class="contacts-submit-button">
 									Оставить заявку

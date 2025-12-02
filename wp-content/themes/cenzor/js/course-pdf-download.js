@@ -50,6 +50,15 @@
 				legalFieldsInn.style.display = 'block';
 				companyNameInput.setAttribute('required', 'required');
 				innInput.setAttribute('required', 'required');
+				
+				if (typeof Inputmask !== 'undefined' && innInput && !innInput.inputmask) {
+					Inputmask({ 
+						mask: '9{10,12}',
+						placeholder: '',
+						showMaskOnHover: false,
+						showMaskOnFocus: false
+					}).mask(innInput);
+				}
 			} else {
 				legalFields.style.display = 'none';
 				legalFieldsInn.style.display = 'none';
@@ -59,6 +68,10 @@
 				innInput.value = '';
 				updateFloatLabel(companyNameInput);
 				updateFloatLabel(innInput);
+				
+				if (innInput.inputmask) {
+					innInput.inputmask.remove();
+				}
 			}
 		});
 	});
