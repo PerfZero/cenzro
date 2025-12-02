@@ -3379,6 +3379,48 @@ border-radius: 10px;
 	color: #404040;
 }
 
+.float-label-group {
+	position: relative;
+}
+
+.float-label-group label {
+	position: absolute;
+	left: 16px;
+	top: 12px;
+	font-size: 16px;
+	color: #999;
+	pointer-events: none;
+	transition: all 0.3s ease;
+	background: #fff;
+	padding: 0 4px;
+}
+
+.float-label-group input:focus + label,
+.float-label-group input.has-value + label {
+	top: -8px;
+	left: 12px;
+	font-size: 12px;
+	color: var(--accent-color);
+	font-weight: 500;
+}
+
+.float-label-group input {
+	padding: 12px 16px;
+	border: 1px solid #e0e0e0;
+	border-radius: 6px;
+	font-size: 16px;
+	font-family: inherit;
+	transition: border-color 0.3s;
+	width: 100%;
+	box-sizing: border-box;
+	background: transparent;
+}
+
+.float-label-group input:focus {
+	outline: none;
+	border-color: var(--accent-color);
+}
+
 .form-group input,
 .form-group textarea,
 .form-group select {
@@ -3434,6 +3476,57 @@ border-radius: 10px;
 	font-size: 13px;
 	color: #666;
 	line-height: 1.5;
+}
+
+.radio-group {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.radio-label {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	flex-direction: row;
+	cursor: pointer;
+	padding: 10px;
+	border-radius: 6px;
+	transition: background-color 0.3s;
+}
+
+.radio-label:hover {
+	background-color: #f5f5f5;
+}
+
+.radio-label input[type="radio"] {
+	width: 18px;
+	height: 18px;
+	flex-shrink: 0;
+	cursor: pointer;
+	accent-color: var(--accent-color);
+}
+
+.radio-label span {
+	font-size: 14px;
+	color: #404040;
+	line-height: 1.5;
+}
+
+#legal-fields,
+#legal-fields-inn {
+	animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+		transform: translateY(-10px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
 }
 
 .modal-submit {

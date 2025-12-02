@@ -4,6 +4,33 @@
 
 	const coursesData = {};
 	const courseSelect = document.getElementById('course-pdf-select');
+	const entityTypeRadios = form.querySelectorAll('input[name="entity_type"]');
+	const legalFields = document.getElementById('legal-fields');
+	const legalFieldsInn = document.getElementById('legal-fields-inn');
+	const companyNameInput = document.getElementById('course-pdf-company-name');
+	const innInput = document.getElementById('course-pdf-inn');
+
+	const floatInputs = form.querySelectorAll('.float-label-group input');
+	
+	function updateFloatLabel(input) {
+		if (input.value.trim() !== '') {
+			input.classList.add('has-value');
+		} else {
+			input.classList.remove('has-value');
+		}
+	}
+
+	floatInputs.forEach(input => {
+		updateFloatLabel(input);
+		
+		input.addEventListener('input', function() {
+			updateFloatLabel(this);
+		});
+		
+		input.addEventListener('blur', function() {
+			updateFloatLabel(this);
+		});
+	});
 
 	if (courseSelect) {
 		Array.from(courseSelect.options).forEach(option => {
@@ -16,16 +43,47 @@
 		});
 	}
 
+	entityTypeRadios.forEach(radio => {
+		radio.addEventListener('change', function() {
+			if (this.value === 'legal') {
+				legalFields.style.display = 'block';
+				legalFieldsInn.style.display = 'block';
+				companyNameInput.setAttribute('required', 'required');
+				innInput.setAttribute('required', 'required');
+			} else {
+				legalFields.style.display = 'none';
+				legalFieldsInn.style.display = 'none';
+				companyNameInput.removeAttribute('required');
+				innInput.removeAttribute('required');
+				companyNameInput.value = '';
+				innInput.value = '';
+				updateFloatLabel(companyNameInput);
+				updateFloatLabel(innInput);
+			}
+		});
+	});
+
 	form.addEventListener('submit', async function(e) {
 		e.preventDefault();
 
 		const name = document.getElementById('course-pdf-name').value.trim();
 		const phone = document.getElementById('course-pdf-phone').value.trim();
+		const email = document.getElementById('course-pdf-email').value.trim();
 		const courseIndex = courseSelect.value;
+		const entityType = form.querySelector('input[name="entity_type"]:checked').value;
 
-		if (!name || !phone || !courseIndex) {
+		if (!name || !phone || !email || !courseIndex) {
 			alert('Пожалуйста, заполните все обязательные поля');
 			return;
+		}
+
+		if (entityType === 'legal') {
+			const companyName = companyNameInput.value.trim();
+			const inn = innInput.value.trim();
+			if (!companyName || !inn) {
+				alert('Пожалуйста, заполните название организации и ИНН');
+				return;
+			}
 		}
 
 		const submitButton = form.querySelector('.modal-submit');
@@ -38,7 +96,14 @@
 			formData.append('action', 'download_course_pdf');
 			formData.append('name', name);
 			formData.append('phone', phone);
+			formData.append('email', email);
+			formData.append('entity_type', entityType);
 			formData.append('course_index', courseIndex);
+
+			if (entityType === 'legal') {
+				formData.append('company_name', companyNameInput.value.trim());
+				formData.append('inn', innInput.value.trim());
+			}
 
 			const ajaxUrl = (typeof cenzorAjax !== 'undefined' && cenzorAjax.ajaxurl) ? cenzorAjax.ajaxurl : '/wp-admin/admin-ajax.php';
 			const response = await fetch(ajaxUrl, {
@@ -60,6 +125,11 @@
 
 				alert('Заявка успешно отправлена! Файл скачан.');
 				form.reset();
+				floatInputs.forEach(input => {
+					input.classList.remove('has-value');
+				});
+				if (legalFields) legalFields.style.display = 'none';
+				if (legalFieldsInn) legalFieldsInn.style.display = 'none';
 				const coursePdfModal = document.getElementById('course-pdf-modal');
 				if (coursePdfModal) {
 					coursePdfModal.classList.remove('active');
@@ -77,5 +147,6 @@
 		}
 	});
 })();
+
 
 

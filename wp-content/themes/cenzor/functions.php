@@ -672,10 +672,18 @@ add_action( 'template_redirect', 'cenzor_redirect_single_search_result' );
 function cenzor_download_course_pdf() {
 	$name = sanitize_text_field( $_POST['name'] ?? '' );
 	$phone = sanitize_text_field( $_POST['phone'] ?? '' );
+	$email = sanitize_email( $_POST['email'] ?? '' );
+	$entity_type = sanitize_text_field( $_POST['entity_type'] ?? 'individual' );
 	$course_index = intval( $_POST['course_index'] ?? 0 );
+	$company_name = sanitize_text_field( $_POST['company_name'] ?? '' );
+	$inn = sanitize_text_field( $_POST['inn'] ?? '' );
 
-	if ( empty( $name ) || empty( $phone ) || $course_index < 0 ) {
+	if ( empty( $name ) || empty( $phone ) || empty( $email ) || $course_index < 0 ) {
 		wp_send_json_error( array( 'message' => 'Заполните все обязательные поля' ) );
+	}
+
+	if ( $entity_type === 'legal' && ( empty( $company_name ) || empty( $inn ) ) ) {
+		wp_send_json_error( array( 'message' => 'Заполните название организации и ИНН' ) );
 	}
 
 	$courses = get_field( 'courses_pdf_list', 'option' );
@@ -698,13 +706,33 @@ function cenzor_download_course_pdf() {
 	$form_data = array(
 		'name' => $name,
 		'phone' => $phone,
+		'email' => $email,
+		'entity_type' => $entity_type,
 		'course' => $course_name,
 		'date' => current_time( 'mysql' ),
 	);
 
+	if ( $entity_type === 'legal' ) {
+		$form_data['company_name'] = $company_name;
+		$form_data['inn'] = $inn;
+	}
+
+	$post_content = 'Имя: ' . $name . "\n";
+	$post_content .= 'Телефон: ' . $phone . "\n";
+	$post_content .= 'Email: ' . $email . "\n";
+	$post_content .= 'Тип лица: ' . ( $entity_type === 'legal' ? 'Юридическое лицо' : 'Физическое лицо' ) . "\n";
+	
+	if ( $entity_type === 'legal' ) {
+		$post_content .= 'Название организации: ' . $company_name . "\n";
+		$post_content .= 'ИНН: ' . $inn . "\n";
+	}
+	
+	$post_content .= 'Курс: ' . $course_name . "\n";
+	$post_content .= 'Дата: ' . current_time( 'mysql' );
+
 	$post_id = wp_insert_post( array(
 		'post_title'   => 'Заявка: ' . $name . ' - ' . $course_name,
-		'post_content' => 'Имя: ' . $name . "\n" . 'Телефон: ' . $phone . "\n" . 'Курс: ' . $course_name . "\n" . 'Дата: ' . current_time( 'mysql' ),
+		'post_content' => $post_content,
 		'post_status'  => 'publish',
 		'post_type'    => 'course_request',
 	) );
@@ -712,19 +740,46 @@ function cenzor_download_course_pdf() {
 	if ( $post_id && ! is_wp_error( $post_id ) ) {
 		add_post_meta( $post_id, '_request_name', $name );
 		add_post_meta( $post_id, '_request_phone', $phone );
+		add_post_meta( $post_id, '_request_email', $email );
+		add_post_meta( $post_id, '_request_entity_type', $entity_type );
 		add_post_meta( $post_id, '_request_course', $course_name );
 		add_post_meta( $post_id, '_request_date', current_time( 'mysql' ) );
+		
+		if ( $entity_type === 'legal' ) {
+			add_post_meta( $post_id, '_request_company_name', $company_name );
+			add_post_meta( $post_id, '_request_inn', $inn );
+		}
 	}
 
 	$admin_email = get_option( 'admin_email' );
 	$subject = 'Новая заявка на курс: ' . $course_name;
-	$message = "Новая заявка на курс\n\n";
-	$message .= "Имя: " . $name . "\n";
-	$message .= "Телефон: " . $phone . "\n";
-	$message .= "Курс: " . $course_name . "\n";
-	$message .= "Дата: " . current_time( 'mysql' ) . "\n";
+	$email_message = "Новая заявка на курс\n\n";
+	$email_message .= "Имя: " . $name . "\n";
+	$email_message .= "Телефон: " . $phone . "\n";
+	$email_message .= "Email: " . $email . "\n";
+	$email_message .= "Тип лица: " . ( $entity_type === 'legal' ? 'Юридическое лицо' : 'Физическое лицо' ) . "\n";
+	
+	if ( $entity_type === 'legal' ) {
+		$email_message .= "Название организации: " . $company_name . "\n";
+		$email_message .= "ИНН: " . $inn . "\n";
+	}
+	
+	$email_message .= "Курс: " . $course_name . "\n";
+	$email_message .= "Дата: " . current_time( 'mysql' ) . "\n";
 
-	wp_mail( $admin_email, $subject, $message );
+	wp_mail( $admin_email, $subject, $email_message );
+
+	if ( ! empty( $email ) && is_email( $email ) ) {
+		$user_subject = 'Ваша заявка на курс: ' . $course_name;
+		$user_message = "Здравствуйте, " . $name . "!\n\n";
+		$user_message .= "Спасибо за вашу заявку на курс \"" . $course_name . "\".\n\n";
+		$user_message .= "Наш специалист свяжется с вами в ближайшее время.\n\n";
+		$user_message .= "С уважением,\n";
+		$user_message .= get_bloginfo( 'name' );
+		
+		$headers = array( 'Content-Type: text/plain; charset=UTF-8' );
+		wp_mail( $email, $user_subject, $user_message, $headers );
+	}
 
 	do_action( 'cenzor_course_pdf_request', $form_data );
 
