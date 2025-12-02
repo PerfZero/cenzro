@@ -114,16 +114,8 @@
 			const result = await response.json();
 
 			if (result.success) {
-				if (result.data && result.data.pdf_url) {
-					const link = document.createElement('a');
-					link.href = result.data.pdf_url;
-					link.download = result.data.filename || 'course.pdf';
-					document.body.appendChild(link);
-					link.click();
-					document.body.removeChild(link);
-				}
-
-				alert('Заявка успешно отправлена! Файл скачан.');
+				const message = result.data && result.data.message ? result.data.message : 'Заявка успешно отправлена! Коммерческое предложение будет отправлено на указанный email.';
+				alert(message);
 				form.reset();
 				floatInputs.forEach(input => {
 					input.classList.remove('has-value');

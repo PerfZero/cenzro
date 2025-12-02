@@ -731,7 +731,7 @@ function cenzor_download_course_pdf() {
 	$post_content .= 'Дата: ' . current_time( 'mysql' );
 
 	$post_id = wp_insert_post( array(
-		'post_title'   => 'Заявка: ' . $name . ' - ' . $course_name,
+		'post_title'   => 'Заявка на коммерческое предложение: ' . $name . ' - ' . $course_name,
 		'post_content' => $post_content,
 		'post_status'  => 'publish',
 		'post_type'    => 'course_request',
@@ -752,8 +752,8 @@ function cenzor_download_course_pdf() {
 	}
 
 	$admin_email = get_option( 'admin_email' );
-	$subject = 'Новая заявка на курс: ' . $course_name;
-	$email_message = "Новая заявка на курс\n\n";
+	$subject = 'Новая заявка на коммерческое предложение: ' . $course_name;
+	$email_message = "Новая заявка на коммерческое предложение\n\n";
 	$email_message .= "Имя: " . $name . "\n";
 	$email_message .= "Телефон: " . $phone . "\n";
 	$email_message .= "Email: " . $email . "\n";
@@ -770,22 +770,38 @@ function cenzor_download_course_pdf() {
 	wp_mail( $admin_email, $subject, $email_message );
 
 	if ( ! empty( $email ) && is_email( $email ) ) {
-		$user_subject = 'Ваша заявка на курс: ' . $course_name;
+		$file_path = null;
+		if ( isset( $course_file['ID'] ) && ! empty( $course_file['ID'] ) ) {
+			$file_path = get_attached_file( $course_file['ID'] );
+		} elseif ( isset( $course_file['path'] ) && ! empty( $course_file['path'] ) ) {
+			$file_path = $course_file['path'];
+		}
+		
+		$user_subject = 'Коммерческое предложение: ' . $course_name;
 		$user_message = "Здравствуйте, " . $name . "!\n\n";
-		$user_message .= "Спасибо за вашу заявку на курс \"" . $course_name . "\".\n\n";
-		$user_message .= "Наш специалист свяжется с вами в ближайшее время.\n\n";
+		$user_message .= "Спасибо за ваш запрос на коммерческое предложение по курсу \"" . $course_name . "\".\n\n";
+		
+		$headers = array( 'Content-Type: text/plain; charset=UTF-8' );
+		$attachments = array();
+		
+		if ( $file_path && file_exists( $file_path ) ) {
+			$user_message .= "В приложении вы найдете коммерческое предложение.\n\n";
+			$attachments[] = $file_path;
+		} else {
+			$user_message .= "Наш специалист свяжется с вами в ближайшее время и отправит коммерческое предложение.\n\n";
+		}
+		
+		$user_message .= "Наш специалист свяжется с вами в ближайшее время для уточнения деталей.\n\n";
 		$user_message .= "С уважением,\n";
 		$user_message .= get_bloginfo( 'name' );
 		
-		$headers = array( 'Content-Type: text/plain; charset=UTF-8' );
-		wp_mail( $email, $user_subject, $user_message, $headers );
+		wp_mail( $email, $user_subject, $user_message, $headers, $attachments );
 	}
 
 	do_action( 'cenzor_course_pdf_request', $form_data );
 
 	wp_send_json_success( array(
-		'pdf_url' => $file_url,
-		'filename' => $file_filename,
+		'message' => 'Заявка успешно отправлена! Коммерческое предложение будет отправлено на указанный email.',
 	) );
 }
 add_action( 'wp_ajax_download_course_pdf', 'cenzor_download_course_pdf' );

@@ -186,7 +186,7 @@
 	<div id="course-pdf-modal" class="modal-overlay">
 		<div class="modal-content">
 			<button class="modal-close" aria-label="Закрыть">&times;</button>
-			<h2 class="modal-title">Узнать больше о курсе</h2>
+			<h2 class="modal-title">Получение коммерческого предложения</h2>
 			<form id="course-pdf-form" class="modal-form" method="post" action="">
 				<div class="form-group float-label-group">
 					<input type="text" id="course-pdf-name" name="name" required>
