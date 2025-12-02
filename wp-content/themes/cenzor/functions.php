@@ -746,6 +746,7 @@ function cenzor_download_course_pdf() {
 		add_post_meta( $post_id, '_request_entity_type', $entity_type );
 		add_post_meta( $post_id, '_request_course', $course_name );
 		add_post_meta( $post_id, '_request_date', current_time( 'mysql' ) );
+		add_post_meta( $post_id, '_request_processed', '0' );
 		
 		if ( $entity_type === 'legal' ) {
 			add_post_meta( $post_id, '_request_company_name', $company_name );
@@ -852,8 +853,13 @@ function cenzor_course_request_columns( $columns ) {
 	$new_columns = array();
 	$new_columns['cb'] = $columns['cb'];
 	$new_columns['title'] = 'Заявка';
+	$new_columns['request_status'] = 'Статус';
 	$new_columns['request_name'] = 'Имя';
 	$new_columns['request_phone'] = 'Телефон';
+	$new_columns['request_email'] = 'Email';
+	$new_columns['request_entity_type'] = 'Тип лица';
+	$new_columns['request_company'] = 'Организация';
+	$new_columns['request_inn'] = 'ИНН';
 	$new_columns['request_course'] = 'Курс';
 	$new_columns['date'] = 'Дата';
 	return $new_columns;
@@ -862,12 +868,44 @@ add_filter( 'manage_course_request_posts_columns', 'cenzor_course_request_column
 
 function cenzor_course_request_column_content( $column, $post_id ) {
 	switch ( $column ) {
+		case 'request_status':
+			$processed = get_post_meta( $post_id, '_request_processed', true );
+			if ( $processed === '1' ) {
+				echo '<span style="color: #46b450; font-weight: bold;">✓ Обработано</span>';
+			} else {
+				echo '<span style="color: #dc3232; font-weight: bold;">● Не обработано</span>';
+			}
+			break;
 		case 'request_name':
 			echo esc_html( get_post_meta( $post_id, '_request_name', true ) );
 			break;
 		case 'request_phone':
 			$phone = get_post_meta( $post_id, '_request_phone', true );
-			echo '<a href="tel:' . esc_attr( $phone ) . '">' . esc_html( $phone ) . '</a>';
+			if ( $phone ) {
+				echo '<a href="tel:' . esc_attr( $phone ) . '">' . esc_html( $phone ) . '</a>';
+			}
+			break;
+		case 'request_email':
+			$email = get_post_meta( $post_id, '_request_email', true );
+			if ( $email ) {
+				echo '<a href="mailto:' . esc_attr( $email ) . '">' . esc_html( $email ) . '</a>';
+			}
+			break;
+		case 'request_entity_type':
+			$entity_type = get_post_meta( $post_id, '_request_entity_type', true );
+			if ( $entity_type === 'legal' ) {
+				echo 'Юридическое лицо';
+			} else {
+				echo 'Физическое лицо';
+			}
+			break;
+		case 'request_company':
+			$company_name = get_post_meta( $post_id, '_request_company_name', true );
+			echo $company_name ? esc_html( $company_name ) : '—';
+			break;
+		case 'request_inn':
+			$inn = get_post_meta( $post_id, '_request_inn', true );
+			echo $inn ? esc_html( $inn ) : '—';
 			break;
 		case 'request_course':
 			echo esc_html( get_post_meta( $post_id, '_request_course', true ) );
@@ -875,6 +913,190 @@ function cenzor_course_request_column_content( $column, $post_id ) {
 	}
 }
 add_action( 'manage_course_request_posts_custom_column', 'cenzor_course_request_column_content', 10, 2 );
+
+function cenzor_course_request_menu_badge() {
+	global $menu;
+	
+	$args = array(
+		'post_type'      => 'course_request',
+		'post_status'    => 'publish',
+		'posts_per_page' => -1,
+		'meta_query'     => array(
+			'relation' => 'OR',
+			array(
+				'key'     => '_request_processed',
+				'value'   => '1',
+				'compare' => '!=',
+			),
+			array(
+				'key'     => '_request_processed',
+				'compare' => 'NOT EXISTS',
+			),
+		),
+	);
+	
+	$unprocessed = new WP_Query( $args );
+	$pending_count = $unprocessed->found_posts;
+	wp_reset_postdata();
+	
+	if ( $pending_count > 0 ) {
+		foreach ( $menu as $key => $item ) {
+			if ( $item[2] === 'edit.php?post_type=course_request' ) {
+				$menu[ $key ][0] .= ' <span class="awaiting-mod count-' . $pending_count . '"><span class="pending-count">' . $pending_count . '</span></span>';
+				break;
+			}
+		}
+	}
+}
+add_action( 'admin_menu', 'cenzor_course_request_menu_badge', 999 );
+
+function cenzor_course_request_bulk_actions( $bulk_actions ) {
+	$bulk_actions['mark_processed'] = 'Отметить как обработанные';
+	$bulk_actions['mark_unprocessed'] = 'Отметить как необработанные';
+	return $bulk_actions;
+}
+add_filter( 'bulk_actions-edit-course_request', 'cenzor_course_request_bulk_actions' );
+
+function cenzor_course_request_handle_bulk_action( $redirect_to, $action, $post_ids ) {
+	if ( $action === 'mark_processed' ) {
+		foreach ( $post_ids as $post_id ) {
+			update_post_meta( $post_id, '_request_processed', '1' );
+		}
+		$redirect_to = add_query_arg( 'marked_processed', count( $post_ids ), $redirect_to );
+	}
+	
+	if ( $action === 'mark_unprocessed' ) {
+		foreach ( $post_ids as $post_id ) {
+			update_post_meta( $post_id, '_request_processed', '0' );
+		}
+		$redirect_to = add_query_arg( 'marked_unprocessed', count( $post_ids ), $redirect_to );
+	}
+	
+	return $redirect_to;
+}
+add_filter( 'handle_bulk_actions-edit-course_request', 'cenzor_course_request_handle_bulk_action', 10, 3 );
+
+function cenzor_course_request_bulk_action_admin_notice() {
+	if ( ! empty( $_REQUEST['marked_processed'] ) ) {
+		$count = intval( $_REQUEST['marked_processed'] );
+		printf( '<div id="message" class="updated notice is-dismissible"><p>Отмечено как обработанные: %d заявок.</p></div>', $count );
+	}
+	
+	if ( ! empty( $_REQUEST['marked_unprocessed'] ) ) {
+		$count = intval( $_REQUEST['marked_unprocessed'] );
+		printf( '<div id="message" class="updated notice is-dismissible"><p>Отмечено как необработанные: %d заявок.</p></div>', $count );
+	}
+}
+add_action( 'admin_notices', 'cenzor_course_request_bulk_action_admin_notice' );
+
+function cenzor_course_request_meta_boxes() {
+	add_meta_box(
+		'course_request_details',
+		'Детали заявки',
+		'cenzor_course_request_meta_box_callback',
+		'course_request',
+		'normal',
+		'high'
+	);
+	
+	add_meta_box(
+		'course_request_status',
+		'Статус заявки',
+		'cenzor_course_request_status_meta_box_callback',
+		'course_request',
+		'side',
+		'high'
+	);
+}
+add_action( 'add_meta_boxes', 'cenzor_course_request_meta_boxes' );
+
+function cenzor_course_request_status_meta_box_callback( $post ) {
+	wp_nonce_field( 'cenzor_course_request_status', 'cenzor_course_request_status_nonce' );
+	$processed = get_post_meta( $post->ID, '_request_processed', true );
+	?>
+	<p>
+		<label>
+			<input type="checkbox" name="request_processed" value="1" <?php checked( $processed, '1' ); ?>>
+			Заявка обработана
+		</label>
+	</p>
+	<?php
+}
+
+function cenzor_course_request_save_status( $post_id ) {
+	if ( ! isset( $_POST['cenzor_course_request_status_nonce'] ) ) {
+		return;
+	}
+	
+	if ( ! wp_verify_nonce( $_POST['cenzor_course_request_status_nonce'], 'cenzor_course_request_status' ) ) {
+		return;
+	}
+	
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+		return;
+	}
+	
+	if ( ! current_user_can( 'edit_post', $post_id ) ) {
+		return;
+	}
+	
+	if ( isset( $_POST['request_processed'] ) ) {
+		update_post_meta( $post_id, '_request_processed', '1' );
+	} else {
+		update_post_meta( $post_id, '_request_processed', '0' );
+	}
+}
+add_action( 'save_post_course_request', 'cenzor_course_request_save_status' );
+
+function cenzor_course_request_meta_box_callback( $post ) {
+	$name = get_post_meta( $post->ID, '_request_name', true );
+	$phone = get_post_meta( $post->ID, '_request_phone', true );
+	$email = get_post_meta( $post->ID, '_request_email', true );
+	$entity_type = get_post_meta( $post->ID, '_request_entity_type', true );
+	$company_name = get_post_meta( $post->ID, '_request_company_name', true );
+	$inn = get_post_meta( $post->ID, '_request_inn', true );
+	$course = get_post_meta( $post->ID, '_request_course', true );
+	$date = get_post_meta( $post->ID, '_request_date', true );
+	
+	?>
+	<table class="form-table">
+		<tr>
+			<th><label>Имя</label></th>
+			<td><strong><?php echo esc_html( $name ); ?></strong></td>
+		</tr>
+		<tr>
+			<th><label>Телефон</label></th>
+			<td><a href="tel:<?php echo esc_attr( $phone ); ?>"><?php echo esc_html( $phone ); ?></a></td>
+		</tr>
+		<tr>
+			<th><label>Email</label></th>
+			<td><a href="mailto:<?php echo esc_attr( $email ); ?>"><?php echo esc_html( $email ); ?></a></td>
+		</tr>
+		<tr>
+			<th><label>Тип лица</label></th>
+			<td><?php echo $entity_type === 'legal' ? 'Юридическое лицо' : 'Физическое лицо'; ?></td>
+		</tr>
+		<?php if ( $entity_type === 'legal' ) : ?>
+		<tr>
+			<th><label>Название организации</label></th>
+			<td><strong><?php echo esc_html( $company_name ); ?></strong></td>
+		</tr>
+		<tr>
+			<th><label>ИНН</label></th>
+			<td><strong><?php echo esc_html( $inn ); ?></strong></td>
+		</tr>
+		<?php endif; ?>
+		<tr>
+			<th><label>Курс</label></th>
+			<td><strong><?php echo esc_html( $course ); ?></strong></td>
+		</tr>
+		<tr>
+			<th><label>Дата заявки</label></th>
+			<td><?php echo esc_html( $date ); ?></td>
+		</tr>
+	</table>
+	<?php
+}
 
 function cenzor_register_review_post_type() {
 	$labels = array(
