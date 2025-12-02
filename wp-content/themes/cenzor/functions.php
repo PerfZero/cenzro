@@ -782,21 +782,19 @@ function cenzor_download_course_pdf() {
 		
 		$user_subject = 'Коммерческое предложение: ' . $course_name;
 		$user_message = "Здравствуйте, " . $name . "!\n\n";
-		$user_message .= "Спасибо за ваш запрос на коммерческое предложение по курсу \"" . $course_name . "\".\n\n";
+		$user_message .= "Благодарим за запрос коммерческого предложения по курсу «" . $course_name . "».\n\n";
 		
 		$headers = array( 'Content-Type: text/plain; charset=UTF-8' );
 		$attachments = array();
 		
 		if ( $file_path && file_exists( $file_path ) ) {
-			$user_message .= "В приложении вы найдете коммерческое предложение.\n\n";
+			$user_message .= "Коммерческое предложение во вложении.\n\n";
 			$attachments[] = $file_path;
-		} else {
-			$user_message .= "Наш специалист свяжется с вами в ближайшее время и отправит коммерческое предложение.\n\n";
 		}
 		
 		$user_message .= "Наш специалист свяжется с вами в ближайшее время для уточнения деталей.\n\n";
 		$user_message .= "С уважением,\n";
-		$user_message .= get_bloginfo( 'name' );
+		$user_message .= "Учебный центр «ЦЕНЗОР»";
 		
 		wp_mail( $email, $user_subject, $user_message, $headers, $attachments );
 	}

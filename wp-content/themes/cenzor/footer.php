@@ -131,7 +131,7 @@
 		<a href="#consultation" class="mobil-trips-application">ЗАЯВКА</a>
 	</div>
 	<div class="trips_1 trips-learn-more trip">
-		<a href="#course-pdf-modal" class="mobil-trips-learn-more">УЗНАТЬ БОЛЬШЕ</a>
+		<a href="#course-pdf-modal" class="mobil-trips-learn-more">ПОЛУЧИТЬ КП</a>
 	</div>
 	<div class="trips_block">
 		<div class="trips_2">
