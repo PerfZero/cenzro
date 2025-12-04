@@ -82,42 +82,43 @@ get_header();
 			<div class="container">
 				<h2 class="profession-section-title">Результаты обучения</h2>
 				<div class="profession-results-grid">
-					<div class="profession-result-item">
-						<div class="profession-result-icon">
-							<i class="fas fa-check"></i>
-						</div>
-						<div class="profession-result-text">Получение удостоверения установленного образца</div>
-					</div>
-					<div class="profession-result-item">
-						<div class="profession-result-icon">
-							<i class="fas fa-check"></i>
-						</div>
-						<div class="profession-result-text">Знание требований законодательства в сфере транспортной безопасности</div>
-					</div>
-					<div class="profession-result-item">
-						<div class="profession-result-icon">
-							<i class="fas fa-check"></i>
-						</div>
-						<div class="profession-result-text">Умение применять меры по обеспечению транспортной безопасности</div>
-					</div>
-					<div class="profession-result-item">
-						<div class="profession-result-icon">
-							<i class="fas fa-check"></i>
-						</div>
-						<div class="profession-result-text">Навыки работы с техническими средствами обеспечения безопасности</div>
-					</div>
-					<div class="profession-result-item">
-						<div class="profession-result-icon">
-							<i class="fas fa-check"></i>
-						</div>
-						<div class="profession-result-text">Понимание процедур досмотра и контроля</div>
-					</div>
-					<div class="profession-result-item">
-						<div class="profession-result-icon">
-							<i class="fas fa-check"></i>
-						</div>
-						<div class="profession-result-text">Готовность к действиям в чрезвычайных ситуациях</div>
-					</div>
+				<div class="profession-result-item">
+    <div class="profession-result-icon">
+        <i class="fas fa-check"></i>
+    </div>
+    <div class="profession-result-text">Получение актуальных профессиональных знаний и навыков</div>
+</div>
+<div class="profession-result-item">
+    <div class="profession-result-icon">
+        <i class="fas fa-check"></i>
+    </div>
+    <div class="profession-result-text">Освоение современных методов и технологий в выбранной сфере</div>
+</div>
+<div class="profession-result-item">
+    <div class="profession-result-icon">
+        <i class="fas fa-check"></i>
+    </div>
+    <div class="profession-result-text">Развитие практических умений для решения рабочих задач</div>
+</div>
+<div class="profession-result-item">
+    <div class="profession-result-icon">
+        <i class="fas fa-check"></i>
+    </div>
+    <div class="profession-result-text">Повышение квалификации и конкурентоспособности на рынке труда</div>
+</div>
+<div class="profession-result-item">
+    <div class="profession-result-icon">
+        <i class="fas fa-check"></i>
+    </div>
+    <div class="profession-result-text">Уверенное применение полученных знаний на практике</div>
+</div>
+<div class="profession-result-item">
+    <div class="profession-result-icon">
+        <i class="fas fa-check"></i>
+    </div>
+    <div class="profession-result-text">Достижение профессиональных целей и карьерный рост</div>
+</div>
+
 				</div>
 			</div>
 		</section>
