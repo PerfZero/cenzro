@@ -1418,6 +1418,8 @@ border-radius: 10px;
 	flex-direction: column;
 	position: relative;
 	min-height: 100%;
+	text-decoration: none;
+	color: inherit;
 }
 
 .profession-tab-card:hover {
