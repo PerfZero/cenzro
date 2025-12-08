@@ -173,6 +173,22 @@ get_header();
 					if ( $professions->have_posts() ) :
 						while ( $professions->have_posts() ) : $professions->the_post();
 							$parent_id = get_the_ID();
+							$parent_image_url = '';
+							
+							if ( has_post_thumbnail() ) {
+								$parent_image_url = get_the_post_thumbnail_url( $parent_id, 'full' );
+							}
+							?>
+							<div class="profession-tab-card" data-parent="<?php echo esc_attr( $parent_id ); ?>">
+								<?php if ( $parent_image_url ) : ?>
+									<div class="profession-tab-image">
+										<img src="<?php echo esc_url( $parent_image_url ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>">
+									</div>
+								<?php endif; ?>
+								<div class="profession-tab-name"><?php echo esc_html( get_the_title() ); ?></div>
+							</div>
+							<?php
+							
 							$child_professions = new WP_Query( array(
 								'post_type'      => 'profession',
 								'posts_per_page' => -1,
