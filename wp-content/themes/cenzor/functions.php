@@ -435,8 +435,8 @@ function cenzor_professions_admin_page_callback() {
 	<?php
 }
 
-function cenzor_generate_pricing_for_profession_575() {
-	$profession_id = 575;
+function cenzor_generate_pricing_for_profession_595() {
+	$profession_id = 595;
 	
 	$post = get_post( $profession_id );
 	if ( ! $post || $post->post_type !== 'profession' ) {
@@ -448,44 +448,24 @@ function cenzor_generate_pricing_for_profession_575() {
 	
 	$pricing_data = array(
 		array(
-			'program' => '1 категория - Повышение квалификации работников, назначенных в качестве лиц, ответственных за обеспечение транспортной безопасности в субъекте транспортной инфраструктуры',
+			'program' => 'ПРОГРАММА ОБУЧЕНИЯ ЭЛЕКТРОТЕХНИЧЕСКОГО И ЭЛЕКТРОТЕХНОЛОГИЧЕСКОГО ПЕРСОНАЛА ДЛЯ ПРИСВОЕНИЯ II ГРУППЫ ПО ЭЛЕКТРОБЕЗОПАСНОСТИ, дополнительные средства защиты в электроустановках до 1000 Вольт.',
+			'hours' => '72',
+			'price' => '2500,00',
+		),
+		array(
+			'program' => 'ПРОГРАММА ОБУЧЕНИЯ ЭЛЕКТРОТЕХНИЧЕСКОГО И ЭЛЕКТРОТЕХНОЛОГИЧЕСКОГО ПЕРСОНАЛА ДЛЯ ПРИСВОЕНИЯ III ГРУППЫ ПО ЭЛЕКТРОБЕЗОПАСНОСТИ, дополнительные средства защиты в электроустановках до 1000 Вольт.',
+			'hours' => '30',
+			'price' => '2500,00',
+		),
+		array(
+			'program' => 'ПРОГРАММА ОБУЧЕНИЯ ЭЛЕКТРОТЕХНИЧЕСКОГО И ЭЛЕКТРОТЕХНОЛОГИЧЕСКОГО ПЕРСОНАЛА ДЛЯ ПРИСВОЕНИЯ IV ГРУППЫ ПО ЭЛЕКТРОБЕЗОПАСНОСТИ дополнительные средства защиты в электроустановках до 1000 Вольт.',
 			'hours' => '40',
-			'price' => '3000,00',
+			'price' => '2500,00',
 		),
 		array(
-			'program' => '2 категория - Повышение квалификации работников, назначенных в качестве лиц, ответственных за обеспечение транспортной безопасности на объекте транспортной инфраструктуры и (или) транспортном средстве',
-			'hours' => '60',
-			'price' => '3000,00',
-		),
-		array(
-			'program' => '8 категория - Повышение квалификации иных работников субъекта транспортной инфраструктуры, подразделения транспортной безопасности, руководящих выполнением работ, непосредственно связанных с обеспечением транспортной безопасности объекта транспортной инфраструктуры и (или) транспортного средства',
-			'hours' => '20',
-			'price' => '3000,00',
-		),
-		array(
-			'program' => '3 категория - Повышение квалификации работников субъекта транспортной инфраструктуры, подразделения транспортной безопасности, руководящих выполнением работ, непосредственно связанных с обеспечением транспортной безопасности объекта транспортной инфраструктуры и (или) транспортного средства',
-			'hours' => '80',
-			'price' => '3000,00',
-		),
-		array(
-			'program' => '4 категория - Повышение квалификации работников, включенных в состав группы быстрого реагирования',
-			'hours' => '80',
-			'price' => '3000,00',
-		),
-		array(
-			'program' => '5 категория - Повышение квалификации работников, осуществляющих досмотр, дополнительный досмотр, повторный досмотр в целях обеспечения транспортной безопасности',
-			'hours' => '80',
-			'price' => '3000,00',
-		),
-		array(
-			'program' => '6 категория - Повышение квалификации работников, осуществляющих наблюдение и (или) собеседование в целях обеспечения транспортной безопасности',
-			'hours' => '80',
-			'price' => '3000,00',
-		),
-		array(
-			'program' => '7 категория - Повышение квалификации работников, управляющих техническими средствами обеспечения транспортной безопасности',
-			'hours' => '80',
-			'price' => '3000,00',
+			'program' => 'ПРОГРАММА ОБУЧЕНИЯ ЭЛЕКТРОТЕХНИЧЕСКОГО И ЭЛЕКТРОТЕХНОЛОГИЧЕСКОГО ПЕРСОНАЛА ДЛЯ ПРИСВОЕНИЯ V ГРУППЫ ПО ЭЛЕКТРОБЕЗОПАСНОСТИ дополнительные средства защиты в электроустановках до 1000 Вольт и выше 1000 Вольт.',
+			'hours' => '40',
+			'price' => '2500,00',
 		),
 	);
 	
@@ -510,20 +490,20 @@ function cenzor_add_pricing_generator_admin_page() {
 		'Генерация прайса',
 		'Генерация прайса',
 		'manage_options',
-		'generate-pricing-575',
+		'generate-pricing-595',
 		'cenzor_pricing_generator_admin_page_callback'
 	);
 }
 add_action( 'admin_menu', 'cenzor_add_pricing_generator_admin_page' );
 
 function cenzor_pricing_generator_admin_page_callback() {
-	if ( isset( $_GET['generate'] ) && $_GET['generate'] === '575' && current_user_can( 'manage_options' ) ) {
-		$result = cenzor_generate_pricing_for_profession_575();
+	if ( isset( $_GET['generate'] ) && $_GET['generate'] === '595' && current_user_can( 'manage_options' ) ) {
+		$result = cenzor_generate_pricing_for_profession_595();
 		wp_die(
 			'<div style="padding: 20px; font-family: Arial, sans-serif;">
 				<h1>' . ( $result['success'] ? '✓ Успешно!' : '✗ Ошибка!' ) . '</h1>
 				<p>' . esc_html( $result['message'] ) . '</p>
-				<p><a href="' . admin_url( 'edit.php?post_type=profession&page=generate-pricing-575' ) . '">Вернуться назад</a></p>
+				<p><a href="' . admin_url( 'edit.php?post_type=profession&page=generate-pricing-595' ) . '">Вернуться назад</a></p>
 			</div>',
 			$result['success'] ? 'Генерация прайса' : 'Ошибка',
 			array( 'response' => $result['success'] ? 200 : 500 )
@@ -531,7 +511,7 @@ function cenzor_pricing_generator_admin_page_callback() {
 	}
 	
 	if ( isset( $_POST['generate_pricing'] ) && check_admin_referer( 'generate_pricing_action' ) ) {
-		$result = cenzor_generate_pricing_for_profession_575();
+		$result = cenzor_generate_pricing_for_profession_595();
 		?>
 		<div class="notice <?php echo $result['success'] ? 'notice-success' : 'notice-error'; ?> is-dismissible">
 			<p><strong><?php echo $result['success'] ? 'Успешно!' : 'Ошибка!'; ?></strong></p>
@@ -541,13 +521,13 @@ function cenzor_pricing_generator_admin_page_callback() {
 	}
 	?>
 	<div class="wrap">
-		<h1>Генерация прайса для профессии ID 575</h1>
-		<p>Эта функция сгенерирует прайс для профессии с ID 575.</p>
-		<p>Вы также можете использовать прямую ссылку: <a href="<?php echo admin_url( 'edit.php?post_type=profession&page=generate-pricing-575&generate=575' ); ?>"><?php echo admin_url( 'edit.php?post_type=profession&page=generate-pricing-575&generate=575' ); ?></a></p>
+		<h1>Генерация прайса для профессии ID 595</h1>
+		<p>Эта функция сгенерирует прайс для профессии с ID 595.</p>
+		<p>Вы также можете использовать прямую ссылку: <a href="<?php echo admin_url( 'edit.php?post_type=profession&page=generate-pricing-595&generate=595' ); ?>"><?php echo admin_url( 'edit.php?post_type=profession&page=generate-pricing-595&generate=595' ); ?></a></p>
 		<form method="post" action="">
 			<?php wp_nonce_field( 'generate_pricing_action' ); ?>
 			<p>
-				<input type="submit" name="generate_pricing" class="button button-primary" value="Сгенерировать прайс" onclick="return confirm('Вы уверены, что хотите сгенерировать прайс для профессии ID 575? Существующий прайс будет перезаписан.');">
+				<input type="submit" name="generate_pricing" class="button button-primary" value="Сгенерировать прайс" onclick="return confirm('Вы уверены, что хотите сгенерировать прайс для профессии ID 595? Существующий прайс будет перезаписан.');">
 			</p>
 		</form>
 	</div>
