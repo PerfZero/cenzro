@@ -435,8 +435,8 @@ function cenzor_professions_admin_page_callback() {
 	<?php
 }
 
-function cenzor_generate_pricing_for_profession_592() {
-	$profession_id = 592;
+function cenzor_generate_pricing_for_profession_593() {
+	$profession_id = 593;
 	
 	$post = get_post( $profession_id );
 	if ( ! $post || $post->post_type !== 'profession' ) {
@@ -448,34 +448,84 @@ function cenzor_generate_pricing_for_profession_592() {
 	
 	$pricing_data = array(
 		array(
-			'program' => 'Дополнительная профессиональная программа повышения квалификации для руководителей организаций, лиц, назначенных руководителем организации ответственными за обеспечение пожарной безопасности на объекте защиты, в которых могут одновременно находиться 50 и более человек, объектах защиты, отнесенных к категориям повышенной взрывопожароопасности, пожароопасности.',
-			'hours' => '40',
-			'price' => '3000,00',
+			'program' => 'А 1 - ОБЩИЕ ТРЕБОВАНИЯ ПРОМЫШЛЕННОЙ БЕЗОПАСНОСТИ',
+			'hours' => '',
+			'price' => '',
 		),
 		array(
-			'program' => 'Дополнительная профессиональная программа повышения квалификации для руководителей эксплуатирующих и управляющих организаций, осуществляющих хозяйственную деятельность, связанную с обеспечением пожарной безопасности на объектах защиты, лиц, назначенных ими ответственными за обеспечение пожарной безопасности.',
-			'hours' => '40',
-			'price' => '3000,00',
+			'program' => 'Б 1 – ТРЕБОВАНИЯ ПРОМЫШЛЕННОЙ БЕЗОПАСНОСТИ В ХИМИЧЕСКОЙ, НЕФТЕХИМИЧЕСКОЙ И НЕФТЕПЕРЕРАБАТЫВАЮЩЕЙ ПРОМЫШЛЕННОСТИ',
+			'hours' => '',
+			'price' => '',
 		),
 		array(
-			'program' => 'Повышение квалификации для ответственных должностных лиц, занимающих должности главных специалистов технического и производственного профиля, должностных лиц, исполняющих их обязанности, на объектах защиты, в которых могут одновременно находиться 50 и более человек, объектах, отнесенных к категориям повышенной взрывопожароопасности, взрывопожароопасности, пожароопасности».',
-			'hours' => '40',
-			'price' => '3000,00',
+			'program' => 'Б 2 - ТРЕБОВАНИЯ ПРОМЫШЛЕННОЙ БЕЗОПАСНОСТИ В НЕФТЯНОЙ И ГАЗОВОЙ ПРОМЫШЛЕННОСТИ',
+			'hours' => '',
+			'price' => '',
 		),
 		array(
-			'program' => 'Дополнительная профессиональная программа «Повышения квалификации для лиц, на которых возложена трудовая функция по проведению противопожарного инструктажа».',
-			'hours' => '72',
-			'price' => '3000,00',
+			'program' => 'Б 3 - ТРЕБОВАНИЯ ПРОМЫШЛЕННОЙ БЕЗОПАСНОСТИ В МЕТАЛЛУРГИЧЕСКОЙ ПРОМЫШЛЕННОСТИ',
+			'hours' => '',
+			'price' => '',
 		),
 		array(
-			'program' => 'Программа повышения квалификации Добровольный пожарный, добровольной пожарной дружины.',
-			'hours' => '22',
-			'price' => '2000,00',
+			'program' => 'Б 4 - ТРЕБОВАНИЯ ПРОМЫШЛЕННОЙ БЕЗОПАСНОСТИ В ГОРНОРУДНОЙ ПРОМЫШЛЕННОСТИ',
+			'hours' => '',
+			'price' => '',
 		),
 		array(
-			'program' => 'Дополнительная профессиональная программа профессиональной переподготовки «Специалист по противопожарной профилактике»',
-			'hours' => '256',
-			'price' => '6000,00',
+			'program' => 'Б 5 - ТРЕБОВАНИЯ ПРОМЫШЛЕННОЙ БЕЗОПАСНОСТИ В УГОЛЬНОЙ ПРОМЫШЛЕННОСТИ',
+			'hours' => '',
+			'price' => '',
+		),
+		array(
+			'program' => 'Б 6 - ТРЕБОВАНИЯ ПРОМЫШЛЕННОЙ БЕЗОПАСНОСТИ В ОБЛАСТИ МАРКШЕЙДЕРСКОГО ОБЕСПЕЧЕНИЯ ГОРНЫХ РАБОТ',
+			'hours' => '',
+			'price' => '',
+		),
+		array(
+			'program' => 'Б 7 - ТРЕБОВАНИЯ ПРОМЫШЛЕННОЙ БЕЗОПАСНОСТИ НА ОБЪЕКТАХ ГАЗОРАСПРЕДЕЛЕНИЯ И ГАЗОПОТРЕБЛЕНИЯ',
+			'hours' => '',
+			'price' => '',
+		),
+		array(
+			'program' => 'Б 8 - ТРЕБОВАНИЯ ПРОМЫШЛЕННОЙ БЕЗОПАСНОСТИ К ОБОРУДОВАНИЮ, РАБОТАЮЩЕМУ ПОД ДАВЛЕНИЕМ',
+			'hours' => '',
+			'price' => '',
+		),
+		array(
+			'program' => 'Б 9 - ТРЕБОВАНИЯ ПРОМЫШЛЕННОЙ БЕЗОПАСНОСТИ К ПОДЪЕМНЫМ СООРУЖЕНИЯМ',
+			'hours' => '',
+			'price' => '',
+		),
+		array(
+			'program' => 'Б 10 - ТРЕБОВАНИЯ ПРОМЫШЛЕННОЙ БЕЗОПАСНОСТИ ПРИ ТРАНСПОРТИРОВАНИИ ОПАСНЫХ ВЕЩЕСТВ',
+			'hours' => '',
+			'price' => '',
+		),
+		array(
+			'program' => 'Б 11 - ТРЕБОВАНИЯ ПРОМЫШЛЕННОЙ БЕЗОПАСНОСТИ НА ОБЪЕКТАХ ХРАНЕНИЯ И ПЕРЕРАБОТКИ РАСТИТЕЛЬНОГО СЫРЬЯ',
+			'hours' => '',
+			'price' => '',
+		),
+		array(
+			'program' => 'Б 12 - ТРЕБОВАНИЯ ПРОМЫШЛЕННОЙ БЕЗОПАСНОСТИ, ОТНОСЯЩИЕСЯ К ВЗРЫВНЫМ РАБОТАМ',
+			'hours' => '',
+			'price' => '',
+		),
+		array(
+			'program' => 'В 1 – ТРЕБОВАНИЕ ПРОМЫШЛЕННОЙ БЕЗОПАСНОСТИ, ГИДРОТЕХНИЧЕСКИХ СООРУЖЕНИЙ',
+			'hours' => '',
+			'price' => '',
+		),
+		array(
+			'program' => 'Г 1 – ТРЕБОВАНИЕ ПРОМЫШЛЕННОЙ БЕЗОПАСНОСТИ, К ПОРЯБКУ РАБОТЫ В ЭЛЕКТРОУСТАНОВКАХ ПОТРЕБИТЕЛЕЙ',
+			'hours' => '',
+			'price' => '',
+		),
+		array(
+			'program' => 'Г 2 – ТРЕБОВАНИЕ ПРОМЫШЛЕННОЙ БЕЗОПАСНОСТИ, К ЭКСПЛУАТАЦИИ ЭЛЕКТРИЧЕСКИХ СТАНЦИЙ И СЕТЕЙ',
+			'hours' => '',
+			'price' => '',
 		),
 	);
 	
@@ -500,20 +550,20 @@ function cenzor_add_pricing_generator_admin_page() {
 		'Генерация прайса',
 		'Генерация прайса',
 		'manage_options',
-		'generate-pricing-592',
+		'generate-pricing-593',
 		'cenzor_pricing_generator_admin_page_callback'
 	);
 }
 add_action( 'admin_menu', 'cenzor_add_pricing_generator_admin_page' );
 
 function cenzor_pricing_generator_admin_page_callback() {
-	if ( isset( $_GET['generate'] ) && $_GET['generate'] === '592' && current_user_can( 'manage_options' ) ) {
-		$result = cenzor_generate_pricing_for_profession_592();
+	if ( isset( $_GET['generate'] ) && $_GET['generate'] === '593' && current_user_can( 'manage_options' ) ) {
+		$result = cenzor_generate_pricing_for_profession_593();
 		wp_die(
 			'<div style="padding: 20px; font-family: Arial, sans-serif;">
 				<h1>' . ( $result['success'] ? '✓ Успешно!' : '✗ Ошибка!' ) . '</h1>
 				<p>' . esc_html( $result['message'] ) . '</p>
-				<p><a href="' . admin_url( 'edit.php?post_type=profession&page=generate-pricing-592' ) . '">Вернуться назад</a></p>
+				<p><a href="' . admin_url( 'edit.php?post_type=profession&page=generate-pricing-593' ) . '">Вернуться назад</a></p>
 			</div>',
 			$result['success'] ? 'Генерация прайса' : 'Ошибка',
 			array( 'response' => $result['success'] ? 200 : 500 )
@@ -521,7 +571,7 @@ function cenzor_pricing_generator_admin_page_callback() {
 	}
 	
 	if ( isset( $_POST['generate_pricing'] ) && check_admin_referer( 'generate_pricing_action' ) ) {
-		$result = cenzor_generate_pricing_for_profession_592();
+		$result = cenzor_generate_pricing_for_profession_593();
 		?>
 		<div class="notice <?php echo $result['success'] ? 'notice-success' : 'notice-error'; ?> is-dismissible">
 			<p><strong><?php echo $result['success'] ? 'Успешно!' : 'Ошибка!'; ?></strong></p>
@@ -531,13 +581,13 @@ function cenzor_pricing_generator_admin_page_callback() {
 	}
 	?>
 	<div class="wrap">
-		<h1>Генерация прайса для профессии ID 592</h1>
-		<p>Эта функция сгенерирует прайс для профессии с ID 592.</p>
-		<p>Вы также можете использовать прямую ссылку: <a href="<?php echo admin_url( 'edit.php?post_type=profession&page=generate-pricing-592&generate=592' ); ?>"><?php echo admin_url( 'edit.php?post_type=profession&page=generate-pricing-592&generate=592' ); ?></a></p>
+		<h1>Генерация прайса для профессии ID 593</h1>
+		<p>Эта функция сгенерирует прайс для профессии с ID 593.</p>
+		<p>Вы также можете использовать прямую ссылку: <a href="<?php echo admin_url( 'edit.php?post_type=profession&page=generate-pricing-593&generate=593' ); ?>"><?php echo admin_url( 'edit.php?post_type=profession&page=generate-pricing-593&generate=593' ); ?></a></p>
 		<form method="post" action="">
 			<?php wp_nonce_field( 'generate_pricing_action' ); ?>
 			<p>
-				<input type="submit" name="generate_pricing" class="button button-primary" value="Сгенерировать прайс" onclick="return confirm('Вы уверены, что хотите сгенерировать прайс для профессии ID 592? Существующий прайс будет перезаписан.');">
+				<input type="submit" name="generate_pricing" class="button button-primary" value="Сгенерировать прайс" onclick="return confirm('Вы уверены, что хотите сгенерировать прайс для профессии ID 593? Существующий прайс будет перезаписан.');">
 			</p>
 		</form>
 	</div>
