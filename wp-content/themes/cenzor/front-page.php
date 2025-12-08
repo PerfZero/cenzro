@@ -147,7 +147,8 @@ get_header();
 						$child_count = $child_query->found_posts;
 						wp_reset_postdata();
 						
-						$courses_text = $child_count . ' ' . ( $child_count == 1 ? 'курс' : ( $child_count < 5 ? 'курса' : 'курсов' ) );
+						$total_count = $child_count + 1;
+						$courses_text = $total_count . ' ' . ( $total_count == 1 ? 'курс' : ( $total_count < 5 ? 'курса' : 'курсов' ) );
 						?>
 						<button class="professions-tab-btn <?php echo $first ? 'active' : ''; ?>" data-parent="<?php echo $parent_id; ?>">
 							<?php echo esc_html( $parent_title ); ?>
@@ -179,14 +180,14 @@ get_header();
 								$parent_image_url = get_the_post_thumbnail_url( $parent_id, 'full' );
 							}
 							?>
-							<div class="profession-tab-card" data-parent="<?php echo esc_attr( $parent_id ); ?>">
+							<a href="<?php echo esc_url( get_permalink( $parent_id ) ); ?>" class="profession-tab-card" data-parent="<?php echo esc_attr( $parent_id ); ?>">
 								<?php if ( $parent_image_url ) : ?>
 									<div class="profession-tab-image">
 										<img src="<?php echo esc_url( $parent_image_url ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>">
 									</div>
 								<?php endif; ?>
 								<div class="profession-tab-name"><?php echo esc_html( get_the_title() ); ?></div>
-							</div>
+							</a>
 							<?php
 							
 							$child_professions = new WP_Query( array(
@@ -204,7 +205,7 @@ get_header();
 										$image_url = get_the_post_thumbnail_url( get_the_ID(), 'full' );
 									}
 									?>
-									<div class="profession-tab-card" data-parent="<?php echo esc_attr( $parent_id ); ?>">
+									<a href="<?php echo esc_url( get_permalink() ); ?>" class="profession-tab-card" data-parent="<?php echo esc_attr( $parent_id ); ?>">
 										<?php if ( $image_url ) : ?>
 											<div class="profession-tab-image">
 												<img src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>">
@@ -212,7 +213,7 @@ get_header();
 										<?php endif; ?>
 										<div class="profession-tab-name"><?php echo esc_html( get_the_title() ); ?></div>
 										
-									</div>
+									</a>
 									<?php
 								endwhile;
 								wp_reset_postdata();
