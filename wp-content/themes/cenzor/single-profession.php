@@ -143,9 +143,9 @@ get_header();
 							<tbody>
 								<?php foreach ( $pricing as $item ) : ?>
 									<tr>
-										<td><?php echo esc_html( $item['program'] ); ?></td>
-										<td><?php echo esc_html( $item['hours'] ); ?></td>
-										<td><?php echo esc_html( $item['price'] ); ?></td>
+										<td><?php echo wp_kses_post( $item['program'] ); ?></td>
+										<td><?php echo wp_kses_post( $item['hours'] ); ?></td>
+										<td><?php echo wp_kses_post( $item['price'] ); ?></td>
 										<td>
 											<a href="#consultation" class="profession-pricing-button">Записаться</a>
 										</td>
